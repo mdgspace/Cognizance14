@@ -4,12 +4,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -90,14 +93,85 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		
 
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		
 
 	}
 
+	public ArrayList<String> getCategory() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM table_category_details",
+				null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				data.add(cursor.getString(cursor.getColumnIndex("category")));
+			}
+		}
+		cursor.close();
+		return data;
+	}
+
+	public String getCategoryDescription(String category_name) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_category_details WHERE category='"
+						+ category_name + "'", null);
+		String data = null;
+		if (cursor != null) {
+			cursor.moveToFirst();
+		}
+		data = cursor.getString(cursor.getColumnIndex("description"));
+		cursor.close();
+		return data;
+	}
+
+	public ArrayList<String> getEventName(String category_name, int Day) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE day='" + Day
+						+ "' AND category='" + category_name + "'", null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				data.add(cursor.getString(cursor.getColumnIndex("event_name")));
+			}
+		}
+		cursor.close();
+		return data;
+	}
+
+	public ArrayList<String> getEventoneLiner(String category_name, int Day) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE day='" + Day
+						+ "' AND category='" + category_name + "'", null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				data.add(cursor.getString(cursor.getColumnIndex("one_liner")));
+			}
+		}
+		cursor.close();
+		return data;
+	}
+
+	public String getEventDescription(String eventname) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='"
+						+ eventname + "'", null);
+		String data = null;
+		if (cursor != null) {
+			if (cursor.moveToNext()) {
+				cursor.moveToFirst();
+			}
+			data = cursor.getString(cursor.getColumnIndex("description"));
+		}
+		cursor.close();
+		return data;
+	}
 }
