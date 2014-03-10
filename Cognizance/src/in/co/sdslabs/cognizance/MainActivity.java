@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
 
 		// Each row in the list stores country name, count and flag
 		mList = new ArrayList<HashMap<String, String>>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < mEventCategories.length; i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTCATEGORY, mEventCategories[i]);
 			// TODO : uncomment this line after adding eventcategory images
