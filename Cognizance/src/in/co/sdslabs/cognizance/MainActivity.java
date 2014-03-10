@@ -28,19 +28,14 @@ public class MainActivity extends ActionBarActivity {
 	String[] mEventCategories;
 
 	/** Uncoment this after adding drawables for respective event categories **/
-	// // Array of integers points to images stored in /res/drawable-ldpi/
-	// int[] mImages = new int[]{
-	// R.drawable.india,
-	// R.drawable.pakistan,
-	// R.drawable.srilanka,
-	// R.drawable.china,
-	// R.drawable.bangladesh,
-	// R.drawable.nepal,
-	// R.drawable.afghanistan,
-	// R.drawable.nkorea,
-	// R.drawable.skorea,
-	// R.drawable.japan
-	// };
+	// Array of integers points to images stored in /res/drawable-ldpi/
+	int[] mImages = new int[] { R.drawable.eventcat_theme,
+			R.drawable.eventcat_robotics, R.drawable.eventcat_competetions,
+			R.drawable.eventcat_literario, R.drawable.ic_launcher,
+			R.drawable.ic_launcher, R.drawable.ic_launcher,
+			R.drawable.eventcat_csr, R.drawable.eventcat_efiesta,
+			R.drawable.eventcat_braintainment, R.drawable.eventcat_department,
+			R.drawable.ic_launcher };
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -74,8 +69,8 @@ public class MainActivity extends ActionBarActivity {
 		for (int i = 0; i < mEventCategories.length; i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTCATEGORY, mEventCategories[i]);
-			// TODO : uncomment this line after adding eventcategory images
-			// hm.put(IMAGE, Integer.toString(mImages[i]) );
+
+			hm.put(IMAGE, Integer.toString(mImages[i]));
 			mList.add(hm);
 		}
 
@@ -161,44 +156,43 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
-	public void showFragment(int position){
-		 
-		 //Currently selected country
-		 mTitle = mEventCategories[position];
-		 
-		// Creating a fragment object
-		 EventCategoryFragment eFragment = new EventCategoryFragment();
-		 
-		// Creating a Bundle object
-		 Bundle data = new Bundle();
-		 
-		// Setting the index of the currently selected item of mDrawerList
-		 data.putInt("position", position);
-		 
-		// Setting the position to the fragment
-		 eFragment.setArguments(data);
-		 
-		// Getting reference to the FragmentManager
-		 FragmentManager fragmentManager = getSupportFragmentManager();
-		 
-		// Creating a fragment transaction
-		 FragmentTransaction ft = fragmentManager.beginTransaction();
-		 
-		// Adding a fragment to the fragment transaction
-		 ft.replace(R.id.content_frame, eFragment);
-		 
-		// Committing the transaction
-		 ft.commit();
-		 }
 
-	 // Highlight the selected country : 0 to 4
-	 public void highlightSelectedEventCategory(){
-	 
-	 mDrawerList.setItemChecked(mPosition, true);
-	 if(mPosition!=-1)
-	 getSupportActionBar().setTitle(mEventCategories[mPosition]);
-	 }
-	
+	public void showFragment(int position) {
+
+		// Currently selected country
+		mTitle = mEventCategories[position];
+
+		// Creating a fragment object
+		EventCategoryFragment eFragment = new EventCategoryFragment();
+
+		// Creating a Bundle object
+		Bundle data = new Bundle();
+
+		// Setting the index of the currently selected item of mDrawerList
+		data.putInt("position", position);
+
+		// Setting the position to the fragment
+		eFragment.setArguments(data);
+
+		// Getting reference to the FragmentManager
+		FragmentManager fragmentManager = getSupportFragmentManager();
+
+		// Creating a fragment transaction
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+
+		// Adding a fragment to the fragment transaction
+		ft.replace(R.id.content_frame, eFragment);
+
+		// Committing the transaction
+		ft.commit();
+	}
+
+	// Highlight the selected country : 0 to 4
+	public void highlightSelectedEventCategory() {
+
+		mDrawerList.setItemChecked(mPosition, true);
+		if (mPosition != -1)
+			getSupportActionBar().setTitle(mEventCategories[mPosition]);
+	}
+
 }
