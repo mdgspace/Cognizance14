@@ -29,7 +29,6 @@ public class MainActivity extends ActionBarActivity {
 	// Array of strings storing Event Category names
 	String[] mEventCategories;
 
-	/** Uncoment this after adding drawables for respective event categories **/
 	// Array of integers points to images stored in /res/drawable-ldpi/
 	int[] mImages = new int[] { R.drawable.eventcat_theme,
 			R.drawable.eventcat_robotics, R.drawable.eventcat_competetions,
@@ -71,7 +70,6 @@ public class MainActivity extends ActionBarActivity {
 		for (int i = 0; i < mEventCategories.length; i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTCATEGORY, mEventCategories[i]);
-
 			hm.put(IMAGE, Integer.toString(mImages[i]));
 			mList.add(hm);
 		}
@@ -130,11 +128,11 @@ public class MainActivity extends ActionBarActivity {
 
 		// Enabling Up navigation
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-		//Changing the background of the color drawable
-		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(234,234,234)));
+		// Changing the background of the color drawable
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.rgb(234, 234, 234)));
 		// Setting the adapter to the listView
 		mDrawerList.setAdapter(mAdapter);
 	}
