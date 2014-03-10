@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -118,7 +120,7 @@ public class MainActivity extends ActionBarActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 
-				// Show fragment for countries : 0 to 4
+				// Show fragment for eventCategories
 				showFragment(position);
 
 				// Closing the drawer
@@ -131,6 +133,8 @@ public class MainActivity extends ActionBarActivity {
 
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+		//Changing the background of the color drawable
+		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(234,234,234)));
 		// Setting the adapter to the listView
 		mDrawerList.setAdapter(mAdapter);
 	}
@@ -159,7 +163,7 @@ public class MainActivity extends ActionBarActivity {
 
 	public void showFragment(int position) {
 
-		// Currently selected country
+		// Currently selected eventCategory
 		mTitle = mEventCategories[position];
 
 		// Creating a fragment object
@@ -187,7 +191,7 @@ public class MainActivity extends ActionBarActivity {
 		ft.commit();
 	}
 
-	// Highlight the selected country : 0 to 4
+	// Highlight the selected eventCategory
 	public void highlightSelectedEventCategory() {
 
 		mDrawerList.setItemChecked(mPosition, true);
