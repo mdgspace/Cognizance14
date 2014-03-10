@@ -4,5 +4,27 @@
     <string name="app_name">Cognizance</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="hello">Hello</string>
+
+    <dimen name="count">10dp</dimen>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- Remove this String array in production -->
+    <string-array name="eventCategories">
+        <item>THEME EVENTS</item>
+        <item>ROBOTICS</item>
+        <item>COMPETITIONS</item>
+        <item>LITERARIO</item>
+        <item>GUEST LECTURES</item>
+        <item>EXHIBITIONS</item>
+        <item>TECHTAINMENT</item>
+        <item>CSR</item>
+        <item>E-FIESTA</item>
+        <item>BRAINTAINMENT</item>
+        <item>DEPARTMENTS</item>
+        <item>CONTACT</item>
+    </string-array>
 
 </resources>
