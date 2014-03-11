@@ -73,7 +73,7 @@ public class EventCategoryFragment extends ListFragment {
 			eventList.add(hm);
 		}
 
-		String[] from = { EVENTNAME };
+		String[] from = { EVENTNAME ,EVENTVENUE , EVENTTIME};
 
 		int[] to = { R.id.tv_eName, R.id.tv_eVenue, R.id.tv_eTime };
 
