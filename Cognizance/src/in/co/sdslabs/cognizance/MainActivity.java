@@ -47,6 +47,8 @@ public class MainActivity extends ActionBarActivity {
 	final private String EVENTCATEGORY = "eventcategory";
 	final private String IMAGE = "image";
 	private HomeFragment hFragment;
+	FragmentManager fragmentManager;
+	FragmentTransaction ft;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -197,7 +199,7 @@ public class MainActivity extends ActionBarActivity {
 		eFragment.setArguments(data);
 
 		// Getting reference to the FragmentManager
-		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager = getSupportFragmentManager();
 
 		// Creating a fragment transaction
 		FragmentTransaction ft = fragmentManager.beginTransaction();
