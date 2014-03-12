@@ -6,15 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.database.SQLException;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class EventCategoryFragment extends ListFragment {
+public class EventCategoryFragment extends ListFragment{
 
 	// private ListView mEventList;
 	private List<HashMap<String, String>> eventList;
@@ -85,7 +88,6 @@ public class EventCategoryFragment extends ListFragment {
 		// R.layout.drawer_layout defines the layout of each item
 		mAdapter = new SimpleAdapter(getActivity().getBaseContext(), eventList,
 				R.layout.eventcategory_list_item, from, to);
-
 		return v;
 	}
 
@@ -96,6 +98,8 @@ public class EventCategoryFragment extends ListFragment {
 				
 		TextView listHeader = new TextView(getActivity());
 		listHeader.setTextSize(30);
+		listHeader.setBackgroundColor(Color.rgb(135, 206, 250));
+		listHeader.setClickable(false);
 		listHeader.setText(categories[position]);
 		getListView().addHeaderView(listHeader);
 		
@@ -107,5 +111,18 @@ public class EventCategoryFragment extends ListFragment {
         super.onDestroyView();
         setListAdapter(null);
     }
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		
+		// To disable onClick on header
+		if(position!=0){
+		Toast.makeText(getActivity().getBaseContext(), "ItemClicked "+position, 
+				Toast.LENGTH_SHORT).show();
+		}
+	}
+
 
 }
