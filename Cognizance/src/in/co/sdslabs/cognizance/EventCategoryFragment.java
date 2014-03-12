@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 public class EventCategoryFragment extends ListFragment {
 
@@ -22,6 +23,9 @@ public class EventCategoryFragment extends ListFragment {
 	private String EVENTNAME = "eventname";
 	private String EVENTVENUE = "eventvenue";
 	private String EVENTTIME = "eventtime";
+	
+	int position;
+	String[] categories;
 
 	public EventCategoryFragment() {
 	}
@@ -32,15 +36,15 @@ public class EventCategoryFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// Retrieving the currently selected item number
-		int position = getArguments().getInt("position");
+		position = getArguments().getInt("position");
 
-		String[] categories = getResources().getStringArray(
+		categories = getResources().getStringArray(
 				R.array.eventCategories);
 
 		// Creating view correspoding to the fragment
 		View v = inflater.inflate(R.layout.eventcategoryfragment_layout,
 				container, false);
-
+		
 		eventList = new ArrayList<HashMap<String, String>>();
 
 		// Initialising DBhelper class
@@ -61,7 +65,7 @@ public class EventCategoryFragment extends ListFragment {
 		// TextView tv = (TextView) v.findViewById(R.id.tv_categoryDescription);
 		// tv.setText(categories[position]);
 		// mEventList = (ListView) v.findViewById(R.id.eventCategory_list);
-
+		// getListView().addHeaderView(tv);
 		/** Create function in DBhelper to return these three values **/
 		// String Data = DBhelper.getReducedEvent(categories[position]);
 		for (int i = 0; i < 20; i++) {
@@ -82,9 +86,26 @@ public class EventCategoryFragment extends ListFragment {
 		mAdapter = new SimpleAdapter(getActivity().getBaseContext(), eventList,
 				R.layout.eventcategory_list_item, from, to);
 
-		setListAdapter(mAdapter);
-
 		return v;
 	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onViewCreated(view, savedInstanceState);
+				
+		TextView listHeader = new TextView(getActivity());
+		listHeader.setTextSize(30);
+		listHeader.setText(categories[position]);
+		getListView().addHeaderView(listHeader);
+		
+		setListAdapter(mAdapter);
+	}
+	
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        setListAdapter(null);
+    }
 
 }
