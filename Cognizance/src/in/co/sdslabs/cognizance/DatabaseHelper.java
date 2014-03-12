@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+import android.graphics.PointF;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -20,6 +21,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static String DB_NAME = "cognizance14.db";
 	private SQLiteDatabase myDataBase;
 	private final Context myContext;
+	private DatabaseHelper ourHelper;
+	
+	// fields for table 1
+	public static final String KEY_ROWID_VENUE = "_id_venue";
+	public static final String KEY_MINX = "_minX";
+	public static final String KEY_MINY = "_minY";
+	public static final String KEY_MAXX = "_maxX";
+	public static final String KEY_MAXY = "_maxY";
+	public static final String KEY_TOUCH_VENUE = "_touch_venue";
+
+	public static final String DATABASE_TABLE1 = "table_venue";
 
 	public DatabaseHelper(Context context) {
 		super(context, DB_NAME, null, 1);
@@ -38,6 +50,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				throw new Error("Error copying database");
 			}
 		}
+	}
+	
+	public DatabaseHelper getInstance(Context context) {
+		if (ourHelper == null) {
+			ourHelper = new DatabaseHelper(context);
+		}
+		return this;
 	}
 
 	private boolean checkDataBase() {
@@ -174,4 +193,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return data;
 	}
+	
+	public String searchEntryForVenue(String x, String y) throws SQLException {
+		// TODO Auto-generated method stub
+		myDataBase = ourHelper.getWritableDatabase();
+		String[] columns = new String[] { KEY_ROWID_VENUE, KEY_MINX, KEY_MINY,
+				KEY_MAXX, KEY_MAXY, KEY_TOUCH_VENUE };
+
+		int ix = Integer.parseInt(x) * 2;
+		int iy = Integer.parseInt(y) * 2;
+
+		Cursor c = myDataBase.query(DATABASE_TABLE1, columns, KEY_MINX + "<=" + ix
+				+ " AND " + KEY_MINY + "<=" + iy + " AND " + KEY_MAXX + ">="
+				+ ix + " AND " + KEY_MAXY + ">=" + iy, null, null, null, null);
+		try {
+			if (c != null) {
+				c.moveToFirst();
+				String venue = c.getString(5);
+				c.close();
+				return venue;
+			}
+		} catch (CursorIndexOutOfBoundsException e) {
+			// TODO Auto-generated catch block
+			c.close();
+			return null;
+		}
+		return null;
+	}
+	
+	public PointF searchPlaceForCoordinates(String selection) {
+		// TODO Auto-generated method stub
+		myDataBase = ourHelper.getWritableDatabase();
+		String[] columns = new String[] { KEY_MINX, KEY_MINY, KEY_MAXX,
+				KEY_MAXY, KEY_TOUCH_VENUE };
+		PointF coor = new PointF();
+
+		Cursor c = myDataBase.query(DATABASE_TABLE1, columns, KEY_TOUCH_VENUE + "==\""
+				+ selection + "\"", null, null, null, null);
+
+		int iMinX = c.getColumnIndex(KEY_MINX);
+		int iMinY = c.getColumnIndex(KEY_MINY);
+		int iMaxX = c.getColumnIndex(KEY_MAXX);
+		int iMaxY = c.getColumnIndex(KEY_MAXY);
+
+		try {
+			if (c != null) {
+				c.moveToFirst();
+				coor.x = (Integer.parseInt(c.getString(iMinX)) + Integer
+						.parseInt(c.getString(iMaxX))) / 4;
+				coor.y = (Integer.parseInt(c.getString(iMinY)) + Integer
+						.parseInt(c.getString(iMaxY))) / 4;
+				c.close();
+			}
+		} catch (CursorIndexOutOfBoundsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
+		return coor;
+	}
 }
+
