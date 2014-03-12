@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase myDataBase;
 	private final Context myContext;
 	private DatabaseHelper ourHelper;
-	
+
 	// fields for table 1
 	public static final String KEY_ROWID_VENUE = "_id_venue";
 	public static final String KEY_MINX = "_minX";
@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			}
 		}
 	}
-	
+
 	public DatabaseHelper getInstance(Context context) {
 		if (ourHelper == null) {
 			ourHelper = new DatabaseHelper(context);
@@ -143,35 +143,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (cursor != null) {
 			cursor.moveToFirst();
 		}
-		data = cursor.getString(cursor.getColumnIndex("description"));
+		data = cursor.getString(2);
 		cursor.close();
 		return data;
 	}
 
-	public ArrayList<String> getEventName(String category_name, int Day) {
+	public ArrayList<String> getEventName(String category_name) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE day='" + Day
-						+ "' AND category='" + category_name + "'", null);
+				"SELECT * FROM table_event_details WHERE category='"
+						+ category_name + "'", null);
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				data.add(cursor.getString(cursor.getColumnIndex("event_name")));
+				data.add(cursor.getString(3));
 			}
 		}
 		cursor.close();
 		return data;
 	}
 
-	public ArrayList<String> getEventoneLiner(String category_name, int Day) {
+	public ArrayList<String> getEventoneLiner(String category_name) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE day='" + Day
-						+ "' AND category='" + category_name + "'", null);
+				"SELECT * FROM table_event_details WHERE category='"
+						+ category_name + "'", null);
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				data.add(cursor.getString(cursor.getColumnIndex("one_liner")));
+				data.add(cursor.getString(0));
 			}
 		}
 		cursor.close();
@@ -193,7 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return data;
 	}
-	
+
 	public String searchEntryForVenue(String x, String y) throws SQLException {
 		// TODO Auto-generated method stub
 		myDataBase = ourHelper.getWritableDatabase();
@@ -203,9 +203,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		int ix = Integer.parseInt(x) * 2;
 		int iy = Integer.parseInt(y) * 2;
 
-		Cursor c = myDataBase.query(DATABASE_TABLE1, columns, KEY_MINX + "<=" + ix
-				+ " AND " + KEY_MINY + "<=" + iy + " AND " + KEY_MAXX + ">="
-				+ ix + " AND " + KEY_MAXY + ">=" + iy, null, null, null, null);
+		Cursor c = myDataBase.query(DATABASE_TABLE1, columns, KEY_MINX + "<="
+				+ ix + " AND " + KEY_MINY + "<=" + iy + " AND " + KEY_MAXX
+				+ ">=" + ix + " AND " + KEY_MAXY + ">=" + iy, null, null, null,
+				null);
 		try {
 			if (c != null) {
 				c.moveToFirst();
@@ -220,7 +221,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 		return null;
 	}
-	
+
 	public PointF searchPlaceForCoordinates(String selection) {
 		// TODO Auto-generated method stub
 		myDataBase = ourHelper.getWritableDatabase();
@@ -228,8 +229,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				KEY_MAXY, KEY_TOUCH_VENUE };
 		PointF coor = new PointF();
 
-		Cursor c = myDataBase.query(DATABASE_TABLE1, columns, KEY_TOUCH_VENUE + "==\""
-				+ selection + "\"", null, null, null, null);
+		Cursor c = myDataBase.query(DATABASE_TABLE1, columns, KEY_TOUCH_VENUE
+				+ "==\"" + selection + "\"", null, null, null, null);
 
 		int iMinX = c.getColumnIndex(KEY_MINX);
 		int iMinY = c.getColumnIndex(KEY_MINY);
@@ -254,4 +255,3 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return coor;
 	}
 }
-
