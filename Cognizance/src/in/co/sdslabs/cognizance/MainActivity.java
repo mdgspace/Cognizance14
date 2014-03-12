@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
 			/** Called when drawer is closed */
 			public void onDrawerClosed(View view) {
 				highlightSelectedEventCategory();
-				getSupportActionBar().setTitle("Cognizance 2014");
+				//getSupportActionBar().setTitle("Cognizance 2014");
 				supportInvalidateOptionsMenu();
 			}
 

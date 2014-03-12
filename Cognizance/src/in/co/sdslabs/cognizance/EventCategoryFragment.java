@@ -1,10 +1,12 @@
 package in.co.sdslabs.cognizance;
 
 import java.io.IOException;
+import android.support.v7.app.ActionBarActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,16 +19,15 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EventCategoryFragment extends ListFragment{
+public class EventCategoryFragment extends ListFragment {
 
 	// private ListView mEventList;
 	private List<HashMap<String, String>> eventList;
 	private SimpleAdapter mAdapter;
 
 	private String EVENTNAME = "eventname";
-	private String EVENTVENUE = "eventvenue";
-	private String EVENTTIME = "eventtime";
-	
+	private String EVENTONELINER = "eventoneliner";
+
 	int position;
 	String[] categories;
 
@@ -38,16 +39,10 @@ public class EventCategoryFragment extends ListFragment{
 			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Retrieving the currently selected item number
-		position = getArguments().getInt("position");
-
-		categories = getResources().getStringArray(
-				R.array.eventCategories);
-
 		// Creating view correspoding to the fragment
 		View v = inflater.inflate(R.layout.eventcategoryfragment_layout,
 				container, false);
-		
+
 		eventList = new ArrayList<HashMap<String, String>>();
 
 		// Initialising DBhelper class
@@ -71,21 +66,25 @@ public class EventCategoryFragment extends ListFragment{
 		// getListView().addHeaderView(tv);
 		/** Create function in DBhelper to return these three values **/
 		// String Data = DBhelper.getReducedEvent(categories[position]);
-		for (int i = 0; i < 20; i++) {
+		ArrayList<String> eventname = myDbHelper
+				.getEventName(categories[position]);
+		ArrayList<String> eventoneliner = myDbHelper
+				.getEventoneLiner(categories[position]);
+		for (int i = 0; i < eventname.size(); i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
-			hm.put(EVENTNAME, "");
-			hm.put(EVENTVENUE, "");
-			hm.put(EVENTTIME, "");
+			hm.put(EVENTNAME, eventname.get(i));
+			hm.put(EVENTONELINER, eventoneliner.get(i));
 			// hm.put(IMAGE, Integer.toString(mImages[i]));
 			eventList.add(hm);
 		}
 
-		String[] from = { EVENTNAME ,EVENTVENUE , EVENTTIME};
+		String[] from = { EVENTNAME, EVENTONELINER };
 
-		int[] to = { R.id.tv_eName, R.id.tv_eVenue, R.id.tv_eTime };
+		int[] to = { R.id.tv_eName, R.id.tv_eDescr };
 
 		// Instantiating an adapter to store each items
 		// R.layout.drawer_layout defines the layout of each item
+
 		mAdapter = new SimpleAdapter(getActivity().getBaseContext(), eventList,
 				R.layout.eventcategory_list_item, from, to);
 		return v;
@@ -95,34 +94,59 @@ public class EventCategoryFragment extends ListFragment{
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-				
+		DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
+				.getBaseContext());
+		try {
+			myDbHelper.createDataBase();
+		} catch (IOException ioe) {
+			throw new Error("Unable to create database");
+		}
+
+		try {
+			myDbHelper.openDataBase();
+		} catch (SQLException sqle) {
+			throw sqle;
+		}
 		TextView listHeader = new TextView(getActivity());
-		listHeader.setTextSize(30);
+		listHeader.setTextSize(20);
 		listHeader.setBackgroundColor(Color.rgb(135, 206, 250));
 		listHeader.setClickable(false);
-		listHeader.setText(categories[position]);
+		listHeader.setText(myDbHelper
+				.getCategoryDescription(categories[position]));
 		getListView().addHeaderView(listHeader);
-		
+
 		setListAdapter(mAdapter);
 	}
-	
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        setListAdapter(null);
-    }
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		setListAdapter(null);
+	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
-		
+
 		// To disable onClick on header
-		if(position!=0){
-		Toast.makeText(getActivity().getBaseContext(), "ItemClicked "+position, 
-				Toast.LENGTH_SHORT).show();
+		if (position != 0) {
+			Toast.makeText(getActivity().getBaseContext(),
+					"ItemClicked " + position, Toast.LENGTH_SHORT).show();
 		}
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		// Retrieving the currently selected item number
+		
+		position = getArguments().getInt("position");
+		categories = getResources().getStringArray(R.array.eventCategories);
+		
+		((ActionBarActivity) activity).getSupportActionBar().setTitle(
+				categories[position]);
+	}
 
 }
