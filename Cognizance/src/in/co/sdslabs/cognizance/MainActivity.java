@@ -224,7 +224,7 @@ public class MainActivity extends ActionBarActivity {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-
+		getSupportActionBar().setTitle("Cognizance 2014");
 		fragmentManager.popBackStack();
 	}
 }
