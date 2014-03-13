@@ -6,8 +6,8 @@ public class Drawables {
 	public static int[] navDrawerImages = new int[] {
 			R.drawable.eventcat_theme, R.drawable.eventcat_robotics,
 			R.drawable.eventcat_competetions, R.drawable.eventcat_literario,
-			R.drawable.ic_launcher, R.drawable.ic_launcher,
-			R.drawable.ic_launcher, R.drawable.eventcat_csr,
+			R.drawable.eventcat_guest_lectures, R.drawable.eventcat_exhibitions,
+			R.drawable.eventcat_techtainment, R.drawable.eventcat_csr,
 			R.drawable.eventcat_efiesta, R.drawable.eventcat_braintainment,
 			R.drawable.eventcat_department, R.drawable.ic_launcher };
 
