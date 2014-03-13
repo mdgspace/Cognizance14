@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,9 +116,10 @@ public class EventCategoryFragment extends ListFragment {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		TextView listHeader = new TextView(getActivity());
+		final TextView listHeader = new TextView(getActivity());
 		listHeader.setTextSize(20);
-		listHeader.setPadding(5, 5, 5, 5);
+		listHeader.setPadding(15, 10, 5, 10);
+
 		Typeface mTypeFace = Typeface.createFromAsset(
 				getActivity().getAssets(), "Roboto-Light.ttf");
 		listHeader.setTypeface(mTypeFace);
@@ -125,6 +127,24 @@ public class EventCategoryFragment extends ListFragment {
 		listHeader.setClickable(false);
 		listHeader.setText(myDbHelper
 				.getCategoryDescription(categories[position]));
+		listHeader.setGravity(Gravity.FILL_HORIZONTAL);
+		// Code for justification of text
+		// listHeader.getViewTreeObserver().addOnPreDrawListener(new
+		// OnPreDrawListener() {
+		//
+		// boolean isJustified = false;
+		// @Override
+		// public boolean onPreDraw() {
+		// if(!isJustified)
+		// {
+		// TextJustifyUtils.run(listHeader , 180f);
+		// isJustified = true;
+		// }
+		//
+		// return true;
+		// }
+		// });
+
 		getListView().addHeaderView(listHeader);
 
 		setListAdapter(mAdapter);
@@ -137,19 +157,19 @@ public class EventCategoryFragment extends ListFragment {
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onListItemClick(ListView l, View v, int pos, long id) {
 		super.onListItemClick(l, v, position, id);
 
 		// To disable onClick on header
 		if (position != 0) {
-			showEventFragment(position);
+			showEventFragment(pos, v);
 		}
 	}
 
-	private void showEventFragment(int position) {
+	private void showEventFragment(int pos, View v) {
 
 		// Currently selected event
-		String eventName = eventname.get(position-1);
+		String eventName = eventname.get(pos - 1);
 
 		// Creating a fragment object
 		EventFragment eFragment = new EventFragment();
@@ -159,7 +179,8 @@ public class EventCategoryFragment extends ListFragment {
 
 		// Setting the index of the currently selected item of mDrawerList
 		data.putString("event", eventName);
-		data.putString("oneliner", eventoneliner.get(position-1));
+		data.putString("oneliner", eventoneliner.get(pos - 1));
+		data.putInt("image", Drawables.eventsImages[position][pos - 1]);
 		// Setting the position to the fragment
 		eFragment.setArguments(data);
 
