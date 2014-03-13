@@ -1,7 +1,6 @@
 package in.co.sdslabs.cognizance;
 
 import java.io.IOException;
-import android.support.v7.app.ActionBarActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,14 +9,16 @@ import android.app.Activity;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class EventCategoryFragment extends ListFragment {
 
@@ -30,6 +31,11 @@ public class EventCategoryFragment extends ListFragment {
 
 	int position;
 	String[] categories;
+	
+	ArrayList<String> eventname;
+	ArrayList<String> eventoneliner;
+	
+	FragmentManager fragmentManager;
 
 	public EventCategoryFragment() {
 	}
@@ -66,9 +72,9 @@ public class EventCategoryFragment extends ListFragment {
 		// getListView().addHeaderView(tv);
 		/** Create function in DBhelper to return these three values **/
 		// String Data = DBhelper.getReducedEvent(categories[position]);
-		ArrayList<String> eventname = myDbHelper
+		eventname = myDbHelper
 				.getEventName(categories[position]);
-		ArrayList<String> eventoneliner = myDbHelper
+		eventoneliner = myDbHelper
 				.getEventoneLiner(categories[position]);
 		for (int i = 0; i < eventname.size(); i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
@@ -126,14 +132,43 @@ public class EventCategoryFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 
 		// To disable onClick on header
-		if (position != 0) {
-			Toast.makeText(getActivity().getBaseContext(),
-					"ItemClicked " + position, Toast.LENGTH_SHORT).show();
+		if (position != 0) {			
+			showEventFragment(position);
 		}
+	}
+
+	private void showEventFragment(int position) {
+		
+		// Currently selected event
+		String eventName = eventname.get(position);
+
+		// Creating a fragment object
+		EventFragment eFragment = new EventFragment();
+
+		// Creating a Bundle object
+		Bundle data = new Bundle();
+
+		// Setting the index of the currently selected item of mDrawerList
+		data.putString("event", eventName);
+		data.putString("oneliner", eventoneliner.get(position));
+		// Setting the position to the fragment
+		eFragment.setArguments(data);
+
+		// Getting reference to the FragmentManager
+		fragmentManager = getActivity().getSupportFragmentManager();
+
+		// Creating a fragment transaction
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+
+		// Adding a fragment to the fragment transaction
+		ft.replace(R.id.content_frame, eFragment);
+		ft.addToBackStack(null);
+
+		// Committing the transaction
+		ft.commit();
 	}
 
 	@Override
@@ -148,5 +183,6 @@ public class EventCategoryFragment extends ListFragment {
 		((ActionBarActivity) activity).getSupportActionBar().setTitle(
 				categories[position]);
 	}
+	
 
 }
