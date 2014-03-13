@@ -29,6 +29,7 @@ public class EventCategoryFragment extends ListFragment {
 
 	private String EVENTNAME = "eventname";
 	private String EVENTONELINER = "eventoneliner";
+	private String EVENTIMAGE = "eventimage";
 
 	int position;
 	String[] categories;
@@ -79,13 +80,14 @@ public class EventCategoryFragment extends ListFragment {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTNAME, eventname.get(i));
 			hm.put(EVENTONELINER, eventoneliner.get(i));
+			hm.put(EVENTIMAGE, Integer.toString(Drawables.eventsImages[position][i]));
 			// hm.put(IMAGE, Integer.toString(mImages[i]));
 			eventList.add(hm);
 		}
 
-		String[] from = { EVENTNAME, EVENTONELINER };
+		String[] from = { EVENTNAME, EVENTONELINER ,EVENTIMAGE};
 
-		int[] to = { R.id.tv_eName, R.id.tv_eDescr };
+		int[] to = { R.id.tv_eName, R.id.tv_eDescr ,R.id.eventImage};
 
 		// Instantiating an adapter to store each items
 		// R.layout.drawer_layout defines the layout of each item
