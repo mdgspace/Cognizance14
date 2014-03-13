@@ -39,11 +39,11 @@ public class EventFragment extends Fragment {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		
+
 		eName.setText(getArguments().getString("event"));
 		eOneliner.setText(getArguments().getString("oneliner"));
-		eDescription.setText(myDbHelper.
-				getEventDescription(getArguments().getString("event")));
+		eDescription.setText(myDbHelper.getEventDescription(getArguments()
+				.getString("event")));
 
 		return v;
 	}

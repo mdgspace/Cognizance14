@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
- <!--    <TextView
+    <!--
+         <TextView
         android:id="@+id/tv_categoryDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp" /> -->
+        android:textSize="30sp" />
+    -->
 
     <ListView
         android:id="@android:id/list"
@@ -22,4 +24,4 @@
         android:dividerHeight="0.1dp"
         android:textColor="@android:color/white" />
 
-</RelativeLayout> 
+</RelativeLayout>

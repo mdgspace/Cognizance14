@@ -18,32 +18,31 @@ public class Drawables {
 					R.drawable.theme_the_green_walk,
 					R.drawable.theme_sciennovate, R.drawable.theme_finesse,
 					R.drawable.theme_the_bron_identita },
-			// Robotics 
-					{},
-			//Competitions
-					{},
-			//Literario
-					{},
-			//Guest Lectures
-					{},
-			//Exhibitions
-					{},
-			//Techtainment
-					{},							
+			// Robotics
+			{},
+			// Competitions
+			{},
+			// Literario
+			{},
+			// Guest Lectures
+			{},
+			// Exhibitions
+			{},
+			// Techtainment
+			{},
 			// CSR events
 			{ R.drawable.csr_rural_congress, R.drawable.csr_silence_calling },
-			
+
 			// E-fiesta events
 			{ R.drawable.efiesta_ignite, R.drawable.efiesta_elevator_pitch,
-					R.drawable.efiesta_techno_startup_showcase},
+					R.drawable.efiesta_techno_startup_showcase },
 			// Braintainment events
 			{},
-			
-			//Departments
+
+			// Departments
 			{},
-			
-			//Contacts
-			{}
-	};
+
+			// Contacts
+			{} };
 
 }

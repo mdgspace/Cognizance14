@@ -30,13 +30,10 @@ public class ContactFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// Creating view correspoding to the fragment
-				View v = inflater.inflate(R.layout.contactfragment,
-						container, false);
-		
-		
-				
+		View v = inflater.inflate(R.layout.contactfragment, container, false);
+
 		return v;
-		
+
 	}
 
 }

@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
 			/** Called when drawer is closed */
 			public void onDrawerClosed(View view) {
 				highlightSelectedEventCategory();
-				//getSupportActionBar().setTitle("Cognizance 2014");
+				// getSupportActionBar().setTitle("Cognizance 2014");
 				getSupportActionBar().setTitle(initialTitle);
 				supportInvalidateOptionsMenu();
 			}
@@ -153,6 +153,7 @@ public class MainActivity extends ActionBarActivity {
 		// Committing the transaction
 		ft.commit();
 	}
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);

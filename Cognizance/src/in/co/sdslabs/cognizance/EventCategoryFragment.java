@@ -80,14 +80,15 @@ public class EventCategoryFragment extends ListFragment {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTNAME, eventname.get(i));
 			hm.put(EVENTONELINER, eventoneliner.get(i));
-			hm.put(EVENTIMAGE, Integer.toString(Drawables.eventsImages[position][i]));
+			hm.put(EVENTIMAGE,
+					Integer.toString(Drawables.eventsImages[position][i]));
 			// hm.put(IMAGE, Integer.toString(mImages[i]));
 			eventList.add(hm);
 		}
 
-		String[] from = { EVENTNAME, EVENTONELINER ,EVENTIMAGE};
+		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
-		int[] to = { R.id.tv_eName, R.id.tv_eDescr ,R.id.eventImage};
+		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
 
 		// Instantiating an adapter to store each items
 		// R.layout.drawer_layout defines the layout of each item
