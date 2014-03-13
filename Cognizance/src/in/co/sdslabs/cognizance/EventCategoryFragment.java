@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Activity;
 import android.database.SQLException;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,10 +32,10 @@ public class EventCategoryFragment extends ListFragment {
 
 	int position;
 	String[] categories;
-	
+
 	ArrayList<String> eventname;
 	ArrayList<String> eventoneliner;
-	
+
 	FragmentManager fragmentManager;
 
 	public EventCategoryFragment() {
@@ -72,10 +73,8 @@ public class EventCategoryFragment extends ListFragment {
 		// getListView().addHeaderView(tv);
 		/** Create function in DBhelper to return these three values **/
 		// String Data = DBhelper.getReducedEvent(categories[position]);
-		eventname = myDbHelper
-				.getEventName(categories[position]);
-		eventoneliner = myDbHelper
-				.getEventoneLiner(categories[position]);
+		eventname = myDbHelper.getEventName(categories[position]);
+		eventoneliner = myDbHelper.getEventoneLiner(categories[position]);
 		for (int i = 0; i < eventname.size(); i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTNAME, eventname.get(i));
@@ -115,6 +114,10 @@ public class EventCategoryFragment extends ListFragment {
 		}
 		TextView listHeader = new TextView(getActivity());
 		listHeader.setTextSize(20);
+		listHeader.setPadding(5, 5, 5, 5);
+		Typeface mTypeFace = Typeface.createFromAsset(
+				getActivity().getAssets(), "Roboto-Light.ttf");
+		listHeader.setTypeface(mTypeFace);
 		listHeader.setBackgroundColor(Color.rgb(135, 206, 250));
 		listHeader.setClickable(false);
 		listHeader.setText(myDbHelper
@@ -135,13 +138,13 @@ public class EventCategoryFragment extends ListFragment {
 		super.onListItemClick(l, v, position, id);
 
 		// To disable onClick on header
-		if (position != 0) {			
+		if (position != 0) {
 			showEventFragment(position);
 		}
 	}
 
 	private void showEventFragment(int position) {
-		
+
 		// Currently selected event
 		String eventName = eventname.get(position);
 
@@ -176,13 +179,13 @@ public class EventCategoryFragment extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		// Retrieving the currently selected item number
-		
+
 		position = getArguments().getInt("position");
 		categories = getResources().getStringArray(R.array.eventCategories);
-		
+
 		((ActionBarActivity) activity).getSupportActionBar().setTitle(
 				categories[position]);
+		MainActivity.initialTitle = categories[position];
 	}
-	
 
 }

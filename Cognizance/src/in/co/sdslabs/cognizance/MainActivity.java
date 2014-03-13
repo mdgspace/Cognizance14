@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
 	private HomeFragment hFragment;
 	FragmentManager fragmentManager;
 	FragmentTransaction ft;
+	public static String initialTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +94,13 @@ public class MainActivity extends ActionBarActivity {
 			public void onDrawerClosed(View view) {
 				highlightSelectedEventCategory();
 				//getSupportActionBar().setTitle("Cognizance 2014");
+				getSupportActionBar().setTitle(initialTitle);
 				supportInvalidateOptionsMenu();
 			}
 
 			/** Called when a drawer is opened */
 			public void onDrawerOpened(View drawerView) {
+				initialTitle = (String) getSupportActionBar().getTitle();
 				getSupportActionBar().setTitle("Select a Category");
 				supportInvalidateOptionsMenu();
 			}
