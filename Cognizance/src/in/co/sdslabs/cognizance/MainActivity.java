@@ -29,15 +29,6 @@ public class MainActivity extends ActionBarActivity {
 	// Array of strings storing Event Category names
 	String[] mEventCategories;
 
-	// Array of integers points to images stored in /res/drawable-ldpi/
-	int[] mImages = new int[] { R.drawable.eventcat_theme,
-			R.drawable.eventcat_robotics, R.drawable.eventcat_competetions,
-			R.drawable.eventcat_literario, R.drawable.ic_launcher,
-			R.drawable.ic_launcher, R.drawable.ic_launcher,
-			R.drawable.eventcat_csr, R.drawable.eventcat_efiesta,
-			R.drawable.eventcat_braintainment, R.drawable.eventcat_department,
-			R.drawable.ic_launcher };
-
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -74,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
 		for (int i = 0; i < mEventCategories.length; i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTCATEGORY, mEventCategories[i]);
-			hm.put(IMAGE, Integer.toString(mImages[i]));
+			hm.put(IMAGE, Integer.toString(Drawables.navDrawerImages[i]));
 			mList.add(hm);
 		}
 
