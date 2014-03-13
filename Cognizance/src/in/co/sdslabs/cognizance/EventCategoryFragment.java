@@ -149,7 +149,7 @@ public class EventCategoryFragment extends ListFragment {
 	private void showEventFragment(int position) {
 
 		// Currently selected event
-		String eventName = eventname.get(position);
+		String eventName = eventname.get(position-1);
 
 		// Creating a fragment object
 		EventFragment eFragment = new EventFragment();
@@ -159,7 +159,7 @@ public class EventCategoryFragment extends ListFragment {
 
 		// Setting the index of the currently selected item of mDrawerList
 		data.putString("event", eventName);
-		data.putString("oneliner", eventoneliner.get(position));
+		data.putString("oneliner", eventoneliner.get(position-1));
 		// Setting the position to the fragment
 		eFragment.setArguments(data);
 
