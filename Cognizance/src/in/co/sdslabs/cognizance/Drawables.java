@@ -9,8 +9,7 @@ public class Drawables {
 			R.drawable.eventcat_guest_lectures,
 			R.drawable.eventcat_exhibitions, R.drawable.eventcat_techtainment,
 			R.drawable.eventcat_csr, R.drawable.eventcat_efiesta,
-			R.drawable.eventcat_braintainment, R.drawable.eventcat_department,
-			R.drawable.ic_launcher };
+			R.drawable.eventcat_braintainment, R.drawable.eventcat_department};
 
 	public static int[][] eventsImages = new int[][] {
 
