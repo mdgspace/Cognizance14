@@ -1,6 +1,5 @@
 package in.co.sdslabs.cognizance;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,29 +15,23 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int arg0) {
-		Bundle data = new Bundle();
+		//Bundle data = new Bundle();
 		switch (arg0) {
 
 		/** tab1 is selected */
 		case 0:
-			EventByDay day1 = new EventByDay();
-			data.putInt("day", 1);
-			day1.setArguments(data);
+			Day1 day1 = new Day1();
 			return day1;
-
 			/** tab2 is selected */
 		case 1:
-			EventByDay day2 = new EventByDay();
-			data.putInt("day", 2);
-			day2.setArguments(data);
+			Day2 day2 = new Day2();
 			return day2;
 		case 2:
-			EventByDay day3 = new EventByDay();
-			data.putInt("day", 3);
-			day3.setArguments(data);
+			Day3 day3 = new Day3();
 			return day3;
 		}
 		return null;
+		
 	}
 
 	@Override

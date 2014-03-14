@@ -12,6 +12,7 @@ public class MainTabActivity extends ActionBarActivity {
 
 	private ViewPager mPager;
 	ActionBar mActionBar;
+	public static int day;
 
 	public MainTabActivity() {
 		// TODO Auto-generated constructor stub
@@ -33,7 +34,7 @@ public class MainTabActivity extends ActionBarActivity {
 		mPager = (ViewPager) findViewById(R.id.pager);
 
 		/** Getting a reference to FragmentManager */
-		FragmentManager fm = getSupportFragmentManager();
+		final FragmentManager fm = getSupportFragmentManager();
 
 		/** Defining a listener for pageChange */
 		ViewPager.SimpleOnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
@@ -55,21 +56,27 @@ public class MainTabActivity extends ActionBarActivity {
 		mPager.setAdapter(fragmentPagerAdapter);
 
 		mActionBar.setDisplayShowTitleEnabled(true);
+		
+		
 
 		/** Defining tab listener */
 		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 
 			@Override
 			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			        
 			}
 
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction ft) {
 				mPager.setCurrentItem(tab.getPosition());
+				
+				day = tab.getPosition()+1;
 			}
 
 			@Override
 			public void onTabReselected(Tab tab, FragmentTransaction ft) {
+				day = tab.getPosition()+1;
 			}
 		};
 

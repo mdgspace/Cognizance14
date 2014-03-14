@@ -13,17 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class EventByDay extends ListFragment {
+public class Day1 extends ListFragment {
 
-	int day;
-
-	public EventByDay() {
+	public Day1() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
 		List<HashMap<String, String>> eventList = new ArrayList<HashMap<String, String>>();
 		DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
@@ -33,21 +31,26 @@ public class EventByDay extends ListFragment {
 		} catch (IOException ioe) {
 			throw new Error("Unable to create database");
 		}
+
 		try {
 			myDbHelper.openDataBase();
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
+		
+		for (int i = 0; i < 20; i++) {
+			HashMap<String, String> hm = new HashMap<String, String>();
+//			hm.put(EVENTNAME, eventname.get(i));
+//			hm.put(EVENTONELINER, eventoneliner.get(i));
+//			hm.put(EVENTIMAGE,
+//					Integer.toString(Drawables.eventsImages[position][i]));
+//			// hm.put(IMAGE, Integer.toString(mImages[i]));
+			hm.put("EVENTNAME" , "");
+			eventList.add(hm);
+		}
 
+		Log.v("Day", "1");
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onViewCreated(view, savedInstanceState);
-		
-		day = MainTabActivity.day;
-		Log.v("Day " , ""+day);
-	}
 }
