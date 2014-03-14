@@ -178,7 +178,8 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			finish();
 			break;
 		case R.id.map :
-			/** Add intent to call Map Activity */
+			Intent goToMap = new Intent(this, MapTest.class);
+			startActivity(goToMap);
 			break;
 		case R.id.contact :
 			break;

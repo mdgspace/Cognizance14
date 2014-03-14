@@ -111,8 +111,8 @@ public class CampusMap extends Activity implements OnTouchListener {
 		mMapView.setImage(mBitmap);
 		mMapView.setOnTouchListener(this);
 		mMapControl.setAspectQuotient(mMapView.getAspectQuotient());
-		mZoomState.setPanX(x);
-		mZoomState.setPanY(y);
+		mZoomState.setPanX(x/mBitmap.getWidth());
+		mZoomState.setPanY(y/mBitmap.getHeight());
 		mZoomState.setZoom(5);
 	}
 
