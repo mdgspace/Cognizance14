@@ -1,7 +1,6 @@
 package in.co.sdslabs.cognizance;
 
 import java.io.IOException;
-import android.support.v7.app.ActionBarActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,15 +8,20 @@ import java.util.List;
 import android.app.Activity;
 import android.database.SQLException;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class EventCategoryFragment extends ListFragment {
 
@@ -27,9 +31,15 @@ public class EventCategoryFragment extends ListFragment {
 
 	private String EVENTNAME = "eventname";
 	private String EVENTONELINER = "eventoneliner";
+	private String EVENTIMAGE = "eventimage";
 
 	int position;
 	String[] categories;
+
+	ArrayList<String> eventname;
+	ArrayList<String> eventoneliner;
+
+	FragmentManager fragmentManager;
 
 	public EventCategoryFragment() {
 	}
@@ -66,21 +76,21 @@ public class EventCategoryFragment extends ListFragment {
 		// getListView().addHeaderView(tv);
 		/** Create function in DBhelper to return these three values **/
 		// String Data = DBhelper.getReducedEvent(categories[position]);
-		ArrayList<String> eventname = myDbHelper
-				.getEventName(categories[position]);
-		ArrayList<String> eventoneliner = myDbHelper
-				.getEventoneLiner(categories[position]);
+		eventname = myDbHelper.getEventName(categories[position]);
+		eventoneliner = myDbHelper.getEventoneLiner(categories[position]);
 		for (int i = 0; i < eventname.size(); i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTNAME, eventname.get(i));
 			hm.put(EVENTONELINER, eventoneliner.get(i));
+			hm.put(EVENTIMAGE,
+					Integer.toString(Drawables.eventsImages[position][i]));
 			// hm.put(IMAGE, Integer.toString(mImages[i]));
 			eventList.add(hm);
 		}
 
-		String[] from = { EVENTNAME, EVENTONELINER };
+		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
-		int[] to = { R.id.tv_eName, R.id.tv_eDescr };
+		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
 
 		// Instantiating an adapter to store each items
 		// R.layout.drawer_layout defines the layout of each item
@@ -107,13 +117,41 @@ public class EventCategoryFragment extends ListFragment {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		TextView listHeader = new TextView(getActivity());
+		final TextView listHeader = new TextView(getActivity());
 		listHeader.setTextSize(20);
-		listHeader.setBackgroundColor(Color.rgb(135, 206, 250));
+		listHeader.setPadding(15, 10, 5, 10);
+
+		Typeface mTypeFace = Typeface.createFromAsset(
+				getActivity().getAssets(), "Roboto-Medium.ttf");
+		listHeader.setTypeface(mTypeFace);
+		listHeader.setBackgroundColor(Color.rgb(1,140,149));
+		//listHeader.setBackgroundResource(R.drawable.eventcat_competetions);
 		listHeader.setClickable(false);
 		listHeader.setText(myDbHelper
 				.getCategoryDescription(categories[position]));
+		listHeader.setGravity(Gravity.FILL_HORIZONTAL);
+		// Code for justification of text
+		// listHeader.getViewTreeObserver().addOnPreDrawListener(new
+		// OnPreDrawListener() {
+		//
+		// boolean isJustified = false;
+		// @Override
+		// public boolean onPreDraw() {
+		// if(!isJustified)
+		// {
+		// TextJustifyUtils.run(listHeader , 180f);
+		// isJustified = true;
+		// }
+		//
+		// return true;
+		// }
+		// });
+
+		LinearLayout layout = new LinearLayout(getActivity().getBaseContext());
+		layout.setBackgroundColor(Color.rgb(1, 140, 149));
 		getListView().addHeaderView(listHeader);
+		getListView().addFooterView(layout);
+	//	getListView().addFooterView(Color.rgb(1, 140, 149));
 
 		setListAdapter(mAdapter);
 	}
@@ -125,15 +163,45 @@ public class EventCategoryFragment extends ListFragment {
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
+	public void onListItemClick(ListView l, View v, int pos, long id) {
 		super.onListItemClick(l, v, position, id);
 
 		// To disable onClick on header
 		if (position != 0) {
-			Toast.makeText(getActivity().getBaseContext(),
-					"ItemClicked " + position, Toast.LENGTH_SHORT).show();
+			showEventFragment(pos, v);
 		}
+	}
+
+	private void showEventFragment(int pos, View v) {
+
+		// Currently selected event
+		String eventName = eventname.get(pos - 1);
+
+		// Creating a fragment object
+		EventFragment eFragment = new EventFragment();
+
+		// Creating a Bundle object
+		Bundle data = new Bundle();
+
+		// Setting the index of the currently selected item of mDrawerList
+		data.putString("event", eventName);
+		data.putString("oneliner", eventoneliner.get(pos - 1));
+		data.putInt("image", Drawables.eventsImages[position][pos - 1]);
+		// Setting the position to the fragment
+		eFragment.setArguments(data);
+
+		// Getting reference to the FragmentManager
+		fragmentManager = getActivity().getSupportFragmentManager();
+
+		// Creating a fragment transaction
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+
+		// Adding a fragment to the fragment transaction
+		ft.replace(R.id.content_frame, eFragment);
+		ft.addToBackStack(null);
+
+		// Committing the transaction
+		ft.commit();
 	}
 
 	@Override
@@ -141,12 +209,13 @@ public class EventCategoryFragment extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		// Retrieving the currently selected item number
-		
+
 		position = getArguments().getInt("position");
 		categories = getResources().getStringArray(R.array.eventCategories);
-		
+
 		((ActionBarActivity) activity).getSupportActionBar().setTitle(
 				categories[position]);
+		MainActivity.initialTitle = categories[position];
 	}
 
 }

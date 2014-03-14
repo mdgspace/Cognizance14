@@ -29,15 +29,6 @@ public class MainActivity extends ActionBarActivity {
 	// Array of strings storing Event Category names
 	String[] mEventCategories;
 
-	// Array of integers points to images stored in /res/drawable-ldpi/
-	int[] mImages = new int[] { R.drawable.eventcat_theme,
-			R.drawable.eventcat_robotics, R.drawable.eventcat_competetions,
-			R.drawable.eventcat_literario, R.drawable.ic_launcher,
-			R.drawable.ic_launcher, R.drawable.ic_launcher,
-			R.drawable.eventcat_csr, R.drawable.eventcat_efiesta,
-			R.drawable.eventcat_braintainment, R.drawable.eventcat_department,
-			R.drawable.ic_launcher };
-
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -49,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
 	private HomeFragment hFragment;
 	FragmentManager fragmentManager;
 	FragmentTransaction ft;
+	public static String initialTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 		for (int i = 0; i < mEventCategories.length; i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(EVENTCATEGORY, mEventCategories[i]);
-			hm.put(IMAGE, Integer.toString(mImages[i]));
+			hm.put(IMAGE, Integer.toString(Drawables.navDrawerImages[i]));
 			mList.add(hm);
 		}
 
@@ -101,12 +93,14 @@ public class MainActivity extends ActionBarActivity {
 			/** Called when drawer is closed */
 			public void onDrawerClosed(View view) {
 				highlightSelectedEventCategory();
-				//getSupportActionBar().setTitle("Cognizance 2014");
+				// getSupportActionBar().setTitle("Cognizance 2014");
+				getSupportActionBar().setTitle(initialTitle);
 				supportInvalidateOptionsMenu();
 			}
 
 			/** Called when a drawer is opened */
 			public void onDrawerOpened(View drawerView) {
+				initialTitle = (String) getSupportActionBar().getTitle();
 				getSupportActionBar().setTitle("Select a Category");
 				supportInvalidateOptionsMenu();
 			}
@@ -135,8 +129,8 @@ public class MainActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		// Changing the background of the color drawable
-		getSupportActionBar().setBackgroundDrawable(
-				new ColorDrawable(Color.rgb(234, 234, 234)));
+		//getSupportActionBar().setBackgroundDrawable(
+		//		new ColorDrawable(Color.rgb(234, 234, 234)));
 		// Setting the adapter to the listView
 		mDrawerList.setAdapter(mAdapter);
 	}
@@ -155,10 +149,10 @@ public class MainActivity extends ActionBarActivity {
 
 		// Adding a fragment to the fragment transaction
 		ft.replace(R.id.content_frame, hFragment);
-
 		// Committing the transaction
 		ft.commit();
 	}
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
