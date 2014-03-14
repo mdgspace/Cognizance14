@@ -231,7 +231,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		getSupportActionBar().setTitle("Cognizance 2014");
+		getSupportActionBar().setTitle("Cognizance");
 		fragmentManager.popBackStack();
 	}
 }
