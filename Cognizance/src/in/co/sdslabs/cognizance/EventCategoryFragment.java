@@ -124,8 +124,8 @@ public class EventCategoryFragment extends ListFragment {
 		Typeface mTypeFace = Typeface.createFromAsset(
 				getActivity().getAssets(), "Roboto-Medium.ttf");
 		listHeader.setTypeface(mTypeFace);
-		listHeader.setBackgroundColor(Color.rgb(1,140,149));
-		//listHeader.setBackgroundResource(R.drawable.eventcat_competetions);
+		listHeader.setBackgroundColor(Color.rgb(1, 140, 149));
+		// listHeader.setBackgroundResource(R.drawable.eventcat_competetions);
 		listHeader.setClickable(false);
 		listHeader.setText(myDbHelper
 				.getCategoryDescription(categories[position]));
@@ -144,14 +144,9 @@ public class EventCategoryFragment extends ListFragment {
 		// }
 		//
 		// return true;
-		// }
-		// });
 
-		LinearLayout layout = new LinearLayout(getActivity().getBaseContext());
-		layout.setBackgroundColor(Color.rgb(1, 140, 149));
-		getListView().addHeaderView(listHeader);
-		getListView().addFooterView(layout);
-	//	getListView().addFooterView(Color.rgb(1, 140, 149));
+		getListView().addHeaderView(listHeader, null, false);
+		// getListView().addFooterView(Color.rgb(1, 140, 149));
 
 		setListAdapter(mAdapter);
 	}
@@ -167,41 +162,44 @@ public class EventCategoryFragment extends ListFragment {
 		super.onListItemClick(l, v, position, id);
 
 		// To disable onClick on header
-		if (position != 0) {
-			showEventFragment(pos, v);
-		}
+
+		showEventFragment(pos, v);
+
 	}
 
 	private void showEventFragment(int pos, View v) {
+		if (pos >= 1) {
 
-		// Currently selected event
-		String eventName = eventname.get(pos - 1);
+			// Currently selected event
+			String eventName = eventname.get(pos - 1);
 
-		// Creating a fragment object
-		EventFragment eFragment = new EventFragment();
+			// Creating a fragment object
+			EventFragment eFragment = new EventFragment();
 
-		// Creating a Bundle object
-		Bundle data = new Bundle();
+			// Creating a Bundle object
+			Bundle data = new Bundle();
 
-		// Setting the index of the currently selected item of mDrawerList
-		data.putString("event", eventName);
-		data.putString("oneliner", eventoneliner.get(pos - 1));
-		data.putInt("image", Drawables.eventsImages[position][pos - 1]);
-		// Setting the position to the fragment
-		eFragment.setArguments(data);
+			// Setting the index of the currently selected item of mDrawerList
+			data.putString("event", eventName);
+			data.putString("oneliner", eventoneliner.get(pos - 1));
+			data.putInt("image", Drawables.eventsImages[position][pos - 1]);
+			// Setting the position to the fragment
+			eFragment.setArguments(data);
 
-		// Getting reference to the FragmentManager
-		fragmentManager = getActivity().getSupportFragmentManager();
+			// Getting reference to the FragmentManager
+			fragmentManager = getActivity().getSupportFragmentManager();
 
-		// Creating a fragment transaction
-		FragmentTransaction ft = fragmentManager.beginTransaction();
+			// Creating a fragment transaction
+			FragmentTransaction ft = fragmentManager.beginTransaction();
 
-		// Adding a fragment to the fragment transaction
-		ft.replace(R.id.content_frame, eFragment);
-		ft.addToBackStack(null);
+			// Adding a fragment to the fragment transaction
+			ft.replace(R.id.content_frame, eFragment);
+			ft.addToBackStack(null);
 
-		// Committing the transaction
-		ft.commit();
+			// Committing the transaction
+			ft.commit();
+
+		}
 	}
 
 	@Override
