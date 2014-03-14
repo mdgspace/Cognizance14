@@ -21,10 +21,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/drawer_title_shape"
+            android:background="@android:color/black"
             android:gravity="center"
             android:text="Event Categories"
-            android:textSize="20sp" />
+            android:textSize="20sp" 
+            android:textColor="#fff"
+            />
 
         <ListView
             android:id="@+id/drawer_list"

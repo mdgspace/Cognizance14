@@ -129,8 +129,8 @@ public class MainActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		// Changing the background of the color drawable
-		getSupportActionBar().setBackgroundDrawable(
-				new ColorDrawable(Color.rgb(234, 234, 234)));
+		//getSupportActionBar().setBackgroundDrawable(
+		//		new ColorDrawable(Color.rgb(234, 234, 234)));
 		// Setting the adapter to the listView
 		mDrawerList.setAdapter(mAdapter);
 	}
@@ -149,7 +149,6 @@ public class MainActivity extends ActionBarActivity {
 
 		// Adding a fragment to the fragment transaction
 		ft.replace(R.id.content_frame, hFragment);
-
 		// Committing the transaction
 		ft.commit();
 	}

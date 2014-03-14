@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -121,9 +122,10 @@ public class EventCategoryFragment extends ListFragment {
 		listHeader.setPadding(15, 10, 5, 10);
 
 		Typeface mTypeFace = Typeface.createFromAsset(
-				getActivity().getAssets(), "Roboto-Light.ttf");
+				getActivity().getAssets(), "Roboto-Medium.ttf");
 		listHeader.setTypeface(mTypeFace);
-		listHeader.setBackgroundColor(Color.rgb(135, 206, 250));
+		listHeader.setBackgroundColor(Color.rgb(1,140,149));
+		//listHeader.setBackgroundResource(R.drawable.eventcat_competetions);
 		listHeader.setClickable(false);
 		listHeader.setText(myDbHelper
 				.getCategoryDescription(categories[position]));
@@ -145,7 +147,11 @@ public class EventCategoryFragment extends ListFragment {
 		// }
 		// });
 
+		LinearLayout layout = new LinearLayout(getActivity().getBaseContext());
+		layout.setBackgroundColor(Color.rgb(1, 140, 149));
 		getListView().addHeaderView(listHeader);
+		getListView().addFooterView(layout);
+	//	getListView().addFooterView(Color.rgb(1, 140, 149));
 
 		setListAdapter(mAdapter);
 	}

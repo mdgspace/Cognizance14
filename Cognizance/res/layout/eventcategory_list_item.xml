@@ -3,7 +3,8 @@
     android:id="@+id/llinear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" 
+    android:background="#1d6f79">
 
     <ImageView
         android:id="@+id/eventImage"
