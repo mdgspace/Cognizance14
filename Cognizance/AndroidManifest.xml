@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
         <activity
-            android:name="in.co.sdslabs.cognizance.MainActivity"
+            android:name="in.co.sdslabs.cognizance.MainNavDrawerActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

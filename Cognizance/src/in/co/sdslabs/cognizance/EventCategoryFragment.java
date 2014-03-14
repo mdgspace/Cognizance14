@@ -215,7 +215,7 @@ public class EventCategoryFragment extends ListFragment {
 
 		((ActionBarActivity) activity).getSupportActionBar().setTitle(
 				categories[position]);
-		MainActivity.initialTitle = categories[position];
+		MainNavDrawerActivity.initialTitle = categories[position];
 	}
 
 }

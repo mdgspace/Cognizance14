@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class MainActivity extends ActionBarActivity {
+public class MainNavDrawerActivity extends ActionBarActivity {
 
 	int mPosition = -1;
 	String mTitle = "";
@@ -163,7 +163,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.main_navdrawer, menu);
 		return true;
 	}
 
