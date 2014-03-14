@@ -8,8 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
-
 import in.co.sdslabs.cognizance.R;
+
 
 import java.util.Observable;
 import java.util.Observer;
@@ -30,6 +30,7 @@ public class ImageZoomView extends View implements Observer {
 
 	/** Object holding aspect quotient */
 	private final AspectQuotient mAspectQuotient = new AspectQuotient();
+	
 
 	/** The bitmap that we're zooming in, and drawing on the screen. */
 	private Bitmap mBitmap;

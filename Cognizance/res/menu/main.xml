@@ -5,18 +5,13 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-<<<<<<< HEAD
     <item
         android:id="@+id/map_test"
         android:showAsAction="never"
         android:title="MapTest"/>
-=======
-    
-    <item 
+    <item
         android:id="@+id/preferances"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
         android:title="Filter"/>
->>>>>>> 9eaca70b1c900614d81e952b213c913514ef0e68
-
 </menu>
