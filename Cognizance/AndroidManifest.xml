@@ -26,6 +26,10 @@
             android:name="in.co.sdslabs.cognizance.MapTest"
             android:label="@string/app_name" >
         </activity>
+         <activity
+            android:name="in.co.sdslabs.cognizance.MainTabActivity"
+            android:label="@string/app_name" >
+        </activity>
         <activity
             android:name="in.co.sdslabs.cognizance.ContactListActivity"
             android:label="@string/app_name" >

@@ -74,13 +74,18 @@ public class MainTabActivity extends ActionBarActivity {
 		};
 
 		/** Creating fragment1 Tab */
-		Tab tab = mActionBar.newTab().setText("Tab1")
+		Tab tab = mActionBar.newTab().setText("Day 1")
 				.setTabListener(tabListener);
 
 		mActionBar.addTab(tab);
 
 		/** Creating fragment2 Tab */
-		tab = mActionBar.newTab().setText("Tab2").setTabListener(tabListener);
+		tab = mActionBar.newTab().setText("Day 2").setTabListener(tabListener);
+
+		mActionBar.addTab(tab);
+
+		/** Creating fragment3 Tab */
+		tab = mActionBar.newTab().setText("Day 3").setTabListener(tabListener);
 
 		mActionBar.addTab(tab);
 	}

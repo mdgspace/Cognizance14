@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -129,8 +128,8 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		// Changing the background of the color drawable
-		//getSupportActionBar().setBackgroundDrawable(
-		//		new ColorDrawable(Color.rgb(234, 234, 234)));
+		// getSupportActionBar().setBackgroundDrawable(
+		// new ColorDrawable(Color.rgb(234, 234, 234)));
 		// Setting the adapter to the listView
 		mDrawerList.setAdapter(mAdapter);
 	}
@@ -163,16 +162,30 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main_navdrawer, menu);
+		getMenuInflater().inflate(R.menu.menu_navdrawer, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
+		super.onOptionsItemSelected(item);
+		
+		switch(item.getItemId()){
+			
+		case R.id.filter :
+			Intent intent = new Intent(this , MainTabActivity.class);
+			startActivity(intent);
+			finish();
+			break;
+		case R.id.map :
+			/** Add intent to call Map Activity */
+			break;
+		case R.id.contact :
+			break;
+		case R.id.about_us :
+			break;
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 
 	public void showFragment(int position) {
