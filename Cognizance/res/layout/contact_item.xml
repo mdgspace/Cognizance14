@@ -8,34 +8,30 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:text="TextView" />
+        android:paddingTop="3dp"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/position"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:text="TextView" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:text="TextView" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.07"
-        android:paddingBottom="10dp"
+        android:paddingBottom="3dp"
         android:paddingLeft="10dp"
-        android:text="TextView" />
+        android:textSize="12sp" />
 
 </LinearLayout>

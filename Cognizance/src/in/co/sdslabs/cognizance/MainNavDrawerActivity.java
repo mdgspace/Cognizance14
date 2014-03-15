@@ -190,6 +190,8 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			break;
 		case R.id.about_us:
 			break;
+		case R.id.home :
+			fragmentManager.popBackStack();
 		}
 		return true;
 	}
@@ -237,6 +239,5 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	public void onBackPressed() {
 		super.onBackPressed();
 		getSupportActionBar().setTitle("Cognizance");
-		//fragmentManager.popBackStack();
 	}
 }
