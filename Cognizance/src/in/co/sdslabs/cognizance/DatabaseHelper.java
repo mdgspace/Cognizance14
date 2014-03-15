@@ -143,7 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (cursor != null) {
 			cursor.moveToFirst();
 		}
-		data = cursor.getString(2);
+		data = cursor.getString(cursor.getColumnIndex("category_description"));
 		cursor.close();
 		return data;
 	}
@@ -156,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				data.add(cursor.getString(3));
+				data.add(cursor.getString(cursor.getColumnIndex("event_name")));
 			}
 		}
 		cursor.close();
@@ -171,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				data.add(cursor.getString(0));
+				data.add(cursor.getString(cursor.getColumnIndex("one_liner")));
 			}
 		}
 		cursor.close();
@@ -202,7 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				data.add(cursor.getString(3));
+				data.add(cursor.getString(cursor.getColumnIndex("event_name")));
 			}
 		}
 		cursor.close();
@@ -217,7 +217,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				data.add(cursor.getString(0));
+				data.add(cursor.getString(cursor.getColumnIndex("one_liner")));
 			}
 		}
 		cursor.close();
@@ -304,14 +304,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public String getVenue(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE event_name=' " + event
+				"SELECT * FROM table_event_details WHERE event_name='" + event
 						+ "'", null);
 		String data = null;
 		if (cursor != null) {
 			if (cursor.moveToNext())
 				cursor.moveToFirst();
 		}
-		data = cursor.getString(cursor.getColumnIndex("venue"));
+		data = cursor.getString(cursor.getColumnIndex("venue_display"));
 		cursor.close();
 		return data;
 	}
@@ -319,7 +319,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public int getID(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE event_name= '" + event
+				"SELECT * FROM table_event_details WHERE event_name='" + event
 						+ "'", null);
 		String category;
 		if (cursor != null) {
