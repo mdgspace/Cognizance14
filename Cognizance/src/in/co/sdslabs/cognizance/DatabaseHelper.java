@@ -242,7 +242,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public String searchEntryForVenue(String x, String y) throws SQLException {
 		// TODO Auto-generated method stub
-		myDataBase = ourHelper.getWritableDatabase();
+		myDataBase = this.getReadableDatabase();
 		String[] columns = new String[] { KEY_ROWID_VENUE, KEY_MINX, KEY_MINY,
 				KEY_MAXX, KEY_MAXY, KEY_TOUCH_VENUE };
 
@@ -270,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public PointF searchPlaceForCoordinates(String selection) {
 		// TODO Auto-generated method stub
-		myDataBase = ourHelper.getWritableDatabase();
+		myDataBase = this.getReadableDatabase();
 		String[] columns = new String[] { KEY_MINX, KEY_MINY, KEY_MAXX,
 				KEY_MAXY, KEY_TOUCH_VENUE };
 		PointF coor = new PointF();
