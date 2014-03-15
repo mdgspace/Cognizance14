@@ -37,7 +37,8 @@ public class Drawables {
 					R.drawable.guest_osamuhasegawa,
 					R.drawable.guest_rk_khandal, R.drawable.guest_ravi_sandhu,
 					R.drawable.guest_alberto_levy,
-					R.drawable.guest_shiraz_gidwani ,R.drawable.guest_victor_benno , 0},
+					R.drawable.guest_shiraz_gidwani,
+					R.drawable.guest_victor_benno, 0 },
 			// Exhibitions
 			{ R.drawable.ex_hand_gesture_controlled_devices,
 					R.drawable.ex_omnipresent, R.drawable.ex_gridbots,
@@ -62,9 +63,16 @@ public class Drawables {
 			},
 
 			// Departments
-			{},
-
-			// Contacts
-			{} };
+			{ R.drawable.dept_ahec, R.drawable.dept_archi, R.drawable.dept_bio,
+					R.drawable.dept_chemical, R.drawable.dept_chemistry,
+					R.drawable.dept_civil, R.drawable.dept_coedmm,
+					R.drawable.dept_cse, R.drawable.dept_ctrans,
+					R.drawable.dept_earth_science, R.drawable.dept_earthquake,
+					R.drawable.dept_ece, R.drawable.dept_electrical,
+					R.drawable.dept_hydrology, R.drawable.dept_mba,
+					R.drawable.dept_meta, R.drawable.dept_maths,
+					R.drawable.dept_mech, R.drawable.dept_nano,
+					R.drawable.dept_papertech, R.drawable.dept_physics,
+					R.drawable.dept_polymer , R.drawable.dept_wrdm } };
 
 }
