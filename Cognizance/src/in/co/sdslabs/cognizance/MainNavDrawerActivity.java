@@ -173,7 +173,6 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		case R.id.filter:
 			Intent intent = new Intent(this, MainTabActivity.class);
 			startActivity(intent);
-			finish();
 			break;
 		case R.id.map:
 			// TODO : Fire intent for full map and not the zoomed in view
@@ -181,7 +180,10 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			startActivity(goToMap);
 			break;
 		case R.id.contact:
+
 			// TODO : Fire intent for contacts activity
+			Intent gotocontacts = new Intent(this, ContactListActivity.class);
+			startActivity(gotocontacts);
 			break;
 		case R.id.about_us:
 			break;
