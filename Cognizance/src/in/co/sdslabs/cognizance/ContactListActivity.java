@@ -80,6 +80,7 @@ public class ContactListActivity extends ListActivity implements
 		post = contact_item.getPost();
 		final Dialog dialog = new Dialog(ContactListActivity.this);
 		dialog.setContentView(R.layout.dialogbox);
+		dialog.setTitle(name);
 		ImageButton call = (ImageButton) dialog.findViewById(R.id.call);
 
 		call.setOnClickListener(new OnClickListener() {
