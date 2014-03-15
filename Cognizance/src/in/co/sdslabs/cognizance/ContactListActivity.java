@@ -13,10 +13,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ContactListActivity extends ListActivity implements
 		OnItemClickListener {
@@ -78,10 +78,14 @@ public class ContactListActivity extends ListActivity implements
 		number = contact_item.getNumber();
 		email = contact_item.getEmail();
 		post = contact_item.getPost();
+
 		final Dialog dialog = new Dialog(ContactListActivity.this);
 		dialog.setContentView(R.layout.dialogbox);
 		dialog.setTitle(name);
 		ImageButton call = (ImageButton) dialog.findViewById(R.id.call);
+		ImageButton message = (ImageButton) dialog.findViewById(R.id.msg);
+		ImageButton mail = (ImageButton) dialog.findViewById(R.id.email);
+		
 
 		call.setOnClickListener(new OnClickListener() {
 			@Override
@@ -93,7 +97,7 @@ public class ContactListActivity extends ListActivity implements
 				}
 			}
 		});
-		ImageButton message = (ImageButton) dialog.findViewById(R.id.msg);
+
 		message.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -116,7 +120,6 @@ public class ContactListActivity extends ListActivity implements
 
 			}
 		});
-		ImageButton mail = (ImageButton) dialog.findViewById(R.id.email);
 
 		mail.setOnClickListener(new OnClickListener() {
 			@Override
