@@ -166,8 +166,11 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-
+//		super.onOptionsItemSelected(item);
+		
+		if(mDrawerToggle.onOptionsItemSelected(item)){
+			
+		}
 		switch (item.getItemId()) {
 
 		case R.id.filter:
