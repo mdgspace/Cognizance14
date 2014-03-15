@@ -3,6 +3,7 @@ package in.co.sdslabs.cognizance;
 import java.util.List;
 
 import android.content.Context;
+import android.transition.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,15 @@ public class ContactAdapter extends ArrayAdapter<ContactClass> {
 		TextView number = (TextView) rowView.findViewById(R.id.number);
 		TextView email = (TextView) rowView.findViewById(R.id.email);
 		TextView post = (TextView) rowView.findViewById(R.id.position);
+		
+		name.setText(contactList.get(position).getName());
+		number.setText(contactList.get(position).getNumber());
+		if(contactList.get(position).getNumber().contentEquals("*"))
+			number.setVisibility(View.GONE);
+		email.setText(contactList.get(position).getEmail());
+		if(contactList.get(position).getEmail().contentEquals("#"))
+			email.setVisibility(View.GONE);
+		post.setText(contactList.get(position).getPost());
 		
 		return rowView;
 	}

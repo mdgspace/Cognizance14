@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
@@ -14,8 +14,16 @@
         android:text="TextView" />
 
     <TextView
+        android:id="@+id/position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:text="TextView" />
+
+    <TextView
         android:id="@+id/number"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
@@ -23,15 +31,7 @@
 
     <TextView
         android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/position"
-        android:layout_width="115dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.07"
         android:paddingBottom="10dp"
