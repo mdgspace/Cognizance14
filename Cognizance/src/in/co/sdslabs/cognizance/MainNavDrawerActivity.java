@@ -169,21 +169,22 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
-		
-		switch(item.getItemId()){
-			
-		case R.id.filter :
-			Intent intent = new Intent(this , MainTabActivity.class);
+
+		switch (item.getItemId()) {
+
+		case R.id.filter:
+			Intent intent = new Intent(this, MainTabActivity.class);
 			startActivity(intent);
-			finish();
 			break;
-		case R.id.map :
+		case R.id.map:
 			Intent goToMap = new Intent(this, MapTest.class);
 			startActivity(goToMap);
 			break;
-		case R.id.contact :
+		case R.id.contact:
+			Intent gotocontacts = new Intent(this, ContactListActivity.class);
+			startActivity(gotocontacts);
 			break;
-		case R.id.about_us :
+		case R.id.about_us:
 			break;
 		}
 		return true;
