@@ -8,28 +8,52 @@ import android.database.SQLException;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 public class MapTest extends Activity {
 
+	GPSTracker gps;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		String place = "";
-		showZoomedMap(place);
-		// // bundle for deciding how the map will open normally or zoomed to a
+		// bundle for deciding how the map will open normally or zoomed to a
 		// particular state
 		Bundle mapParams = new Bundle();
-		mapParams.putInt("mode", 1); // mode = 0 for normal and mode = 1 for
+		mapParams.putInt("mode", 0); // mode = 0 for normal and mode = 1 for
 										// zoomed
-		mapParams.putFloat("X", (float) 390.0);
-		mapParams.putFloat("Y", (float) 95.0);
 
 		Intent i = new Intent(this, in.co.sdslabs.mdg.map.CampusMap.class);
 		i.putExtras(mapParams);
+		finish();
 		startActivity(i);
+		
+		//getPathFromPresentLocation();
+	}
+
+	private void getPathFromPresentLocation(double destLat, double destLong) {
+		// TODO Auto-generated method stub
+		// create class object
+        gps = new GPSTracker(this);
+
+		// check if GPS enabled		
+        if(gps.canGetLocation()){
+        	
+        	double latitude = gps.getLatitude();
+        	double longitude = gps.getLongitude();
+        	
+        	// \n is for new line
+        	Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();	
+        	onlineMap(latitude, longitude, destLat, destLong);
+        
+        }else{
+        	// can't get location
+        	// GPS or Network is not enabled
+        	// Ask user to enable GPS/network in settings
+        	gps.showSettingsAlert();
+        }
 	}
 
 	private void showZoomedMap(String place) {
@@ -49,7 +73,8 @@ public class MapTest extends Activity {
 
 		PointF coord = myDbHelper.searchPlaceForCoordinates(place);
 		Bundle mapParams = new Bundle();
-		mapParams.putInt("mode", 1); // mode = 0 for normal and mode = 1 for zoomed
+		mapParams.putInt("mode", 1); // mode = 0 for normal and mode = 1 for
+										// zoomed
 		mapParams.putFloat("X", (float) coord.x);
 		mapParams.putFloat("Y", (float) coord.y);
 
@@ -59,15 +84,17 @@ public class MapTest extends Activity {
 		startActivity(i);
 	}
 
-	private void onlineMap() {
+	private void onlineMap(double startLat, double startLong, double destLat,
+			double destLong) {
 		// TODO Auto-generated method stub
-		String uri = "http://maps.google.com/maps?saddr=" + "29.865866" + ","
-				+ "77.896316" + "&daddr=" + "29.867294" + "," + "77.901182";
+		String uri = "http://maps.google.com/maps?saddr=" + startLat + ","
+				+ startLong + "&daddr=" + destLat + "," + destLong;
 		Intent intent1 = new Intent(android.content.Intent.ACTION_VIEW,
 				Uri.parse(uri));
 		intent1.setClassName("com.google.android.apps.maps",
 				"com.google.android.maps.MapsActivity");
 		intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		finish();
 		startActivity(intent1);
 	}
 
