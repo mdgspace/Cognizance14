@@ -13,6 +13,7 @@ import android.widget.Toast;
 public class MapTest extends Activity {
 
 	GPSTracker gps;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -29,31 +30,34 @@ public class MapTest extends Activity {
 		i.putExtras(mapParams);
 		finish();
 		startActivity(i);
-		
-		//getPathFromPresentLocation();
+
+		// getPathFromPresentLocation();
 	}
 
 	private void getPathFromPresentLocation(double destLat, double destLong) {
 		// TODO Auto-generated method stub
 		// create class object
-        gps = new GPSTracker(this);
+		gps = new GPSTracker(this);
 
-		// check if GPS enabled		
-        if(gps.canGetLocation()){
-        	
-        	double latitude = gps.getLatitude();
-        	double longitude = gps.getLongitude();
-        	
-        	// \n is for new line
-        	Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();	
-        	onlineMap(latitude, longitude, destLat, destLong);
-        
-        }else{
-        	// can't get location
-        	// GPS or Network is not enabled
-        	// Ask user to enable GPS/network in settings
-        	gps.showSettingsAlert();
-        }
+		// check if GPS enabled
+		if (gps.canGetLocation()) {
+
+			double latitude = gps.getLatitude();
+			double longitude = gps.getLongitude();
+
+			// \n is for new line
+			Toast.makeText(
+					getApplicationContext(),
+					"Your Location is - \nLat: " + latitude + "\nLong: "
+							+ longitude, Toast.LENGTH_LONG).show();
+			onlineMap(latitude, longitude, destLat, destLong);
+
+		} else {
+			// can't get location
+			// GPS or Network is not enabled
+			// Ask user to enable GPS/network in settings
+			gps.showSettingsAlert();
+		}
 	}
 
 	private void showZoomedMap(String place) {

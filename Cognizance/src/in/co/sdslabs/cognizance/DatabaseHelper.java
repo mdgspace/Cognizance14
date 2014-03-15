@@ -348,7 +348,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
 		if (cursor.moveToFirst()) {
 			while (cursor.moveToNext()) {
-				list.add(cursor.getString(1));
+				list.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
 			}
 			// if(cursor.moveToNext()) cursor.moveToFirst();
 		}
@@ -362,7 +362,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
 		if (cursor.moveToFirst()) {
 			while (cursor.moveToNext()) {
-				list.add(cursor.getString(2));
+				list.add(cursor.getString(cursor.getColumnIndexOrThrow("number")));
 			}
 			cursor.close();
 		}
@@ -375,7 +375,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
 		if (cursor.moveToFirst()) {
 			while (cursor.moveToNext()) {
-				list.add(cursor.getString(4));
+				list.add(cursor.getString(cursor.getColumnIndexOrThrow("position")));
 			}
 			// if(cursor.moveToNext()) cursor.moveToFirst();
 		}
@@ -389,7 +389,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
 		if (cursor.moveToFirst()) {
 			while (cursor.moveToNext()) {
-				list.add(cursor.getString(3));
+				list.add(cursor.getString(cursor.getColumnIndexOrThrow("email_id")));
 			}
 			cursor.close();
 		}
