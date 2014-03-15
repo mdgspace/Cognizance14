@@ -194,6 +194,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return data;
 	}
 
+	public ArrayList<String> getEventNamex(int day) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE day= '" + day + "'",
+				null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				data.add(cursor.getString(3));
+			}
+		}
+		cursor.close();
+		return data;
+	}
+
+	public ArrayList<String> getEventoneLinerx(int day) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE day= '" + day + "'",
+				null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				data.add(cursor.getString(0));
+			}
+		}
+		cursor.close();
+		return data;
+	}
+
+	public String getEventDescriptionx(String eventname, int day) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='"
+						+ eventname + "'AND day= '" + day + "'", null);
+		String data = null;
+		if (cursor != null) {
+			if (cursor.moveToNext()) {
+				cursor.moveToFirst();
+			}
+			data = cursor.getString(cursor.getColumnIndex("description"));
+		}
+		cursor.close();
+		return data;
+	}
+
 	public String searchEntryForVenue(String x, String y) throws SQLException {
 		// TODO Auto-generated method stub
 		myDataBase = ourHelper.getWritableDatabase();
@@ -253,5 +299,100 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 
 		return coor;
+	}
+
+	public String getVenue(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name=' " + event
+						+ "'", null);
+		String data = null;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		data = cursor.getString(cursor.getColumnIndex("venue"));
+		cursor.close();
+		return data;
+	}
+
+	public int getID(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name= '" + event
+						+ "'", null);
+		String category;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		category = cursor.getString(cursor.getColumnIndex("category"));
+		cursor.close();
+
+		cursor = db.rawQuery(
+				"SELECT * FROM table_category_details WHERE category= '"
+						+ category + "'", null);
+		int id;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		id = cursor.getInt(cursor.getColumnIndex("category"));
+		cursor.close();
+		return (id - 1);
+	}
+
+	public ArrayList<String> getcontactsname() {
+		ArrayList<String> list = new ArrayList<String>();
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
+		if (cursor.moveToFirst()) {
+			while (cursor.moveToNext()) {
+				list.add(cursor.getString(1));
+			}
+			// if(cursor.moveToNext()) cursor.moveToFirst();
+		}
+		cursor.close();
+		return list;
+	}
+
+	public ArrayList<String> getcontactsnumber() {
+		ArrayList<String> list = new ArrayList<String>();
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
+		if (cursor.moveToFirst()) {
+			while (cursor.moveToNext()) {
+				list.add(cursor.getString(2));
+			}
+			cursor.close();
+		}
+		return list;
+	}
+
+	public ArrayList<String> getcontactspost() {
+		ArrayList<String> list = new ArrayList<String>();
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
+		if (cursor.moveToFirst()) {
+			while (cursor.moveToNext()) {
+				list.add(cursor.getString(4));
+			}
+			// if(cursor.moveToNext()) cursor.moveToFirst();
+		}
+		cursor.close();
+		return list;
+	}
+
+	public ArrayList<String> getcontactsemail() {
+		ArrayList<String> list = new ArrayList<String>();
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
+		if (cursor.moveToFirst()) {
+			while (cursor.moveToNext()) {
+				list.add(cursor.getString(3));
+			}
+			cursor.close();
+		}
+		return list;
 	}
 }
