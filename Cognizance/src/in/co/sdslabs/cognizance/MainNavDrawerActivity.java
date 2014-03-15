@@ -237,6 +237,6 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	public void onBackPressed() {
 		super.onBackPressed();
 		getSupportActionBar().setTitle("Cognizance");
-		fragmentManager.popBackStack();
+		//fragmentManager.popBackStack();
 	}
 }
