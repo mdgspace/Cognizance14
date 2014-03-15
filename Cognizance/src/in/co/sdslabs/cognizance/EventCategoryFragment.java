@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -129,6 +130,8 @@ public class EventCategoryFragment extends ListFragment {
 		listHeader.setText(myDbHelper
 				.getCategoryDescription(categories[position]));
 		listHeader.setGravity(Gravity.FILL_HORIZONTAL);
+		
+		
 		// Code for justification of text
 		// listHeader.getViewTreeObserver().addOnPreDrawListener(new
 		// OnPreDrawListener() {
@@ -146,7 +149,6 @@ public class EventCategoryFragment extends ListFragment {
 
 		getListView().addHeaderView(listHeader, null, false);
 		// getListView().addFooterView(Color.rgb(1, 140, 149));
-
 		setListAdapter(mAdapter);
 	}
 
