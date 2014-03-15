@@ -30,7 +30,6 @@ public class ContactAdapter extends ArrayAdapter<ContactClass> {
 		TextView number = (TextView) rowView.findViewById(R.id.number);
 		TextView email = (TextView) rowView.findViewById(R.id.email);
 		TextView post = (TextView) rowView.findViewById(R.id.position);
-		
 		return rowView;
 	}
 

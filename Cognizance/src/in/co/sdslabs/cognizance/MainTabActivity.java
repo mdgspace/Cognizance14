@@ -56,45 +56,36 @@ public class MainTabActivity extends ActionBarActivity {
 		mPager.setAdapter(fragmentPagerAdapter);
 
 		mActionBar.setDisplayShowTitleEnabled(true);
-		
-		
 
 		/** Defining tab listener */
 		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 
 			@Override
 			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			        
+
 			}
 
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction ft) {
 				mPager.setCurrentItem(tab.getPosition());
-				
-				day = tab.getPosition()+1;
+
+				day = tab.getPosition() + 1;
 			}
 
 			@Override
 			public void onTabReselected(Tab tab, FragmentTransaction ft) {
-				day = tab.getPosition()+1;
+				day = tab.getPosition() + 1;
 			}
 		};
-
 		/** Creating fragment1 Tab */
 		Tab tab = mActionBar.newTab().setText("Day 1")
 				.setTabListener(tabListener);
-
 		mActionBar.addTab(tab);
-
 		/** Creating fragment2 Tab */
 		tab = mActionBar.newTab().setText("Day 2").setTabListener(tabListener);
-
 		mActionBar.addTab(tab);
-
 		/** Creating fragment3 Tab */
 		tab = mActionBar.newTab().setText("Day 3").setTabListener(tabListener);
-
 		mActionBar.addTab(tab);
 	}
-
 }

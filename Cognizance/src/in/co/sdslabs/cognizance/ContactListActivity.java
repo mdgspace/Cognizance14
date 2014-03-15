@@ -58,7 +58,7 @@ public class ContactListActivity extends ListActivity implements
 		contacts_number = myDbHelper.getcontactsnumber();
 		contacts_email = myDbHelper.getcontactsemail();
 		contacts_post = myDbHelper.getcontactspost();
-		while (i <= contacts_name.size()) {
+		while (i < contacts_name.size()) {
 			ContactClass addContact = new ContactClass();
 			addContact.setName(contacts_name.get(i));
 			addContact.setNumber(contacts_number.get(i));
