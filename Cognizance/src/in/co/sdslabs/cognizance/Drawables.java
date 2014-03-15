@@ -9,7 +9,7 @@ public class Drawables {
 			R.drawable.eventcat_guest_lectures,
 			R.drawable.eventcat_exhibitions, R.drawable.eventcat_techtainment,
 			R.drawable.eventcat_csr, R.drawable.eventcat_efiesta,
-			R.drawable.eventcat_braintainment, R.drawable.eventcat_department};
+			R.drawable.eventcat_braintainment, R.drawable.eventcat_department };
 
 	public static int[][] eventsImages = new int[][] {
 
@@ -31,7 +31,13 @@ public class Drawables {
 			{ R.drawable.lit_iitr_mun, R.drawable.lit_vox_populi,
 					R.drawable.litquizzotica },
 			// Guest Lectures
-			{},
+			{ R.drawable.guest_nathan_schulhof, R.drawable.guest_william_baker,
+					R.drawable.guest_bikash_sinha,
+					R.drawable.guest_pawan_agarwal,
+					R.drawable.guest_osamuhasegawa,
+					R.drawable.guest_rk_khandal, R.drawable.guest_ravi_sandhu,
+					R.drawable.guest_alberto_levy,
+					R.drawable.guest_shiraz_gidwani ,R.drawable.guest_victor_benno , 0},
 			// Exhibitions
 			{ R.drawable.ex_hand_gesture_controlled_devices,
 					R.drawable.ex_omnipresent, R.drawable.ex_gridbots,
