@@ -3,7 +3,6 @@ package in.co.sdslabs.cognizance;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -135,7 +134,6 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	}
 
 	private void addHomeFragment() {
-		// TODO Auto-generated method stub
 
 		// initialize the HomeFragment
 		hFragment = new HomeFragment();
@@ -169,21 +167,23 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
-		
-		switch(item.getItemId()){
-			
-		case R.id.filter :
-			Intent intent = new Intent(this , MainTabActivity.class);
+
+		switch (item.getItemId()) {
+
+		case R.id.filter:
+			Intent intent = new Intent(this, MainTabActivity.class);
 			startActivity(intent);
 			finish();
 			break;
-		case R.id.map :
+		case R.id.map:
+			// TODO : Fire intent for full map and not the zoomed in view
 			Intent goToMap = new Intent(this, MapTest.class);
 			startActivity(goToMap);
 			break;
-		case R.id.contact :
+		case R.id.contact:
+			// TODO : Fire intent for contacts activity
 			break;
-		case R.id.about_us :
+		case R.id.about_us:
 			break;
 		}
 		return true;
@@ -230,7 +230,6 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		super.onBackPressed();
 		getSupportActionBar().setTitle("Cognizance");
 		fragmentManager.popBackStack();
