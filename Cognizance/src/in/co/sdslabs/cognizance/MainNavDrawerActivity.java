@@ -217,7 +217,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			throw sqle;
 		}
 
-		if(position == mEventCategories.length-1){
+		if(position == 0){
 			
 			ArrayList<String> eventname = myDbHelper.getFavouritesName();
 			if(eventname.size()==0){
