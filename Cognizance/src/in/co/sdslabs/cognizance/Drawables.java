@@ -9,7 +9,8 @@ public class Drawables {
 			R.drawable.eventcat_guest_lectures,
 			R.drawable.eventcat_exhibitions, R.drawable.eventcat_techtainment,
 			R.drawable.eventcat_csr, R.drawable.eventcat_efiesta,
-			R.drawable.eventcat_braintainment, R.drawable.eventcat_department };
+			R.drawable.eventcat_braintainment, R.drawable.eventcat_department,
+			R.drawable.dept_nano };
 
 	public static int[][] eventsImages = new int[][] {
 
@@ -73,6 +74,6 @@ public class Drawables {
 					R.drawable.dept_meta, R.drawable.dept_maths,
 					R.drawable.dept_mech, R.drawable.dept_nano,
 					R.drawable.dept_papertech, R.drawable.dept_physics,
-					R.drawable.dept_polymer , R.drawable.dept_wrdm } };
+					R.drawable.dept_polymer, R.drawable.dept_wrdm } };
 
 }

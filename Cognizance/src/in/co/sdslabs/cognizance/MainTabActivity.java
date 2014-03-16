@@ -56,6 +56,7 @@ public class MainTabActivity extends ActionBarActivity {
 		mPager.setAdapter(fragmentPagerAdapter);
 
 		mActionBar.setDisplayShowTitleEnabled(true);
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		/** Defining tab listener */
 		ActionBar.TabListener tabListener = new ActionBar.TabListener() {

@@ -1,9 +1,11 @@
 package in.co.sdslabs.cognizance;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 public class MainNavDrawerActivity extends ActionBarActivity {
 
@@ -39,7 +42,6 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	FragmentManager fragmentManager;
 	FragmentTransaction ft;
 	public static String initialTitle;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			hm.put(IMAGE, Integer.toString(Drawables.navDrawerImages[i]));
 			mList.add(hm);
 		}
-
+		
 		// Keys used in Hashmap
 		String[] from = { IMAGE, EVENTCATEGORY };
 
@@ -200,10 +202,46 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 		// Currently selected eventCategory
 		mTitle = mEventCategories[position];
+		
+		DatabaseHelper myDbHelper = new DatabaseHelper(this);
+		try {
+			myDbHelper.createDataBase();
+		} catch (IOException ioe) {
+			throw new Error("Unable to create database");
+		}
 
+		try {
+			myDbHelper.openDataBase();
+		} catch (SQLException sqle) {
+			throw sqle;
+		}
+
+		if(position == mEventCategories.length-1){
+			
+			ArrayList<String> eventname = myDbHelper.getFavouritesName();
+			if(eventname.size()==0){
+				Toast.makeText(this, "There are no current Favourites", 
+						Toast.LENGTH_SHORT).show();
+			}else{
+				Favourites eFragment = new Favourites();
+				// Getting reference to the FragmentManager
+				fragmentManager = getSupportFragmentManager();
+
+				// Creating a fragment transaction
+				FragmentTransaction ft = fragmentManager.beginTransaction();
+
+				// Adding a fragment to the fragment transaction
+				ft.replace(R.id.content_frame, eFragment);
+				ft.addToBackStack(null);
+
+				// Committing the transaction
+				ft.commit();
+
+			}
+			
+		}else{
 		// Creating a fragment object
 		EventCategoryFragment eFragment = new EventCategoryFragment();
-
 		// Creating a Bundle object
 		Bundle data = new Bundle();
 
@@ -225,6 +263,8 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 		// Committing the transaction
 		ft.commit();
+		}
+
 	}
 
 	// Highlight the selected eventCategory

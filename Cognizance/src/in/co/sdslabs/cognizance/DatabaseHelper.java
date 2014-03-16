@@ -508,10 +508,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 	}
 
-	public ArrayList<String> getFavourites() {
+	public ArrayList<String> getFavouritesName() {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE isFavourute= 1", null);
+				"SELECT * FROM table_event_details WHERE isFavourite= 1", null);
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
