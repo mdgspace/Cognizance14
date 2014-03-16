@@ -5,26 +5,24 @@ import in.co.sdslabs.cognizance.R;
 
 import java.io.IOException;
 
-
-import android.app.Activity;
 import android.database.SQLException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.FloatMath;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
-import android.widget.Toast;
 
 //change this to u=your app package name for working
 
-public class CampusMap extends Activity implements OnTouchListener {
+public class CampusMap extends ActionBarActivity implements OnTouchListener {
 
 	private ImageZoomView mMapView;
 	String selection = null;
@@ -101,6 +99,11 @@ public class CampusMap extends Activity implements OnTouchListener {
 			float y = getMapParams.getFloat("Y");
 			setZoomedMap(x, y);
 		}
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle("Campus Map");
+		
+		
 
 	}
 
@@ -111,8 +114,8 @@ public class CampusMap extends Activity implements OnTouchListener {
 		mMapView.setImage(mBitmap);
 		mMapView.setOnTouchListener(this);
 		mMapControl.setAspectQuotient(mMapView.getAspectQuotient());
-		mZoomState.setPanX(x/mBitmap.getWidth());
-		mZoomState.setPanY(y/mBitmap.getHeight());
+		mZoomState.setPanX(x / mBitmap.getWidth());
+		mZoomState.setPanY(y / mBitmap.getHeight());
 		mZoomState.setZoom(5);
 	}
 
@@ -328,5 +331,16 @@ public class CampusMap extends Activity implements OnTouchListener {
 		mBitmap.recycle();
 		mMapView.setOnTouchListener(null);
 		mMapControl.getZoomState().deleteObservers();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	    	finish();
+	        return true;
+	    }
+	    return super.onOptionsItemSelected(item);
 	}
 }

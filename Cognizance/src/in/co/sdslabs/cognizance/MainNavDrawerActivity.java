@@ -176,6 +176,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		switch (item.getItemId()) {
 
 		case R.id.filter:
+			finish();
 			Intent intent = new Intent(this, MainTabActivity.class);
 			startActivity(intent);
 			break;
@@ -192,8 +193,8 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			break;
 		case R.id.about_us:
 			break;
-		case R.id.home :
-			fragmentManager.popBackStack();
+//		case R.id.home :
+//			fragmentManager.popBackStack();
 		}
 		return true;
 	}

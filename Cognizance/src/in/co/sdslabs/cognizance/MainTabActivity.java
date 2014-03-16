@@ -1,5 +1,6 @@
 package in.co.sdslabs.cognizance;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 
 public class MainTabActivity extends ActionBarActivity {
 
@@ -89,4 +91,27 @@ public class MainTabActivity extends ActionBarActivity {
 		tab = mActionBar.newTab().setText("Day 3").setTabListener(tabListener);
 		mActionBar.addTab(tab);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	    	finish();
+			Intent intent = new Intent(this, MainNavDrawerActivity.class);
+			startActivity(intent);
+	        return true;
+	    }
+	    return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		finish();
+		Intent intent = new Intent(this, MainNavDrawerActivity.class);
+		startActivity(intent);
+	}
+
 }

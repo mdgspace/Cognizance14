@@ -9,17 +9,16 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class EventActivity extends ActionBarActivity implements OnTouchListener {
+public class EventActivity extends ActionBarActivity implements OnClickListener{
 
 	public EventActivity() {
 	}
@@ -29,7 +28,6 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 	boolean fav;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.event_details);
 
@@ -41,6 +39,8 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 		TextView eVenue = (TextView) findViewById(R.id.event_venue);
 		
 		ImageView eventIcon = (ImageView) findViewById(R.id.event_ImView);
+		
+
 
 		myDbHelper = new DatabaseHelper(this);
 		try {
@@ -78,6 +78,10 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 			}
 		});
 
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(b.getString("event"));
+		
 		eName.setText(b.getString("event"));
 		eOneLiner.setText(myDbHelper.getEventOneLiner(b.getString("event")));
 		eDescription.setText(myDbHelper.getEventDescription(b
@@ -93,14 +97,7 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 		eVenue.setTextColor(Color.rgb(1,140,149));
 		eVenue.setText("VENUE : "+myDbHelper.getVenueDisplay(b.getString("event")));
 		
-		eVenue.setOnTouchListener(this);
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		
-		showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
-		return false;
+		eVenue.setOnClickListener(this);
 	}
 
 	private void showZoomedMap(String place) {
@@ -121,11 +118,22 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		super.onBackPressed();
 		finish();
 	}
-	
-	
 
+	@Override
+	public void onClick(View v) {		
+		showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	       finish();	       	     
+	    }
+	    return super.onOptionsItemSelected(item);
+	}
 }
