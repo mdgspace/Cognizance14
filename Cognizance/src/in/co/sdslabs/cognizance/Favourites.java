@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 public class Favourites extends ListFragment {
 
@@ -32,6 +33,15 @@ public class Favourites extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.eventcategoryfragment_layout,
+				container, false);
+		return v;
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 
 		List<HashMap<String, String>> eventList = new ArrayList<HashMap<String, String>>();
 		DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
@@ -47,21 +57,25 @@ public class Favourites extends ListFragment {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		
-		View v = inflater.inflate(R.layout.eventcategoryfragment_layout,
-				container, false);
-		
+
 		eventname = myDbHelper.getFavouritesName();
-		int x ,y;
+
+		if (eventname.size() == 0) {
+			Toast.makeText(getActivity().getBaseContext(), 
+					"There are no current Favourites", Toast.LENGTH_SHORT).show();
+			getActivity().getSupportFragmentManager().popBackStack();
+
+		}
+		int x, y;
 		for (int i = 0; i < eventname.size(); i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			Log.v("dfsd", eventname.get(i));
 			hm.put("eventname", eventname.get(i));
-			hm.put("eventoneliner", myDbHelper.getEventOneLiner(eventname.get(i)));
+			hm.put("eventoneliner",
+					myDbHelper.getEventOneLiner(eventname.get(i)));
 			x = myDbHelper.getImageX(eventname.get(i));
 			y = myDbHelper.getImageY(eventname.get(i));
-			hm.put(EVENTIMAGE,
-			Integer.toString(Drawables.eventsImages[x][y]));
+			hm.put(EVENTIMAGE, Integer.toString(Drawables.eventsImages[x][y]));
 			eventList.add(hm);
 		}
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
@@ -78,7 +92,7 @@ public class Favourites extends ListFragment {
 		// Setting the adapter to the listView
 		setListAdapter(mAdapter);
 		Log.v("Day", "1");
-		return v;
+
 	}
 
 	@Override
@@ -90,12 +104,14 @@ public class Favourites extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		super.onListItemClick(l, v, 1, id);
-		
+
 		Bundle data = new Bundle();
 		data.putString("event", eventname.get(pos));
-		Intent i = new Intent(getActivity().getBaseContext() , EventActivity.class);
+		Intent i = new Intent(getActivity().getBaseContext(),
+				EventActivity.class);
 		i.putExtras(data);
 		startActivity(i);
+
 	}
 
 }
