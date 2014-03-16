@@ -411,5 +411,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return list;
 	}
 	
+	public int getImageX(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='" + event
+						+ "'", null);
+
+		int imageX;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		imageX = cursor.getInt(cursor.getColumnIndex("image_x"));
+		cursor.close();
+		return (imageX);
+	}
+	
+	
+	public int getImageY(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='" + event
+						+ "'", null);
+
+		int imageY;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		imageY = cursor.getInt(cursor.getColumnIndex("image_y"));
+		cursor.close();
+		return (imageY);
+	}
+	
 	
 }

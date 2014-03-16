@@ -5,25 +5,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class Day3 extends ListFragment{
+public class Day3 extends ListFragment {
 
 	private String EVENTNAME = "eventname";
 	private String EVENTONELINER = "eventoneliner";
 	private String EVENTIMAGE = "eventimage";
+	ArrayList<String> eventname;
+	ArrayList<String> eventoneliner;
+	FragmentManager fragmentManager;
 
 	public Day3() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -44,9 +47,13 @@ public class Day3 extends ListFragment{
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		ArrayList<String> eventname = myDbHelper.getEventNamex(3);
-		ArrayList<String> eventoneliner = myDbHelper.getEventoneLinerx(3);
-		Log.v("dfsd", eventname.get(1));
+		
+		View v = inflater.inflate(R.layout.eventcategoryfragment_layout,
+				container, false);
+		
+		eventname = myDbHelper.getEventNamex(3);
+		eventoneliner = myDbHelper.getEventoneLinerx(3);
+		//Log.v("dfsd", eventname.get(3));
 		for (int i = 0; i < eventname.size(); i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			Log.v("dfsd", eventname.get(i));
@@ -72,7 +79,24 @@ public class Day3 extends ListFragment{
 		// Setting the adapter to the listView
 		setListAdapter(mAdapter);
 		Log.v("Day", "1");
-		return super.onCreateView(inflater, container, savedInstanceState);
+		return v;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		setListAdapter(null);
+	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int pos, long id) {
+		super.onListItemClick(l, v, 1, id);
+		
+		Bundle data = new Bundle();
+		data.putString("event", eventname.get(pos));
+		Intent i = new Intent(getActivity().getBaseContext() , EventActivity.class);
+		i.putExtras(data);
+		startActivity(i);
 	}
 
 }

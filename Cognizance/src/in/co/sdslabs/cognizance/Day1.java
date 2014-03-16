@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +27,6 @@ public class Day1 extends ListFragment {
 	FragmentManager fragmentManager;
 
 	public Day1() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -48,6 +47,10 @@ public class Day1 extends ListFragment {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
+		
+		View v = inflater.inflate(R.layout.eventcategoryfragment_layout,
+				container, false);
+		
 		eventname = myDbHelper.getEventNamex(1);
 		eventoneliner = myDbHelper.getEventoneLinerx(1);
 		Log.v("dfsd", eventname.get(1));
@@ -76,7 +79,7 @@ public class Day1 extends ListFragment {
 		// Setting the adapter to the listView
 		setListAdapter(mAdapter);
 		Log.v("Day", "1");
-		return super.onCreateView(inflater, container, savedInstanceState);
+		return v;
 	}
 
 	@Override
@@ -88,44 +91,12 @@ public class Day1 extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		super.onListItemClick(l, v, 1, id);
-
-		// To disable onClick on header
-
-		showEventFragment(pos, v);
-
-	}
-
-	private void showEventFragment(int pos, View v) {
-
-		// Currently selected event
-		String eventName = eventname.get(pos);
-
-		// Creating a fragment object
-		EventFragment eFragment = new EventFragment();
-
-		// Creating a Bundle object
+		
 		Bundle data = new Bundle();
-
-		// Setting the index of the currently selected item of mDrawerList
-		data.putString("event", eventName);
-		data.putString("oneliner", eventoneliner.get(pos));
-		data.putInt("image", Drawables.eventsImages[0][pos]);
-		// Setting the position to the fragment
-		eFragment.setArguments(data);
-
-		// Getting reference to the FragmentManager
-		fragmentManager = getActivity().getSupportFragmentManager();
-
-		// Creating a fragment transaction
-		FragmentTransaction ft = fragmentManager.beginTransaction();
-
-		// Adding a fragment to the fragment transaction
-		ft.replace(R.id.content_frame, eFragment);
-		ft.addToBackStack(null);
-
-		// Committing the transaction
-		ft.commit();
-
+		data.putString("event", eventname.get(pos));
+		Intent i = new Intent(getActivity().getBaseContext() , EventActivity.class);
+		i.putExtras(data);
+		startActivity(i);
 	}
-	
+
 }
