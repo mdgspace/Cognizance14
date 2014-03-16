@@ -193,6 +193,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return data;
 	}
+	
+	public String getEventOneLiner(String eventname) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='"
+						+ eventname + "'", null);
+		String data = null;
+		if (cursor != null) {
+			if (cursor.moveToNext()) {
+				cursor.moveToFirst();
+			}
+			data = cursor.getString(cursor.getColumnIndex("one_liner"));
+		}
+		cursor.close();
+		return data;
+	}
 
 	public ArrayList<String> getEventNamex(int day) {
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -315,7 +331,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return data;
 	}
-	
+
 	public String getVenueMap(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
@@ -377,7 +393,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
 		if (cursor.moveToFirst()) {
 			while (cursor.moveToNext()) {
-				list.add(cursor.getString(cursor.getColumnIndexOrThrow("number")));
+				list.add(cursor.getString(cursor
+						.getColumnIndexOrThrow("number")));
 			}
 			cursor.close();
 		}
@@ -390,7 +407,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
 		if (cursor.moveToFirst()) {
 			while (cursor.moveToNext()) {
-				list.add(cursor.getString(cursor.getColumnIndexOrThrow("position")));
+				list.add(cursor.getString(cursor
+						.getColumnIndexOrThrow("position")));
 			}
 			// if(cursor.moveToNext()) cursor.moveToFirst();
 		}
@@ -404,13 +422,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("SELECT * FROM contacts", null);
 		if (cursor.moveToFirst()) {
 			while (cursor.moveToNext()) {
-				list.add(cursor.getString(cursor.getColumnIndexOrThrow("email_id")));
+				list.add(cursor.getString(cursor
+						.getColumnIndexOrThrow("email_id")));
 			}
 			cursor.close();
 		}
 		return list;
 	}
-	
+
 	public int getImageX(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
@@ -426,8 +445,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return (imageX);
 	}
-	
-	
+
 	public int getImageY(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
@@ -443,6 +461,101 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return (imageY);
 	}
-	
-	
+
+	public void markAsFavourite(String event) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(
+				"UPDATE table_event_details SET isFavourite = 1 WHERE event_name='"
+						+ event + "'", null);
+
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		cursor.close();
+	}
+
+	public void unmarkAsFavourite(String event) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(
+				"UPDATE table_event_details SET isFavourite = 0 WHERE event_name='"
+						+ event + "'", null);
+
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		cursor.close();
+	}
+
+	public boolean isFavourite(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='" + event
+						+ "'", null);
+
+		int flag;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		flag = cursor.getInt(cursor.getColumnIndex("isFavourite"));
+		cursor.close();
+		if (flag == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public ArrayList<String> getFavourites() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE isFavourute= 1", null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				data.add(cursor.getString(cursor.getColumnIndex("event_name")));
+			}
+		}
+		cursor.close();
+		return data;
+	}
+
+	public String getEventDate(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='" + event
+						+ "'", null);
+
+		int day;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		day = cursor.getInt(cursor.getColumnIndex("day"));
+		cursor.close();
+		
+		switch(day){
+		case 1:
+			return "21st March 2014";
+		case 2:
+			return "22nd March 2014";
+		case 3:
+			return "23rd March 2014";
+		case 12:
+			return "21st March 2014 and 22nd March 2014";
+		case 13:
+			return "21st March 2014 and 23rd March 2014";
+		case 23:
+			return "22nd March 2014 and 23rd March 2014";	
+		default :
+			return null;
+		}
+	}
+
+	public String getEventTime(String string) {
+		return null;
+	}
+
 }
