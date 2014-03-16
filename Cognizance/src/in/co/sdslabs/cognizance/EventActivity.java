@@ -111,6 +111,7 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 										// zoomed
 		mapParams.putFloat("X", (float) coord.x);
 		mapParams.putFloat("Y", (float) coord.y);
+		Log.i("coord : ", coord.x + " : " + coord.y);
 
 		Intent i = new Intent(this, in.co.sdslabs.mdg.map.CampusMap.class);
 		i.putExtras(mapParams);

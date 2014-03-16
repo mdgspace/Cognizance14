@@ -47,7 +47,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="in.co.sdslabs.cognizance.EventActivity"
+            android:name=".EventActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
