@@ -53,15 +53,17 @@ public class Day2 extends ListFragment {
 		
 		eventname = myDbHelper.getEventNamex(2);
 		eventoneliner = myDbHelper.getEventoneLinerx(2);
-		Log.v("dfsd", eventname.get(2));
+		
+		int x , y;
 		for (int i = 0; i < eventname.size(); i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			Log.v("dfsd", eventname.get(i));
 			hm.put("eventname", eventname.get(i));
 			hm.put("eventoneliner", eventoneliner.get(i));
-			// hm.put(EVENTIMAGE,
-			// Integer.toString(Drawables.eventsImages[position][i]));
-			// hm.put(IMAGE, Integer.toString(mImages[i]));
+			x = myDbHelper.getImageX(eventname.get(i));
+			y = myDbHelper.getImageY(eventname.get(i));
+			hm.put(EVENTIMAGE,
+			Integer.toString(Drawables.eventsImages[x][y]));
 			hm.put("EVENTNAME", "");
 			eventList.add(hm);
 		}

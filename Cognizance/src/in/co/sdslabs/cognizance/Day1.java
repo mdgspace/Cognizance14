@@ -51,6 +51,7 @@ public class Day1 extends ListFragment {
 		View v = inflater.inflate(R.layout.eventcategoryfragment_layout,
 				container, false);
 		
+		int x ,y;
 		eventname = myDbHelper.getEventNamex(1);
 		eventoneliner = myDbHelper.getEventoneLinerx(1);
 		Log.v("dfsd", eventname.get(1));
@@ -59,10 +60,10 @@ public class Day1 extends ListFragment {
 			Log.v("dfsd", eventname.get(i));
 			hm.put("eventname", eventname.get(i));
 			hm.put("eventoneliner", eventoneliner.get(i));
-			// hm.put(EVENTIMAGE,
-			// Integer.toString(Drawables.eventsImages[position][i]));
-			// hm.put(IMAGE, Integer.toString(mImages[i]));
-			hm.put("EVENTNAME", "");
+			x = myDbHelper.getImageX(eventname.get(i));
+			y = myDbHelper.getImageY(eventname.get(i));
+			hm.put(EVENTIMAGE,
+			Integer.toString(Drawables.eventsImages[x][y]));
 			eventList.add(hm);
 		}
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
