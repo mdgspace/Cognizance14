@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import android.content.Intent;
 import android.database.SQLException;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,8 +12,12 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EventActivity extends ActionBarActivity implements OnTouchListener {
 
@@ -21,7 +26,7 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 	
 	DatabaseHelper myDbHelper;
 	Bundle b;
-
+	boolean fav;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -29,10 +34,12 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 		setContentView(R.layout.event_details);
 
 		TextView eName = (TextView) findViewById(R.id.event_name);
-		// TextView eOneliner = (TextView) v.findViewById(R.id.event_tag);
+		TextView eOneLiner = (TextView) findViewById(R.id.event_oneliner);
 		TextView eDescription = (TextView) findViewById(R.id.event_description);
-
+		TextView eDate = (TextView) findViewById(R.id.event_date);
+		TextView eTime = (TextView) findViewById(R.id.event_time);
 		TextView eVenue = (TextView) findViewById(R.id.event_venue);
+		
 		ImageView eventIcon = (ImageView) findViewById(R.id.event_ImView);
 
 		myDbHelper = new DatabaseHelper(this);
@@ -48,23 +55,50 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 		}
 
 		b = getIntent().getExtras();
+		
+		CheckBox star = (CheckBox)findViewById(R.id.star);
+		if(myDbHelper.isFavourite(b.getString("event"))){
+			fav = true;
+			star.setChecked(true);
+		}else {
+			fav = false;
+			star.setChecked(false);
+		}
+		
+		star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				
+				if(fav){
+					myDbHelper.unmarkAsFavourite(b.getString("event"));
+				}else{
+					myDbHelper.markAsFavourite(b.getString("event"));
+				}
+			}
+		});
 
 		eName.setText(b.getString("event"));
-		// eOneliner.setText(getArguments().getString("oneliner"));
+		eOneLiner.setText(myDbHelper.getEventOneLiner(b.getString("event")));
 		eDescription.setText(myDbHelper.getEventDescription(b
 				.getString("event")));
 		int x = myDbHelper.getImageX(b.getString("event"));
 		int y = myDbHelper.getImageY(b.getString("event"));
 		Log.v("Image", "x :" + x);
 		Log.v("Image", "y :" + y);
+		
 		eventIcon.setImageResource(Drawables.eventsImages[x][y]);
-		eVenue.setText(myDbHelper.getVenueDisplay(b.getString("event")));
+		eDate.setText("DATE : " + myDbHelper.getEventDate(b.getString("event")));
+		eTime.setText("TIME : " + myDbHelper.getEventTime(b.getString("event")));
+		eVenue.setTextColor(Color.rgb(1,140,149));
+		eVenue.setText("VENUE : "+myDbHelper.getVenueDisplay(b.getString("event")));
+		
 		eVenue.setOnTouchListener(this);
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		// TODO Auto-generated method stub
+		
 		showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
 		return false;
 	}
