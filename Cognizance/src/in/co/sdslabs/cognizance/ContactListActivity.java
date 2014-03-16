@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -18,7 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ContactListActivity extends ListActivity implements
+public class ContactListActivity extends ActionBarActivity implements
 		OnItemClickListener {
 
 	// private ListView mContactList;
@@ -37,8 +38,9 @@ public class ContactListActivity extends ListActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		lv = getListView();
-		lv.setOnItemClickListener(this);
+		setContentView(R.layout.contactlayout);
+		lv = (ListView) findViewById(R.id.contact_list);
+		// lv.setOnItemClickListener(this);
 
 		List<ContactClass> contactList = new ArrayList<ContactClass>();
 		int i = 0;
@@ -67,13 +69,19 @@ public class ContactListActivity extends ListActivity implements
 			contactList.add(addContact);
 			i++;
 		}
-		setListAdapter(new ContactAdapter(this, contactList));
+		lv.setAdapter(new ContactAdapter(this, contactList));
+		lv.setOnItemClickListener(ContactListActivity.this);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setTitle("Contacts");
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		ContactClass contact_item = (ContactClass) getListAdapter().getItem(
-				arg2);
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		ContactClass contact_item = (ContactClass) parent.getAdapter().getItem(
+				position);
 		name = contact_item.getName();
 		number = contact_item.getNumber();
 		email = contact_item.getEmail();
@@ -85,7 +93,6 @@ public class ContactListActivity extends ListActivity implements
 		ImageButton call = (ImageButton) dialog.findViewById(R.id.call);
 		ImageButton message = (ImageButton) dialog.findViewById(R.id.msg);
 		ImageButton mail = (ImageButton) dialog.findViewById(R.id.email);
-		
 
 		call.setOnClickListener(new OnClickListener() {
 			@Override
@@ -137,5 +144,16 @@ public class ContactListActivity extends ListActivity implements
 		});
 
 		dialog.show();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		case android.R.id.home:
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
