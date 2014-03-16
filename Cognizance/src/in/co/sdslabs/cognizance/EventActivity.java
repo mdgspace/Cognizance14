@@ -11,15 +11,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class EventActivity extends ActionBarActivity implements OnTouchListener {
+public class EventActivity extends ActionBarActivity implements OnClickListener{
 
 	public EventActivity() {
 	}
@@ -93,14 +93,7 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 		eVenue.setTextColor(Color.rgb(1,140,149));
 		eVenue.setText("VENUE : "+myDbHelper.getVenueDisplay(b.getString("event")));
 		
-		eVenue.setOnTouchListener(this);
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		
-		showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
-		return false;
+		eVenue.setOnClickListener(this);
 	}
 
 	private void showZoomedMap(String place) {
@@ -123,6 +116,15 @@ public class EventActivity extends ActionBarActivity implements OnTouchListener 
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 		finish();
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+		
+		showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
+		
 	}
 	
 	
