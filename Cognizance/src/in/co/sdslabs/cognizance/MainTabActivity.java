@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainTabActivity extends ActionBarActivity {
@@ -101,9 +102,35 @@ public class MainTabActivity extends ActionBarActivity {
 			Intent intent = new Intent(this, MainNavDrawerActivity.class);
 			startActivity(intent);
 	        return true;
+	        
+	    case R.id.filter:
+			finish();
+			Intent i = new Intent(this, MainNavDrawerActivity.class);
+			startActivity(i);
+			break;
+		case R.id.map:
+			// TODO : Fire intent for full map and not the zoomed in view
+			Intent goToMap = new Intent(this, MapTest.class);
+			startActivity(goToMap);
+			break;
+		case R.id.contact:
+
+			// TODO : Fire intent for contacts activity
+			Intent gotocontacts = new Intent(this, ContactListActivity.class);
+			startActivity(gotocontacts);
+			break;
+		case R.id.about_us:
+			break;
 	    }
 	    return super.onOptionsItemSelected(item);
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.menu_tab, menu);
+		return true;
+	}
+
 	
 	@Override
 	public void onBackPressed() {
