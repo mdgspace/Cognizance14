@@ -2,36 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#018495" >
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingTop="3dp"
-        android:textSize="16sp" />
+        android:textSize="20sp"
+        android:paddingBottom="3dp"/>"
 
     <TextView
         android:id="@+id/position"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:textSize="14sp" />
+        android:textSize="15sp"
+        android:paddingBottom="3dp" />
 
     <TextView
         android:id="@+id/number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:textSize="12sp" />
+        android:paddingBottom="3dp"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="3dp"
-        android:paddingLeft="10dp"
-        android:textSize="12sp" />
+        android:textSize="15sp" />
 
 </LinearLayout>
