@@ -301,7 +301,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return coor;
 	}
 
-	public String getVenue(String event) {
+	public String getVenueDisplay(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
 				"SELECT * FROM table_event_details WHERE event_name='" + event
@@ -312,6 +312,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				cursor.moveToFirst();
 		}
 		data = cursor.getString(cursor.getColumnIndex("venue_display"));
+		cursor.close();
+		return data;
+	}
+	
+	public String getVenueMap(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='" + event
+						+ "'", null);
+		String data = null;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		data = cursor.getString(cursor.getColumnIndex("venue_map"));
 		cursor.close();
 		return data;
 	}

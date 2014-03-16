@@ -1,7 +1,6 @@
 package in.co.sdslabs.cognizance;
 
 import java.io.IOException;
-
 import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.PointF;
@@ -20,7 +19,7 @@ public class EventFragment extends Fragment implements OnTouchListener {
 	public EventFragment() {
 		// TODO Auto-generated constructor stub
 	}
-
+	DatabaseHelper myDbHelper;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class EventFragment extends Fragment implements OnTouchListener {
 		TextView eVenue = (TextView) v.findViewById(R.id.event_venue);
 		ImageView eventIcon = (ImageView) v.findViewById(R.id.event_ImView);
 
-		DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
+		myDbHelper = new DatabaseHelper(getActivity()
 				.getBaseContext());
 		try {
 			myDbHelper.createDataBase();
@@ -48,13 +47,13 @@ public class EventFragment extends Fragment implements OnTouchListener {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-
+		
 		eName.setText(getArguments().getString("event"));
 		// eOneliner.setText(getArguments().getString("oneliner"));
 		eDescription.setText(myDbHelper.getEventDescription(getArguments()
 				.getString("event")));
 		eventIcon.setImageResource(getArguments().getInt("image"));
-		eVenue.setText(myDbHelper.getVenue(getArguments().getString("event")));
+		eVenue.setText(myDbHelper.getVenueDisplay(getArguments().getString("event")));
 		eVenue.setOnTouchListener(this);
 		return v;
 	}
@@ -63,25 +62,25 @@ public class EventFragment extends Fragment implements OnTouchListener {
 	public boolean onTouch(View v, MotionEvent event) {
 
 		// fire an intent to show the zoomed in map
-		showZoomedMap("LHC");
+		showZoomedMap(myDbHelper.getVenueMap(getArguments().getString("event")));
 		return false;
 	}
 
 	private void showZoomedMap(String place) {
 		// TODO Auto-generated method stub
 
-		DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
-				.getBaseContext());
-		try {
-			myDbHelper.createDataBase();
-		} catch (IOException ioe) {
-			throw new Error("Unable to create database");
-		}
-		try {
-			myDbHelper.openDataBase();
-		} catch (SQLException sqle) {
-			throw sqle;
-		}
+//		DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
+//				.getBaseContext());
+//		try {
+//			myDbHelper.createDataBase();
+//		} catch (IOException ioe) {
+//			throw new Error("Unable to create database");
+//		}
+//		try {
+//			myDbHelper.openDataBase();
+//		} catch (SQLException sqle) {
+//			throw sqle;
+//		}
 
 		PointF coord = myDbHelper.searchPlaceForCoordinates(place);
 		Bundle mapParams = new Bundle();
@@ -94,5 +93,8 @@ public class EventFragment extends Fragment implements OnTouchListener {
 				in.co.sdslabs.mdg.map.CampusMap.class);
 		i.putExtras(mapParams);
 		startActivity(i);
+		//myDbHelper.close();
 	}
+	
+	
 }
