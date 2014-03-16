@@ -227,7 +227,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 				Favourites eFragment = new Favourites();
 				// Getting reference to the FragmentManager
 				fragmentManager = getSupportFragmentManager();
-
+				initialTitle = "My Favourites";
 				// Creating a fragment transaction
 				FragmentTransaction ft = fragmentManager.beginTransaction();
 
