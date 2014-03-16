@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -18,7 +19,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -160,48 +160,55 @@ public class EventCategoryFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
-		super.onListItemClick(l, v, position, id);
+		super.onListItemClick(l, v, pos, id);
 
-		// To disable onClick on header
-
-		showEventFragment(pos, v);
-
-	}
-
-	private void showEventFragment(int pos, View v) {
 		if (pos >= 1) {
 
 			// Currently selected event
 			String eventName = eventname.get(pos - 1);
-
-			// Creating a fragment object
-			EventFragment eFragment = new EventFragment();
-
-			// Creating a Bundle object
 			Bundle data = new Bundle();
-
-			// Setting the index of the currently selected item of mDrawerList
-			data.putString("event", eventName);
-			data.putString("oneliner", eventoneliner.get(pos - 1));
-			data.putInt("image", Drawables.eventsImages[position][pos - 1]);
-			// Setting the position to the fragment
-			eFragment.setArguments(data);
-
-			// Getting reference to the FragmentManager
-			fragmentManager = getActivity().getSupportFragmentManager();
-
-			// Creating a fragment transaction
-			FragmentTransaction ft = fragmentManager.beginTransaction();
-
-			// Adding a fragment to the fragment transaction
-			ft.replace(R.id.content_frame, eFragment);
-			ft.addToBackStack(null);
-
-			// Committing the transaction
-			ft.commit();
-
+			data.putString("event" , eventName);
+			Intent i = new Intent(getActivity().getBaseContext() , EventActivity.class);
+			i.putExtras(data);
+			startActivity(i);
 		}
+
 	}
+
+//	private void showEventFragment(int pos, View v) {
+//		if (pos >= 1) {
+//
+//			// Currently selected event
+//			String eventName = eventname.get(pos - 1);
+//
+//			// Creating a fragment object
+//			EventFragment eFragment = new EventFragment();
+//
+//			// Creating a Bundle object
+//			Bundle data = new Bundle();
+//
+//			// Setting the index of the currently selected item of mDrawerList
+//			data.putString("event", eventName);
+//			data.putString("oneliner", eventoneliner.get(pos - 1));
+//			data.putInt("image", 0);
+//			// Setting the position to the fragment
+//			eFragment.setArguments(data);
+//
+//			// Getting reference to the FragmentManager
+//			fragmentManager = getActivity().getSupportFragmentManager();
+//
+//			// Creating a fragment transaction
+//			FragmentTransaction ft = fragmentManager.beginTransaction();
+//
+//			// Adding a fragment to the fragment transaction
+//			ft.replace(R.id.content_frame, eFragment);
+//			ft.addToBackStack(null);
+//
+//			// Committing the transaction
+//			ft.commit();
+//
+//		}
+//	}
 
 	@Override
 	public void onAttach(Activity activity) {
