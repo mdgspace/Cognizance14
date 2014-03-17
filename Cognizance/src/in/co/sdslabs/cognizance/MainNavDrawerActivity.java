@@ -28,7 +28,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	String mTitle = "";
 
 	// Array of strings storing Event Category names
-	String[] mEventCategories;
+	static String[] mEventCategories;
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -192,6 +192,9 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			startActivity(gotocontacts);
 			break;
 		case R.id.about_us:
+			
+			Intent about_us = new Intent(this , AboutUs.class);
+			startActivity(about_us);
 			break;
 //		case R.id.home :
 //			fragmentManager.popBackStack();
@@ -239,8 +242,13 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 				ft.commit();
 
 			}
-			
-		}else{
+		}
+//		}else if(position ==mEventCategories.length -1 ){
+//			//Toast.makeText(this , "Clicked on Departments", Toast.LENGTH_SHORT).show();
+//			// open a new listView showing all departments here
+//			
+//		}
+			else{
 		// Creating a fragment object
 		EventCategoryFragment eFragment = new EventCategoryFragment();
 		// Creating a Bundle object

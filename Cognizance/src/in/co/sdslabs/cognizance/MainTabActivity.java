@@ -120,6 +120,9 @@ public class MainTabActivity extends ActionBarActivity {
 			startActivity(gotocontacts);
 			break;
 		case R.id.about_us:
+			
+			Intent about_us = new Intent(this , AboutUs.class);
+			startActivity(about_us);
 			break;
 	    }
 	    return super.onOptionsItemSelected(item);
