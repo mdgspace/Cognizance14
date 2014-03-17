@@ -193,7 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return data;
 	}
-	
+
 	public String getEventOneLiner(String eventname) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
@@ -212,9 +212,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public ArrayList<String> getEventNamex(int day) {
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE day= '" + day + "'",
-				null);
+		Cursor cursor;
+		if (day == 1) {
+			cursor = db
+					.rawQuery(
+							"SELECT * FROM table_event_details WHERE day= 1 OR day = 12 OR day = 123 ORDER BY start_time",
+							null);
+		} else if (day == 2) {
+			cursor = db
+					.rawQuery(
+							"SELECT * FROM table_event_details WHERE day= 2 OR day = 23 OR day = 123 ORDER BY start_time",
+							null);
+		} else {
+			cursor = db
+					.rawQuery(
+							"SELECT * FROM table_event_details WHERE day= 3 OR day = 23 OR day = 123 ORDER BY start_time",
+							null);
+		}
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
@@ -227,9 +241,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public ArrayList<String> getEventoneLinerx(int day) {
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE day= '" + day + "'",
-				null);
+		Cursor cursor;
+		if (day == 1) {
+			cursor = db
+					.rawQuery(
+							"SELECT * FROM table_event_details WHERE day= 1 OR day = 12 OR day = 123 ORDER BY start_time",
+							null);
+		} else if (day == 2) {
+			cursor = db
+					.rawQuery(
+							"SELECT * FROM table_event_details WHERE day= 2 OR day = 23 OR day = 123 ORDER BY start_time",
+							null);
+		} else {
+			cursor = db
+					.rawQuery(
+							"SELECT * FROM table_event_details WHERE day= 3 OR day = 23 OR day = 123 ORDER BY start_time",
+							null);
+		}
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
@@ -240,21 +268,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return data;
 	}
 
-	public String getEventDescriptionx(String eventname, int day) {
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE event_name='"
-						+ eventname + "'AND day= '" + day + "'", null);
-		String data = null;
-		if (cursor != null) {
-			if (cursor.moveToNext()) {
-				cursor.moveToFirst();
-			}
-			data = cursor.getString(cursor.getColumnIndex("description"));
-		}
-		cursor.close();
-		return data;
-	}
+	// public String getEventDescriptionx(String eventname, int day) {
+	// SQLiteDatabase db = this.getReadableDatabase();
+	// Cursor cursor = db.rawQuery(
+	// "SELECT * FROM table_event_details WHERE event_name='"
+	// + eventname + "'AND day= '" + day + "'", null);
+	// String data = null;
+	// if (cursor != null) {
+	// if (cursor.moveToNext()) {
+	// cursor.moveToFirst();
+	// }
+	// data = cursor.getString(cursor.getColumnIndex("description"));
+	// }
+	// cursor.close();
+	// return data;
+	// }
 
 	public String searchEntryForVenue(String x, String y) throws SQLException {
 		// TODO Auto-generated method stub
@@ -535,8 +563,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 		day = cursor.getInt(cursor.getColumnIndex("day"));
 		cursor.close();
-		
-		switch(day){
+
+		switch (day) {
 		case 1:
 			return "21st March 2014";
 		case 2:
@@ -544,12 +572,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		case 3:
 			return "23rd March 2014";
 		case 12:
-			return "21st March 2014 and 22nd March 2014";
-		case 13:
-			return "21st March 2014 and 23rd March 2014";
+			return "21-22 March 2014";
+		case 123:
+			return "21-23 March 2014";
 		case 23:
-			return "22nd March 2014 and 23rd March 2014";	
-		default :
+			return "22-23 March 2014";
+		default:
 			return null;
 		}
 	}
@@ -573,7 +601,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return (startTime);
 	}
-	
+
 	public int getEndTime(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
