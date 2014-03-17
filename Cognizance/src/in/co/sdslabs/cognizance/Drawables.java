@@ -42,11 +42,11 @@ public class Drawables {
 			// Exhibitions
 			{ R.drawable.ex_hand_gesture_controlled_devices,
 					R.drawable.ex_omnipresent, R.drawable.ex_gridbots,
-					R.drawable.ex_3d_printing, R.drawable.ex_graffiti,
+					R.drawable.ex_3d_printing, R.drawable.ex_swarm,
 					R.drawable.ex_3doodler },
 			// Techtainment
 			{ R.drawable.tech_shadow_act, R.drawable.tech_speed_painter,
-					R.drawable.tech_sunburn },
+					R.drawable.tech_sunburn  , R.drawable.tech_mapping , R.drawable.tech_hula},
 			// CSR events
 			{ R.drawable.csr_rural_congress, R.drawable.csr_silence_calling },
 
