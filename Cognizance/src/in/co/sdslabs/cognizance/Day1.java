@@ -62,8 +62,12 @@ public class Day1 extends ListFragment {
 			hm.put("eventoneliner", eventoneliner.get(i));
 			x = myDbHelper.getImageX(eventname.get(i));
 			y = myDbHelper.getImageY(eventname.get(i));
+			try {
 			hm.put(EVENTIMAGE,
 			Integer.toString(Drawables.eventsImages[x][y]));
+			}catch(Exception e){
+				hm.put(EVENTIMAGE, "");
+			}
 			eventList.add(hm);
 		}
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
