@@ -69,24 +69,35 @@ public class EventCategoryFragment extends ListFragment {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		// TextView tv = (TextView) v.findViewById(R.id.tv_categoryDescription);
-		// tv.setText(categories[position]);
-		// mEventList = (ListView) v.findViewById(R.id.eventCategory_list);
-		// getListView().addHeaderView(tv);
-		/** Create function in DBhelper to return these three values **/
-		// String Data = DBhelper.getReducedEvent(categories[position]);
-		eventname = myDbHelper.getEventName(categories[position]);
-		eventoneliner = myDbHelper.getEventoneLiner(categories[position]);
-		for (int i = 0; i < eventname.size(); i++) {
-			HashMap<String, String> hm = new HashMap<String, String>();
-			hm.put(EVENTNAME, eventname.get(i));
-			hm.put(EVENTONELINER, eventoneliner.get(i));
-			hm.put(EVENTIMAGE,
-					Integer.toString(Drawables.eventsImages[position][i]));
-			// hm.put(IMAGE, Integer.toString(mImages[i]));
-			eventList.add(hm);
-		}
 
+		if (position == categories.length - 1) {
+
+			eventname = myDbHelper.getDepartments();
+			for (int i = 0; i < eventname.size(); i++) {
+				HashMap<String, String> hm = new HashMap<String, String>();
+				hm.put(EVENTNAME, eventname.get(i));
+				try {
+					hm.put(EVENTIMAGE, Integer
+							.toString(Drawables.eventsImages[position][i]));
+				} catch (Exception e) {
+					hm.put(EVENTIMAGE, "");
+				}
+				eventList.add(hm);
+			}
+		} else {
+
+			eventname = myDbHelper.getEventName(categories[position]);
+			eventoneliner = myDbHelper.getEventoneLiner(categories[position]);
+			for (int i = 0; i < eventname.size(); i++) {
+				HashMap<String, String> hm = new HashMap<String, String>();
+				hm.put(EVENTNAME, eventname.get(i));
+				hm.put(EVENTONELINER, eventoneliner.get(i));
+				hm.put(EVENTIMAGE,
+						Integer.toString(Drawables.eventsImages[position][i]));
+				// hm.put(IMAGE, Integer.toString(mImages[i]));
+				eventList.add(hm);
+			}
+		}
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
 		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
@@ -96,8 +107,9 @@ public class EventCategoryFragment extends ListFragment {
 
 		mAdapter = new SimpleAdapter(getActivity().getBaseContext(), eventList,
 				R.layout.eventcategory_list_item, from, to);
-		
-		((MainNavDrawerActivity) getActivity()).setActionBarTitle(categories[position]);
+
+		((MainNavDrawerActivity) getActivity())
+				.setActionBarTitle(categories[position]);
 		return v;
 	}
 
@@ -131,22 +143,6 @@ public class EventCategoryFragment extends ListFragment {
 		listHeader.setText(myDbHelper
 				.getCategoryDescription(categories[position]));
 		listHeader.setGravity(Gravity.FILL_HORIZONTAL);
-		
-		
-		// Code for justification of text
-		// listHeader.getViewTreeObserver().addOnPreDrawListener(new
-		// OnPreDrawListener() {
-		//
-		// boolean isJustified = false;
-		// @Override
-		// public boolean onPreDraw() {
-		// if(!isJustified)
-		// {
-		// TextJustifyUtils.run(listHeader , 180f);
-		// isJustified = true;
-		// }
-		//
-		// return true;
 
 		getListView().addHeaderView(listHeader, null, false);
 		// getListView().addFooterView(Color.rgb(1, 140, 149));
@@ -168,48 +164,14 @@ public class EventCategoryFragment extends ListFragment {
 			// Currently selected event
 			String eventName = eventname.get(pos - 1);
 			Bundle data = new Bundle();
-			data.putString("event" , eventName);
-			Intent i = new Intent(getActivity().getBaseContext() , EventActivity.class);
+			data.putString("event", eventName);
+			Intent i = new Intent(getActivity().getBaseContext(),
+					EventActivity.class);
 			i.putExtras(data);
 			startActivity(i);
 		}
 
 	}
-
-//	private void showEventFragment(int pos, View v) {
-//		if (pos >= 1) {
-//
-//			// Currently selected event
-//			String eventName = eventname.get(pos - 1);
-//
-//			// Creating a fragment object
-//			EventFragment eFragment = new EventFragment();
-//
-//			// Creating a Bundle object
-//			Bundle data = new Bundle();
-//
-//			// Setting the index of the currently selected item of mDrawerList
-//			data.putString("event", eventName);
-//			data.putString("oneliner", eventoneliner.get(pos - 1));
-//			data.putInt("image", 0);
-//			// Setting the position to the fragment
-//			eFragment.setArguments(data);
-//
-//			// Getting reference to the FragmentManager
-//			fragmentManager = getActivity().getSupportFragmentManager();
-//
-//			// Creating a fragment transaction
-//			FragmentTransaction ft = fragmentManager.beginTransaction();
-//
-//			// Adding a fragment to the fragment transaction
-//			ft.replace(R.id.content_frame, eFragment);
-//			ft.addToBackStack(null);
-//
-//			// Committing the transaction
-//			ft.commit();
-//
-//		}
-//	}
 
 	@Override
 	public void onAttach(Activity activity) {

@@ -12,7 +12,7 @@ public class Drawables {
 			R.drawable.eventcat_braintainment, R.drawable.eventcat_department, };
 
 	public static int[][] eventsImages = new int[][] {
-		{},
+			{},
 			// Theme events
 			{ R.drawable.theme_construct_o_polis, R.drawable.theme_aurora,
 					R.drawable.theme_the_green_walk,
@@ -38,7 +38,7 @@ public class Drawables {
 					R.drawable.guest_rk_khandal, R.drawable.guest_ravi_sandhu,
 					R.drawable.guest_alberto_levy,
 					R.drawable.guest_shiraz_gidwani,
-					R.drawable.guest_victor_benno, 0 , R.drawable.guest_maxbern },
+					R.drawable.guest_victor_benno, 0, R.drawable.guest_maxbern },
 			// Exhibitions
 			{ R.drawable.ex_hand_gesture_controlled_devices,
 					R.drawable.ex_omnipresent, R.drawable.ex_gridbots,
@@ -46,7 +46,8 @@ public class Drawables {
 					R.drawable.ex_3doodler },
 			// Techtainment
 			{ R.drawable.tech_shadow_act, R.drawable.tech_speed_painter,
-					R.drawable.tech_sunburn  , R.drawable.tech_mapping , R.drawable.tech_hula},
+					R.drawable.tech_sunburn, R.drawable.tech_mapping,
+					R.drawable.tech_hula },
 			// CSR events
 			{ R.drawable.csr_rural_congress, R.drawable.csr_silence_calling },
 
@@ -65,14 +66,14 @@ public class Drawables {
 			// Departments
 			{ R.drawable.dept_ahec, R.drawable.dept_archi, R.drawable.dept_bio,
 					R.drawable.dept_chemical, R.drawable.dept_chemistry,
-					R.drawable.dept_civil, R.drawable.dept_coedmm,
-					R.drawable.dept_cse, R.drawable.dept_ctrans,
-					R.drawable.dept_earth_science, R.drawable.dept_earthquake,
-					R.drawable.dept_ece, R.drawable.dept_electrical,
-					R.drawable.dept_hydrology, R.drawable.dept_mba,
-					R.drawable.dept_meta, R.drawable.dept_maths,
-					R.drawable.dept_mech, R.drawable.dept_nano,
-					R.drawable.dept_papertech, R.drawable.dept_physics,
-					R.drawable.dept_polymer, R.drawable.dept_wrdm } };
+					R.drawable.dept_civil, R.drawable.dept_cse,
+					R.drawable.dept_ctrans, R.drawable.dept_earth_science,
+					R.drawable.dept_earthquake, R.drawable.dept_ece,
+					R.drawable.dept_electrical, R.drawable.dept_hydrology,
+					R.drawable.dept_mba, R.drawable.dept_maths,
+					R.drawable.dept_meta, R.drawable.dept_mech,
+					R.drawable.dept_nano, R.drawable.dept_physics,
+					R.drawable.dept_papertech, R.drawable.dept_coedmm,
+					R.drawable.dept_wrdm  } };
 
 }

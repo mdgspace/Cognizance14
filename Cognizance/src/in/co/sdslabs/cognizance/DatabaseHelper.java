@@ -648,4 +648,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		return coor;
 	}
+	
+	/** Functions for Departmental Events */
+	
+	public ArrayList<String> getDepartments() {
+		
+		/** Retrieves unique department names from the database*/
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT DISTINCT dept_name FROM table_departments",
+				null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				data.add(cursor.getString(cursor.getColumnIndex("dept_name")));
+			}
+		}
+		cursor.close();
+		return data;
+	}
+	
 }
