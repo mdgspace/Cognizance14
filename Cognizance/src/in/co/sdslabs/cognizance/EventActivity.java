@@ -90,7 +90,11 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		Log.v("Image", "x :" + x);
 		Log.v("Image", "y :" + y);
 
-		eventIcon.setImageResource(Drawables.eventsImages[x][y]);
+		try {
+			eventIcon.setImageResource(Drawables.eventsImages[x][y]);
+		} catch (Exception e) {
+			eventIcon.setImageResource(0);
+		}
 		eDate.setText("DATE : " + myDbHelper.getEventDate(b.getString("event")));
 		eTime.setText("TIME : " + setTime(b.getString("event")));
 		eVenue.setTextColor(Color.rgb(1, 140, 149));
@@ -144,35 +148,35 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 		String startX;
 		String endX;
-		
+
 		if (start < 1200) {
-			if(start%100 == 0){
-				startX = start/100 + ":" + "00 am";
-			}else{
-			startX = start / 100 + ":" + start % 100 + " am";
+			if (start % 100 == 0) {
+				startX = start / 100 + ":" + "00 am";
+			} else {
+				startX = start / 100 + ":" + start % 100 + " am";
 			}
-		} else{
-			if(start%100 ==0){
-			startX = (start/100)-12 + ":" + "00 pm";
-			}else {
-				startX = (start/100)-12 + ":" + start%100 +" pm";
+		} else {
+			if (start % 100 == 0) {
+				startX = (start / 100) - 12 + ":" + "00 pm";
+			} else {
+				startX = (start / 100) - 12 + ":" + start % 100 + " pm";
 			}
 		}
-		
+
 		if (end < 1200) {
-			if(end%100 == 0){
-				endX = end/100 + ":" + "00 am";
-			}else{
-			endX = end / 100 + ":" + end % 100 + " am";
+			if (end % 100 == 0) {
+				endX = end / 100 + ":" + "00 am";
+			} else {
+				endX = end / 100 + ":" + end % 100 + " am";
 			}
-		} else{
-			if(end%100 ==0){
-			endX = (end/100)-12 + ":" + "00 pm";
-			}else {
-				endX = (end/100)-12 + ":" + end%100 +" pm";
+		} else {
+			if (end % 100 == 0) {
+				endX = (end / 100) - 12 + ":" + "00 pm";
+			} else {
+				endX = (end / 100) - 12 + ":" + end % 100 + " pm";
 			}
 		}
-		
+
 		return startX + " - " + endX;
 	}
 }
