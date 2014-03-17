@@ -558,4 +558,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return null;
 	}
 
+	public int getStartTime(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='" + event
+						+ "'", null);
+
+		int startTime;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		startTime = cursor.getInt(cursor.getColumnIndex("start_time"));
+		cursor.close();
+		return (startTime);
+	}
+	
+	public int getEndTime(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='" + event
+						+ "'", null);
+
+		int endTime;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		endTime = cursor.getInt(cursor.getColumnIndex("end_time"));
+		cursor.close();
+		return (endTime);
+	}
 }

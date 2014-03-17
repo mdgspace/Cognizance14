@@ -18,14 +18,15 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class EventActivity extends ActionBarActivity implements OnClickListener{
+public class EventActivity extends ActionBarActivity implements OnClickListener {
 
 	public EventActivity() {
 	}
-	
+
 	DatabaseHelper myDbHelper;
 	Bundle b;
 	boolean fav;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,10 +38,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener{
 		TextView eDate = (TextView) findViewById(R.id.event_date);
 		TextView eTime = (TextView) findViewById(R.id.event_time);
 		TextView eVenue = (TextView) findViewById(R.id.event_venue);
-		
-		ImageView eventIcon = (ImageView) findViewById(R.id.event_ImView);
-		
 
+		ImageView eventIcon = (ImageView) findViewById(R.id.event_ImView);
 
 		myDbHelper = new DatabaseHelper(this);
 		try {
@@ -55,33 +54,33 @@ public class EventActivity extends ActionBarActivity implements OnClickListener{
 		}
 
 		b = getIntent().getExtras();
-		
-		CheckBox star = (CheckBox)findViewById(R.id.star);
-		if(myDbHelper.isFavourite(b.getString("event"))){
+
+		CheckBox star = (CheckBox) findViewById(R.id.star);
+		if (myDbHelper.isFavourite(b.getString("event"))) {
 			fav = true;
 			star.setChecked(true);
-		}else {
+		} else {
 			fav = false;
 			star.setChecked(false);
 		}
-		
+
 		star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				
-				if(fav){
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+
+				if (fav) {
 					myDbHelper.unmarkAsFavourite(b.getString("event"));
-				}else{
+				} else {
 					myDbHelper.markAsFavourite(b.getString("event"));
 				}
 			}
 		});
 
-		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(b.getString("event"));
-		
+
 		eName.setText(b.getString("event"));
 		eOneLiner.setText(myDbHelper.getEventOneLiner(b.getString("event")));
 		eDescription.setText(myDbHelper.getEventDescription(b
@@ -90,13 +89,14 @@ public class EventActivity extends ActionBarActivity implements OnClickListener{
 		int y = myDbHelper.getImageY(b.getString("event"));
 		Log.v("Image", "x :" + x);
 		Log.v("Image", "y :" + y);
-		
+
 		eventIcon.setImageResource(Drawables.eventsImages[x][y]);
 		eDate.setText("DATE : " + myDbHelper.getEventDate(b.getString("event")));
-		eTime.setText("TIME : " + myDbHelper.getEventTime(b.getString("event")));
-		eVenue.setTextColor(Color.rgb(1,140,149));
-		eVenue.setText("VENUE : "+myDbHelper.getVenueDisplay(b.getString("event")));
-		
+		eTime.setText("TIME : " + setTime(b.getString("event")));
+		eVenue.setTextColor(Color.rgb(1, 140, 149));
+		eVenue.setText("VENUE : "
+				+ myDbHelper.getVenueDisplay(b.getString("event")));
+
 		eVenue.setOnClickListener(this);
 	}
 
@@ -123,17 +123,56 @@ public class EventActivity extends ActionBarActivity implements OnClickListener{
 	}
 
 	@Override
-	public void onClick(View v) {		
+	public void onClick(View v) {
 		showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    // Respond to the action bar's Up/Home button
-	    case android.R.id.home:
-	       finish();	       	     
-	    }
-	    return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		case android.R.id.home:
+			finish();
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	public String setTime(String event) {
+
+		int start = myDbHelper.getStartTime(event);
+		int end = myDbHelper.getEndTime(event);
+
+		String startX;
+		String endX;
+		
+		if (start < 1200) {
+			if(start%100 == 0){
+				startX = start/100 + ":" + "00 am";
+			}else{
+			startX = start / 100 + ":" + start % 100 + " am";
+			}
+		} else{
+			if(start%100 ==0){
+			startX = (start/100)-12 + ":" + "00 pm";
+			}else {
+				startX = (start/100)-12 + ":" + start%100 +" pm";
+			}
+		}
+		
+		if (end < 1200) {
+			if(end%100 == 0){
+				endX = end/100 + ":" + "00 am";
+			}else{
+			endX = end / 100 + ":" + end % 100 + " am";
+			}
+		} else{
+			if(end%100 ==0){
+			endX = (end/100)-12 + ":" + "00 pm";
+			}else {
+				endX = (end/100)-12 + ":" + end%100 +" pm";
+			}
+		}
+		
+		return startX + " - " + endX;
 	}
 }
