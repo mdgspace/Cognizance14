@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +28,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 	DatabaseHelper myDbHelper;
 	Bundle b;
 	boolean fav;
+	GPSTracker gps;
+	TextView on , off;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +132,20 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
-		showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
+		if (v.getId() == R.id.event_venue)
+			showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
+		else if (v.getId() == R.id.online) {
+			PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
+					.getVenueMap(b.getString("event")));
+			getPathFromPresentLocation(coord.x, coord.y);
+		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.event, menu);
+		return true;
 	}
 
 	@Override
@@ -137,6 +154,11 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
 			finish();
+			break;
+		case R.id.navigate:
+			Log.i("nav", myDbHelper.getVenueMap(b.getString("event")));
+			showDialog();
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -193,4 +215,63 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 		return startX + " - " + endX;
 	}
+	
+	private void showDialog() {
+		// TODO Auto-generated method stub
+//		final Dialog dialog = new Dialog(this);
+//		dialog.setContentView(R.layout.navigate_options);
+//		dialog.setTitle("Choose Mode of Navigation");
+//
+//		try {
+//			off = (TextView) findViewById(R.id.offline);
+//			on = (TextView) findViewById(R.id.online);
+//			//System.out.println(off.getText().toString());
+//			off.setOnClickListener(this);
+//			on.setOnClickListener(this);
+//		} catch (Exception e) {
+//			Log.i("navError", e.toString());
+//		}
+//
+//		dialog.show();
+		PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
+				.getVenueMap(b.getString("event")));
+		getPathFromPresentLocation(coord.x, coord.y);
+
+	}
+	
+	private void getPathFromPresentLocation(double destLat, double destLong) {
+		// TODO Auto-generated method stub
+		// create class object
+		gps = new GPSTracker(this);
+
+		// check if GPS enabled
+		if (gps.canGetLocation()) {
+
+			double latitude = gps.getLatitude();
+			double longitude = gps.getLongitude();
+
+			onlineMap(latitude, longitude, destLat, destLong);
+
+		} else {
+			// can't get location
+			// GPS or Network is not enabled
+			// Ask user to enable GPS/network in settings
+			gps.showSettingsAlert();
+		}
+	}
+
+	private void onlineMap(double startLat, double startLong, double destLat,
+			double destLong) {
+		// TODO Auto-generated method stub
+		String uri = "http://maps.google.com/maps?saddr=" + startLat + ","
+				+ startLong + "&daddr=" + destLat + "," + destLong;
+		Intent intent1 = new Intent(android.content.Intent.ACTION_VIEW,
+				Uri.parse(uri));
+		intent1.setClassName("com.google.android.apps.maps",
+				"com.google.android.maps.MapsActivity");
+		intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent1);
+	}
+	
+	
 }

@@ -30,8 +30,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String KEY_MAXX = "_maxX";
 	public static final String KEY_MAXY = "_maxY";
 	public static final String KEY_TOUCH_VENUE = "_touch_venue";
+	public static final String KEY_VENUE = "_place_name";
 
 	public static final String DATABASE_TABLE1 = "table_venue";
+	public static final String DATABASE_TABLE2 = "table_place";
 
 	public DatabaseHelper(Context context) {
 		super(context, DB_NAME, null, 1);
@@ -616,5 +618,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		endTime = cursor.getInt(cursor.getColumnIndex("end_time"));
 		cursor.close();
 		return (endTime);
+	}
+
+	public PointF searchPlaceForLatLong(String selection) {
+		// TODO Auto-generated method stub
+
+		myDataBase = this.getReadableDatabase();
+		String[] columns = new String[] { "_lat", "_lng" };
+		PointF coor = new PointF();
+
+		Cursor c = myDataBase.query(DATABASE_TABLE2, columns, KEY_VENUE
+				+ "==\"" + selection + "\"", null, null, null, null);
+
+		int iLat = c.getColumnIndex("_lat");
+		int iLong = c.getColumnIndex("_lng");
+
+		try {
+			if (c != null) {
+				c.moveToFirst();
+				coor.x = (Float.parseFloat(c.getString(iLat)));
+				coor.y = (Float.parseFloat(c.getString(iLong)));
+				c.close();
+			}
+		} catch (CursorIndexOutOfBoundsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
+		return coor;
 	}
 }
