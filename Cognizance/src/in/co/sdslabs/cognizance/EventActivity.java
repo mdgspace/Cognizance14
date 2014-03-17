@@ -155,7 +155,14 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			} else {
 				startX = start / 100 + ":" + start % 100 + " am";
 			}
-		} else {
+		}else if(start>=1200 && start <1300) {
+			if (start % 100 == 0) {
+				startX = start / 100 + ":" + "00 pm";
+			} else {
+				startX = start / 100 + ":" + start % 100 + " pm";
+			}	
+		}
+		else {
 			if (start % 100 == 0) {
 				startX = (start / 100) - 12 + ":" + "00 pm";
 			} else {
@@ -163,11 +170,18 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			}
 		}
 
-		if (end < 1200) {
+		if (end < 1300) {
 			if (end % 100 == 0) {
 				endX = end / 100 + ":" + "00 am";
 			} else {
 				endX = end / 100 + ":" + end % 100 + " am";
+			}
+			if(end>1200 && end < 1300) {
+				if (end % 100 == 0) {
+					endX = end / 100 + ":" + "00 pm";
+				} else {
+					endX = start / 100 + ":" + end % 100 + " pm";
+				}	
 			}
 		} else {
 			if (end % 100 == 0) {
