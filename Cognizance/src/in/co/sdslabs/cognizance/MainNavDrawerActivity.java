@@ -281,4 +281,8 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		super.onBackPressed();
 		getSupportActionBar().setTitle("Cognizance");
 	}
+	
+	public void setActionBarTitle(String title) {
+	    getSupportActionBar().setTitle(title);
+	}
 }

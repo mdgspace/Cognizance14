@@ -96,6 +96,8 @@ public class EventCategoryFragment extends ListFragment {
 
 		mAdapter = new SimpleAdapter(getActivity().getBaseContext(), eventList,
 				R.layout.eventcategory_list_item, from, to);
+		
+		((MainNavDrawerActivity) getActivity()).setActionBarTitle(categories[position]);
 		return v;
 	}
 
