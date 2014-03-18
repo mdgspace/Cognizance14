@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class EventCategoryFragment extends ListFragment {
 	ArrayList<String> eventoneliner;
 
 	FragmentManager fragmentManager;
-	
+
 	Bundle data;
 
 	public EventCategoryFragment() {
@@ -78,11 +79,11 @@ public class EventCategoryFragment extends ListFragment {
 
 			eventname = myDbHelper.getDepartments();
 			for (int i = 0; i < eventname.size(); i++) {
-				
+
 				HashMap<String, String> hm = new HashMap<String, String>();
 				hm.put(EVENTNAME, eventname.get(i));
-				Log.v("DeptName" , eventname.get(i));
-				
+				Log.v("DeptName", eventname.get(i));
+
 				try {
 					hm.put(EVENTIMAGE, Integer
 							.toString(Drawables.eventsImages[position][i]));
@@ -166,23 +167,18 @@ public class EventCategoryFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		super.onListItemClick(l, v, pos, id);
 
-//		if (pos >= 1) { 
-//			// To disable click on header
-//			
-//			if (position == categories.length - 1) {
-//				
-//				String deptName = eventname.get(pos-1);
-//				 Toast.makeText(getActivity(), deptName,
-//				 Toast.LENGTH_SHORT).show();
-//				
-//				 data = new Bundle();
-//				 data.putBoolean("dept", true);				 
-//				 showDepartmentalFragment(deptName);
-//				 
-//			} else {
-				
-		//		data.putBoolean("dept", false);
-				// Currently selected event
+		data = new Bundle();
+		if (pos >= 1) {
+			// To disable click on header
+			if (position == categories.length - 1) {
+				String deptName = eventname.get(pos - 1);
+//				Toast.makeText(getActivity(), deptName, Toast.LENGTH_SHORT)
+//						.show();
+				showDepartmentalFragment(deptName);
+
+			} else {
+
+				 //Currently selected event
 				String eventName = eventname.get(pos - 1);
 				Bundle data = new Bundle();
 				data.putString("event", eventName);
@@ -191,16 +187,36 @@ public class EventCategoryFragment extends ListFragment {
 				i.putExtras(data);
 				startActivity(i);
 			}
-//}
-
-	//}
-
+		}
+	}
 	private void showDepartmentalFragment(String deptName) {
+
+		/**
+		 * This method will open up a listView fragment containing all the
+		 * events of a particular department
+		 */
+		// Call the CustomListFragment
+		CustomListFragment eFragment = new CustomListFragment();
+		// Getting reference to the FragmentManager
 		
-		/** This method will open up a listView fragment containing 
-		 * all the events of a particular department */
+		data.putBoolean("dept", true);
+		data.putString("name", deptName);
 		
+		fragmentManager = getActivity().getSupportFragmentManager();
+		// Creating a fragment transaction
+		FragmentTransaction ft = fragmentManager.beginTransaction();
 		
+		eFragment.setArguments(data);
+		
+		// Adding a fragment to the fragment transaction
+		ft.replace(R.id.content_frame, eFragment);
+		ft.addToBackStack(null);
+
+		// Committing the transaction
+		ft.commit();
+
+		
+
 	}
 
 	@Override

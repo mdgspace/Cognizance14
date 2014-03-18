@@ -27,6 +27,8 @@ public class CustomListFragment extends ListFragment {
 	ArrayList<String> eventname;
 	ArrayList<String> eventoneliner;
 	FragmentManager fragmentManager;
+	String deptName = null;
+	boolean isDepartment = false;
 
 	public CustomListFragment() {
 	}
@@ -41,7 +43,6 @@ public class CustomListFragment extends ListFragment {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 
 		List<HashMap<String, String>> eventList = new ArrayList<HashMap<String, String>>();
@@ -59,27 +60,45 @@ public class CustomListFragment extends ListFragment {
 			throw sqle;
 		}
 
-		eventname = myDbHelper.getFavouritesName();
+		if(isDepartment){
+			
+			try{
+				eventname = myDbHelper.getDepartmentalEvents(deptName);
+				
+				for (int i = 0; i < eventname.size(); i++) {
+					HashMap<String, String> hm = new HashMap<String, String>();
+					hm.put("eventname", eventname.get(i));
+					Log.v("eventname" , eventname.get(i));
+					eventList.add(hm);
+				}			
+			}catch(Exception e){
+			}
+			
+		}else{
+			eventname = myDbHelper.getFavouritesName();
 
-		if (eventname.size() == 0) {
-			Toast.makeText(getActivity().getBaseContext(), 
-					"There are no current Favourites", Toast.LENGTH_SHORT).show();
-			getActivity().getSupportFragmentManager().popBackStack();
+			if (eventname.size() == 0) {
+				Toast.makeText(getActivity().getBaseContext(),
+						"There are no current Favourites", Toast.LENGTH_SHORT)
+						.show();
+				getActivity().getSupportFragmentManager().popBackStack();
+
+			}
+			int x, y;
+			for (int i = 0; i < eventname.size(); i++) {
+				HashMap<String, String> hm = new HashMap<String, String>();
+				Log.v("dfsd", eventname.get(i));
+				hm.put("eventname", eventname.get(i));
+				hm.put("eventoneliner",
+						myDbHelper.getEventOneLiner(eventname.get(i)));
+				x = myDbHelper.getImageX(eventname.get(i));
+				y = myDbHelper.getImageY(eventname.get(i));
+				hm.put(EVENTIMAGE, Integer.toString(Drawables.eventsImages[x][y]));
+				eventList.add(hm);
+			}
 
 		}
-		int x, y;
-		for (int i = 0; i < eventname.size(); i++) {
-			HashMap<String, String> hm = new HashMap<String, String>();
-			Log.v("dfsd", eventname.get(i));
-			hm.put("eventname", eventname.get(i));
-			hm.put("eventoneliner",
-					myDbHelper.getEventOneLiner(eventname.get(i)));
-			x = myDbHelper.getImageX(eventname.get(i));
-			y = myDbHelper.getImageY(eventname.get(i));
-			hm.put(EVENTIMAGE, Integer.toString(Drawables.eventsImages[x][y]));
-			eventList.add(hm);
-		}
-		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
+				String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
 		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
 
@@ -114,12 +133,19 @@ public class CustomListFragment extends ListFragment {
 		startActivity(i);
 
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
-		
-	}
 
+		try {
+			isDepartment = getArguments().getBoolean("dept");
+			if (isDepartment) {
+				deptName = getArguments().getString("name");
+			}
+			Toast.makeText(getActivity(), deptName, Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {
+		}
+
+	}
 }

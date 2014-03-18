@@ -668,5 +668,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return data;
 	}
+
+	public ArrayList<String> getDepartmentalEvents(String deptName) {
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT dept_event FROM " +
+				"table_departments WHERE dept_name ='"+deptName+"'",
+				null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				data.add(cursor.getString(cursor.getColumnIndex("dept_event")));
+			}
+		}
+		cursor.close();
+		return data;
+		
+	}
 	
 }
