@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-public class Favourites extends ListFragment {
+public class CustomListFragment extends ListFragment {
 
 	private String EVENTNAME = "eventname";
 	private String EVENTONELINER = "eventoneliner";
@@ -27,7 +28,7 @@ public class Favourites extends ListFragment {
 	ArrayList<String> eventoneliner;
 	FragmentManager fragmentManager;
 
-	public Favourites() {
+	public CustomListFragment() {
 	}
 
 	@Override
@@ -112,6 +113,13 @@ public class Favourites extends ListFragment {
 		i.putExtras(data);
 		startActivity(i);
 
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		
 	}
 
 }

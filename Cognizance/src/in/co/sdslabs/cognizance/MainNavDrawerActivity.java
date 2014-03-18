@@ -227,7 +227,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 				Toast.makeText(this, "There are no current Favourites", 
 						Toast.LENGTH_SHORT).show();
 			}else{
-				Favourites eFragment = new Favourites();
+				CustomListFragment eFragment = new CustomListFragment();
 				// Getting reference to the FragmentManager
 				fragmentManager = getSupportFragmentManager();
 				initialTitle = "My Favourites";
@@ -242,6 +242,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 				ft.commit();
 
 			}
+			myDbHelper.close();
 		}
 //		}else if(position ==mEventCategories.length -1 ){
 //			//Toast.makeText(this , "Clicked on Departments", Toast.LENGTH_SHORT).show();
