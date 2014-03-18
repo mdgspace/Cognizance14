@@ -82,8 +82,6 @@ public class EventCategoryFragment extends ListFragment {
 
 				HashMap<String, String> hm = new HashMap<String, String>();
 				hm.put(EVENTNAME, eventname.get(i));
-				Log.v("DeptName", eventname.get(i));
-
 				try {
 					hm.put(EVENTIMAGE, Integer
 							.toString(Drawables.eventsImages[position][i]));
@@ -172,13 +170,13 @@ public class EventCategoryFragment extends ListFragment {
 			// To disable click on header
 			if (position == categories.length - 1) {
 				String deptName = eventname.get(pos - 1);
-//				Toast.makeText(getActivity(), deptName, Toast.LENGTH_SHORT)
-//						.show();
-				showDepartmentalFragment(deptName , pos);
+				// Toast.makeText(getActivity(), deptName, Toast.LENGTH_SHORT)
+				// .show();
+				showDepartmentalFragment(deptName, pos);
 
 			} else {
 
-				 //Currently selected event
+				// Currently selected event
 				String eventName = eventname.get(pos - 1);
 				Bundle data = new Bundle();
 				data.putString("event", eventName);
@@ -189,7 +187,8 @@ public class EventCategoryFragment extends ListFragment {
 			}
 		}
 	}
-	private void showDepartmentalFragment(String deptName , int pos) {
+
+	private void showDepartmentalFragment(String deptName, int pos) {
 
 		/**
 		 * This method will open up a listView fragment containing all the
@@ -198,24 +197,22 @@ public class EventCategoryFragment extends ListFragment {
 		// Call the CustomListFragment
 		CustomListFragment eFragment = new CustomListFragment();
 		// Getting reference to the FragmentManager
-		
+
 		data.putBoolean("dept", true);
 		data.putString("name", deptName);
-		data.putInt("pos", pos-1);
+		data.putInt("pos", pos - 1);
 		fragmentManager = getActivity().getSupportFragmentManager();
 		// Creating a fragment transaction
 		FragmentTransaction ft = fragmentManager.beginTransaction();
-		
+
 		eFragment.setArguments(data);
-		
+
 		// Adding a fragment to the fragment transaction
 		ft.replace(R.id.content_frame, eFragment);
 		ft.addToBackStack(null);
 
 		// Committing the transaction
 		ft.commit();
-
-		
 
 	}
 

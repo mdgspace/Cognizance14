@@ -128,21 +128,24 @@ public class CustomListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		super.onListItemClick(l, v, 1, id);
-		
+
 		Bundle data = new Bundle();
 		if (isDepartment) {
 			// put dept name + event_name as title
 			// put drawable as Integer
 			data.putBoolean("dept", true);
-			data.putString("event", deptName + eventname.get(pos));
-//			Toast.makeText(getActivity(), deptName + " " + eventname.get(pos),
-//					Toast.LENGTH_SHORT).show();
-			data.putInt("icon" , Drawables.eventsImages[11][getArguments().getInt("pos")]);
-			Intent intent = new Intent(getActivity().getBaseContext() , EventActivity.class);
+			data.putString("event", eventname.get(pos));
+			data.putString("deptt", deptName);
+			// Toast.makeText(getActivity(), deptName + " " +
+			// eventname.get(pos),
+			// Toast.LENGTH_SHORT).show();
+			data.putInt("icon", Drawables.eventsImages[11][getArguments()
+					.getInt("pos")]);
+			Intent intent = new Intent(getActivity().getBaseContext(),
+					EventActivity.class);
 			intent.putExtras(data);
 			startActivity(intent);
 		} else {
-
 
 			data.putString("event", eventname.get(pos));
 			Intent i = new Intent(getActivity().getBaseContext(),
