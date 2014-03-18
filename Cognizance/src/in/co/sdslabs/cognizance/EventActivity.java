@@ -30,8 +30,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 	Bundle b;
 	boolean fav;
 	GPSTracker gps;
-	TextView on , off;
-	
+	TextView on, off;
+
 	boolean isDept = false;
 
 	@Override
@@ -47,7 +47,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		TextView eVenue = (TextView) findViewById(R.id.event_venue);
 
 		ImageView eventIcon = (ImageView) findViewById(R.id.event_ImView);
-		
+
 		CheckBox star = (CheckBox) findViewById(R.id.star);
 
 		myDbHelper = new DatabaseHelper(this);
@@ -64,23 +64,84 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 		b = getIntent().getExtras();
 
-		try{
+		try {
 			isDept = b.getBoolean("dept");
-		}catch(Exception e){
-			
-		}
-		
-		if(isDept){
-			/**If the event is a departmental event it is handled separately */
-			
-//			Toast.makeText(this , "Successfully entered EventActivity",
-//					Toast.LENGTH_SHORT).show();
-			
-			
+		} catch (Exception e) {
 
+		}
+
+		if (isDept) {
+			final String dept_name = b.getString("deptt");
+			final String event_name = b.getString("event");
+			if (myDbHelper.isFavouriteD(event_name, dept_name)) {
+				fav = true;
+				star.setChecked(true);
+			} else {
+				fav = false;
+				star.setChecked(false);
+			}
+
+			star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+
+					if (fav) {
+						myDbHelper.unmarkAsFavouriteD(event_name, dept_name);
+					} else {
+						myDbHelper.markAsFavouriteD(event_name, dept_name);
+					}
+				}
+			});
+
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setTitle(b.getString("event"));
+
+			eName.setText(b.getString("event"));
+			// eOneLiner
+			// .setText(myDbHelper.getEventOneLiner(b.getString("event")));
+			eDescription.setText(myDbHelper.getDepartmentalEventDescription(
+					dept_name, event_name));
+			// int x = myDbHelper.getImageX(b.getString("event"));
+			// int y = myDbHelper.getImageY(b.getString("event"));
+			// Log.v("Image", "x :" + x);
+			// Log.v("Image", "y :" + y);
+
+			try {
+				// eventIcon.setImageResource(Drawables.eventsImages[x][y]);
+			} catch (Exception e) {
+				eventIcon.setImageResource(0);
+			}
+			eDate.setText("DATE : "
+					+ myDbHelper.getEventDDate(event_name, dept_name));
+			eTime.setText("TIME : " + setTimeD(dept_name, event_name));
+			eVenue.setTextColor(Color.rgb(1, 140, 149));
+			String venue = myDbHelper.getDepartmentalEventVenue(dept_name,
+					event_name);
+			if (venue.equals("")) {
+				venue = dept_name;
+				eVenue.setOnClickListener(null);
+			} else {
+				eVenue.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if (v.getId() == R.id.event_venue)
+							showZoomedMap(myDbHelper.getVenueMapD(dept_name));
+						else if (v.getId() == R.id.online) {
+							PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
+									.getVenueMapD(dept_name));
+							getPathFromPresentLocation(coord.x, coord.y);
+						}	
+					}
+				});
+			}
+			eVenue.setText("VENUE : " + venue);
 			
-		}else {
-			
+		} else {
+
 			if (myDbHelper.isFavourite(b.getString("event"))) {
 				fav = true;
 				star.setChecked(true);
@@ -107,7 +168,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			getSupportActionBar().setTitle(b.getString("event"));
 
 			eName.setText(b.getString("event"));
-			eOneLiner.setText(myDbHelper.getEventOneLiner(b.getString("event")));
+			eOneLiner
+					.setText(myDbHelper.getEventOneLiner(b.getString("event")));
 			eDescription.setText(myDbHelper.getEventDescription(b
 					.getString("event")));
 			int x = myDbHelper.getImageX(b.getString("event"));
@@ -120,7 +182,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			} catch (Exception e) {
 				eventIcon.setImageResource(0);
 			}
-			eDate.setText("DATE : " + myDbHelper.getEventDate(b.getString("event")));
+			eDate.setText("DATE : "
+					+ myDbHelper.getEventDate(b.getString("event")));
 			eTime.setText("TIME : " + setTime(b.getString("event")));
 			eVenue.setTextColor(Color.rgb(1, 140, 149));
 			eVenue.setText("VENUE : "
@@ -162,7 +225,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			getPathFromPresentLocation(coord.x, coord.y);
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -199,14 +262,13 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			} else {
 				startX = start / 100 + ":" + start % 100 + " am";
 			}
-		}else if(start>=1200 && start <1300) {
+		} else if (start >= 1200 && start < 1300) {
 			if (start % 100 == 0) {
 				startX = start / 100 + ":" + "00 pm";
 			} else {
 				startX = start / 100 + ":" + start % 100 + " pm";
-			}	
-		}
-		else {
+			}
+		} else {
 			if (start % 100 == 0) {
 				startX = (start / 100) - 12 + ":" + "00 pm";
 			} else {
@@ -220,12 +282,12 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			} else {
 				endX = end / 100 + ":" + end % 100 + " am";
 			}
-			if(end>1200 && end < 1300) {
+			if (end > 1200 && end < 1300) {
 				if (end % 100 == 0) {
 					endX = end / 100 + ":" + "00 pm";
 				} else {
 					endX = start / 100 + ":" + end % 100 + " pm";
-				}	
+				}
 			}
 		} else {
 			if (end % 100 == 0) {
@@ -237,30 +299,82 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 		return startX + " - " + endX;
 	}
-	
+
+	public String setTimeD(String dept, String event) {
+
+		int start = myDbHelper.getStartTimeD(dept, event);
+		int end = myDbHelper.getEndTimeD(dept, event);
+
+		String startX;
+		String endX;
+
+		if (start < 1200) {
+			if (start % 100 == 0) {
+				startX = start / 100 + ":" + "00 am";
+			} else {
+				startX = start / 100 + ":" + start % 100 + " am";
+			}
+		} else if (start >= 1200 && start < 1300) {
+			if (start % 100 == 0) {
+				startX = start / 100 + ":" + "00 pm";
+			} else {
+				startX = start / 100 + ":" + start % 100 + " pm";
+			}
+		} else {
+			if (start % 100 == 0) {
+				startX = (start / 100) - 12 + ":" + "00 pm";
+			} else {
+				startX = (start / 100) - 12 + ":" + start % 100 + " pm";
+			}
+		}
+
+		if (end < 1300) {
+			if (end % 100 == 0) {
+				endX = end / 100 + ":" + "00 am";
+			} else {
+				endX = end / 100 + ":" + end % 100 + " am";
+			}
+			if (end > 1200 && end < 1300) {
+				if (end % 100 == 0) {
+					endX = end / 100 + ":" + "00 pm";
+				} else {
+					endX = start / 100 + ":" + end % 100 + " pm";
+				}
+			}
+		} else {
+			if (end % 100 == 0) {
+				endX = (end / 100) - 12 + ":" + "00 pm";
+			} else {
+				endX = (end / 100) - 12 + ":" + end % 100 + " pm";
+			}
+		}
+
+		return startX + " - " + endX;
+	}
+
 	private void showDialog() {
 		// TODO Auto-generated method stub
-//		final Dialog dialog = new Dialog(this);
-//		dialog.setContentView(R.layout.navigate_options);
-//		dialog.setTitle("Choose Mode of Navigation");
-//
-//		try {
-//			off = (TextView) findViewById(R.id.offline);
-//			on = (TextView) findViewById(R.id.online);
-//			//System.out.println(off.getText().toString());
-//			off.setOnClickListener(this);
-//			on.setOnClickListener(this);
-//		} catch (Exception e) {
-//			Log.i("navError", e.toString());
-//		}
-//
-//		dialog.show();
+		// final Dialog dialog = new Dialog(this);
+		// dialog.setContentView(R.layout.navigate_options);
+		// dialog.setTitle("Choose Mode of Navigation");
+		//
+		// try {
+		// off = (TextView) findViewById(R.id.offline);
+		// on = (TextView) findViewById(R.id.online);
+		// //System.out.println(off.getText().toString());
+		// off.setOnClickListener(this);
+		// on.setOnClickListener(this);
+		// } catch (Exception e) {
+		// Log.i("navError", e.toString());
+		// }
+		//
+		// dialog.show();
 		PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
 				.getVenueMap(b.getString("event")));
 		getPathFromPresentLocation(coord.x, coord.y);
 
 	}
-	
+
 	private void getPathFromPresentLocation(double destLat, double destLong) {
 		// TODO Auto-generated method stub
 		// create class object
@@ -294,6 +408,5 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent1);
 	}
-	
-	
+
 }
