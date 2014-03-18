@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EventActivity extends ActionBarActivity implements OnClickListener {
 
@@ -30,6 +31,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 	boolean fav;
 	GPSTracker gps;
 	TextView on , off;
+	
+	boolean isDept = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		TextView eVenue = (TextView) findViewById(R.id.event_venue);
 
 		ImageView eventIcon = (ImageView) findViewById(R.id.event_ImView);
+		
+		CheckBox star = (CheckBox) findViewById(R.id.star);
 
 		myDbHelper = new DatabaseHelper(this);
 		try {
@@ -59,53 +64,70 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 		b = getIntent().getExtras();
 
-		CheckBox star = (CheckBox) findViewById(R.id.star);
-		if (myDbHelper.isFavourite(b.getString("event"))) {
-			fav = true;
-			star.setChecked(true);
-		} else {
-			fav = false;
-			star.setChecked(false);
+		try{
+			isDept = b.getBoolean("dept");
+		}catch(Exception e){
+			
 		}
+		
+		if(isDept){
+			/**If the event is a departmental event it is handled separately */
+			
+//			Toast.makeText(this , "Successfully entered EventActivity",
+//					Toast.LENGTH_SHORT).show();
+			
+			
 
-		star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-
-				if (fav) {
-					myDbHelper.unmarkAsFavourite(b.getString("event"));
-				} else {
-					myDbHelper.markAsFavourite(b.getString("event"));
-				}
+			
+		}else {
+			
+			if (myDbHelper.isFavourite(b.getString("event"))) {
+				fav = true;
+				star.setChecked(true);
+			} else {
+				fav = false;
+				star.setChecked(false);
 			}
-		});
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(b.getString("event"));
+			star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-		eName.setText(b.getString("event"));
-		eOneLiner.setText(myDbHelper.getEventOneLiner(b.getString("event")));
-		eDescription.setText(myDbHelper.getEventDescription(b
-				.getString("event")));
-		int x = myDbHelper.getImageX(b.getString("event"));
-		int y = myDbHelper.getImageY(b.getString("event"));
-		Log.v("Image", "x :" + x);
-		Log.v("Image", "y :" + y);
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
 
-		try {
-			eventIcon.setImageResource(Drawables.eventsImages[x][y]);
-		} catch (Exception e) {
-			eventIcon.setImageResource(0);
+					if (fav) {
+						myDbHelper.unmarkAsFavourite(b.getString("event"));
+					} else {
+						myDbHelper.markAsFavourite(b.getString("event"));
+					}
+				}
+			});
+
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setTitle(b.getString("event"));
+
+			eName.setText(b.getString("event"));
+			eOneLiner.setText(myDbHelper.getEventOneLiner(b.getString("event")));
+			eDescription.setText(myDbHelper.getEventDescription(b
+					.getString("event")));
+			int x = myDbHelper.getImageX(b.getString("event"));
+			int y = myDbHelper.getImageY(b.getString("event"));
+			Log.v("Image", "x :" + x);
+			Log.v("Image", "y :" + y);
+
+			try {
+				eventIcon.setImageResource(Drawables.eventsImages[x][y]);
+			} catch (Exception e) {
+				eventIcon.setImageResource(0);
+			}
+			eDate.setText("DATE : " + myDbHelper.getEventDate(b.getString("event")));
+			eTime.setText("TIME : " + setTime(b.getString("event")));
+			eVenue.setTextColor(Color.rgb(1, 140, 149));
+			eVenue.setText("VENUE : "
+					+ myDbHelper.getVenueDisplay(b.getString("event")));
+
+			eVenue.setOnClickListener(this);
 		}
-		eDate.setText("DATE : " + myDbHelper.getEventDate(b.getString("event")));
-		eTime.setText("TIME : " + setTime(b.getString("event")));
-		eVenue.setTextColor(Color.rgb(1, 140, 149));
-		eVenue.setText("VENUE : "
-				+ myDbHelper.getVenueDisplay(b.getString("event")));
-
-		eVenue.setOnClickListener(this);
 	}
 
 	private void showZoomedMap(String place) {

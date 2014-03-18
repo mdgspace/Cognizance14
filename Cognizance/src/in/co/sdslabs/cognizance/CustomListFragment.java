@@ -60,21 +60,24 @@ public class CustomListFragment extends ListFragment {
 			throw sqle;
 		}
 
-		if(isDepartment){
-			
-			try{
+		if (isDepartment) {
+
+			try {
 				eventname = myDbHelper.getDepartmentalEvents(deptName);
-				
+
 				for (int i = 0; i < eventname.size(); i++) {
 					HashMap<String, String> hm = new HashMap<String, String>();
 					hm.put("eventname", eventname.get(i));
-					Log.v("eventname" , eventname.get(i));
+					hm.put(EVENTIMAGE, Integer
+							.toString(Drawables.eventsImages[11][getArguments()
+									.getInt("pos")]));
+					Log.v("eventname", eventname.get(i));
 					eventList.add(hm);
-				}			
-			}catch(Exception e){
+				}
+			} catch (Exception e) {
 			}
-			
-		}else{
+
+		} else {
 			eventname = myDbHelper.getFavouritesName();
 
 			if (eventname.size() == 0) {
@@ -93,12 +96,13 @@ public class CustomListFragment extends ListFragment {
 						myDbHelper.getEventOneLiner(eventname.get(i)));
 				x = myDbHelper.getImageX(eventname.get(i));
 				y = myDbHelper.getImageY(eventname.get(i));
-				hm.put(EVENTIMAGE, Integer.toString(Drawables.eventsImages[x][y]));
+				hm.put(EVENTIMAGE,
+						Integer.toString(Drawables.eventsImages[x][y]));
 				eventList.add(hm);
 			}
 
 		}
-				String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
+		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
 		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
 
@@ -124,14 +128,29 @@ public class CustomListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		super.onListItemClick(l, v, 1, id);
-
+		
 		Bundle data = new Bundle();
-		data.putString("event", eventname.get(pos));
-		Intent i = new Intent(getActivity().getBaseContext(),
-				EventActivity.class);
-		i.putExtras(data);
-		startActivity(i);
+		if (isDepartment) {
+			// put dept name + event_name as title
+			// put drawable as Integer
+			data.putBoolean("dept", true);
+			data.putString("event", deptName + eventname.get(pos));
+//			Toast.makeText(getActivity(), deptName + " " + eventname.get(pos),
+//					Toast.LENGTH_SHORT).show();
+			data.putInt("icon" , Drawables.eventsImages[11][getArguments().getInt("pos")]);
+			Intent intent = new Intent(getActivity().getBaseContext() , EventActivity.class);
+			intent.putExtras(data);
+			startActivity(intent);
+		} else {
 
+
+			data.putString("event", eventname.get(pos));
+			Intent i = new Intent(getActivity().getBaseContext(),
+					EventActivity.class);
+			i.putExtras(data);
+			startActivity(i);
+
+		}
 	}
 
 	@Override
@@ -143,7 +162,8 @@ public class CustomListFragment extends ListFragment {
 			if (isDepartment) {
 				deptName = getArguments().getString("name");
 			}
-			Toast.makeText(getActivity(), deptName, Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getActivity(), deptName,
+			// Toast.LENGTH_SHORT).show();
 		} catch (Exception e) {
 		}
 

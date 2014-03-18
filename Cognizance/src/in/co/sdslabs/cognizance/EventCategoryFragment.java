@@ -174,7 +174,7 @@ public class EventCategoryFragment extends ListFragment {
 				String deptName = eventname.get(pos - 1);
 //				Toast.makeText(getActivity(), deptName, Toast.LENGTH_SHORT)
 //						.show();
-				showDepartmentalFragment(deptName);
+				showDepartmentalFragment(deptName , pos);
 
 			} else {
 
@@ -189,7 +189,7 @@ public class EventCategoryFragment extends ListFragment {
 			}
 		}
 	}
-	private void showDepartmentalFragment(String deptName) {
+	private void showDepartmentalFragment(String deptName , int pos) {
 
 		/**
 		 * This method will open up a listView fragment containing all the
@@ -201,7 +201,7 @@ public class EventCategoryFragment extends ListFragment {
 		
 		data.putBoolean("dept", true);
 		data.putString("name", deptName);
-		
+		data.putInt("pos", pos-1);
 		fragmentManager = getActivity().getSupportFragmentManager();
 		// Creating a fragment transaction
 		FragmentTransaction ft = fragmentManager.beginTransaction();

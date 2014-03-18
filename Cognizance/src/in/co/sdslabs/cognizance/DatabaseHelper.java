@@ -671,6 +671,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public ArrayList<String> getDepartmentalEvents(String deptName) {
 		
+		/** Retrieves list of events for each department */
+		
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery("SELECT dept_event FROM " +
 				"table_departments WHERE dept_name ='"+deptName+"'",
@@ -684,6 +686,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return data;
 		
+	}
+	
+	
+	public void markAsFavouriteDept(String event) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(
+				"UPDATE table_departments SET isFavourite = 1 WHERE dept_event='"
+						+ event + "'", null);
+
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		cursor.close();
 	}
 	
 }
