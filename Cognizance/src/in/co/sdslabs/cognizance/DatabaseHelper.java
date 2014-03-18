@@ -377,6 +377,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return data;
 	}
 
+	public String getVenueMapD(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT venue_map FROM table_departments WHERE dept_name='"
+						+ event + "'", null);
+		String data = null;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		data = cursor.getString(cursor.getColumnIndex("venue_map"));
+		cursor.close();
+		return data;
+	}
+
 	public int getID(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
@@ -492,6 +507,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return (imageY);
 	}
 
+	public void markAsFavouriteD(String event, String dept) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(
+				"UPDATE table_departments SET isFavourite = 1 WHERE dept_name ='"
+						+ dept + "' AND dept_event='" + event + "'", null);
+
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		cursor.close();
+	}
+
+	public void unmarkAsFavouriteD(String event, String dept) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(
+				"UPDATE table_departments SET isFavourite = 0 WHERE dept_name ='"
+						+ dept + "' AND dept_event='" + event + "'", null);
+
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		cursor.close();
+	}
+
+	public boolean isFavouriteD(String event, String dept) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db
+				.rawQuery(
+						"SELECT isFavourite FROM table_departments WHERE dept_name = ? AND dept_event = ?",
+						new String[] { dept, event });
+
+		int flag;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		flag = cursor.getInt(0);
+		cursor.close();
+		if (flag == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public void markAsFavourite(String event) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(
@@ -540,8 +602,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public ArrayList<String> getFavouritesName() {
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE isFavourite= 1", null);
+		Cursor cursor = db
+				.rawQuery(
+						"SELECT event_name FROM table_event_details WHERE isFavourite= 1",
+						null);
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
@@ -557,6 +621,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery(
 				"SELECT * FROM table_event_details WHERE event_name='" + event
 						+ "'", null);
+
+		int day;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		day = cursor.getInt(cursor.getColumnIndex("day"));
+		cursor.close();
+
+		switch (day) {
+		case 1:
+			return "21st March 2014";
+		case 2:
+			return "22nd March 2014";
+		case 3:
+			return "23rd March 2014";
+		case 12:
+			return "21-22 March 2014";
+		case 123:
+			return "21-23 March 2014";
+		case 23:
+			return "22-23 March 2014";
+		default:
+			return null;
+		}
+	}
+
+	public String getEventDDate(String event, String dept) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db
+				.rawQuery(
+						"SELECT day FROM table_departments WHERE dept_name = ? AND dept_event = ?",
+						new String[] { dept, event });
 
 		int day;
 		if (cursor != null) {
@@ -620,6 +717,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return (endTime);
 	}
 
+	public int getStartTimeD(String dept, String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db
+				.rawQuery(
+						"SELECT start_time FROM table_departments WHERE dept_name = ? AND dept_event = ?",
+						new String[] { dept, event });
+
+		int startTime;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		startTime = cursor.getInt(cursor.getColumnIndex("start_time"));
+		cursor.close();
+		return (startTime);
+	}
+
+	public int getEndTimeD(String dept, String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db
+				.rawQuery(
+						"SELECT end_time FROM table_departments WHERE dept_name = ? AND dept_event = ?",
+						new String[] { dept, event });
+
+		int endTime;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		endTime = cursor.getInt(cursor.getColumnIndex("end_time"));
+		cursor.close();
+		return (endTime);
+	}
+
 	public PointF searchPlaceForLatLong(String selection) {
 		// TODO Auto-generated method stub
 
@@ -648,17 +779,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		return coor;
 	}
-	
+
 	/** Functions for Departmental Events */
-	
+
 	public ArrayList<String> getDepartments() {
-		
-		/** Retrieves unique department names from the database*/
-		
+
+		/** Retrieves unique department names from the database */
+
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery("SELECT DISTINCT dept_name FROM " +
-				"table_departments ORDER BY dept_name",
-				null);
+		Cursor cursor = db.rawQuery("SELECT DISTINCT dept_name FROM "
+				+ "table_departments ORDER BY dept_name", null);
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
@@ -670,13 +800,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public ArrayList<String> getDepartmentalEvents(String deptName) {
-		
+
 		/** Retrieves list of events for each department */
-		
+
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery("SELECT dept_event FROM " +
-				"table_departments WHERE dept_name ='"+deptName+"'",
-				null);
+		Cursor cursor = db
+				.rawQuery("SELECT dept_event FROM "
+						+ "table_departments WHERE dept_name ='" + deptName
+						+ "'", null);
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
@@ -685,10 +816,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 		cursor.close();
 		return data;
-		
+
 	}
-	
-	
+
+	public String getDepartmentalEventVenue(String dept, String event) {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db
+				.rawQuery(
+						"SELECT venue_display FROM table_departments WHERE dept_name = ? AND dept_event = ?",
+						new String[] { dept, event });
+		String data = "";
+		if (cursor != null) {
+			cursor.moveToFirst();
+			data = cursor.getString(cursor.getColumnIndex("venue_display"));
+		}
+		cursor.close();
+		if (data.equals("")) {
+			return "";
+		}
+		return data;
+
+	}
+
+	public String getDepartmentalEventDescription(String dept, String event) {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db
+				.rawQuery(
+						"SELECT event_description FROM table_departments WHERE dept_name = ? AND dept_event = ?",
+						new String[] { dept, event });
+		String data = "";
+		if (cursor != null && cursor.moveToFirst()) {
+			data = cursor.getString(cursor.getColumnIndex("event_description"));
+		}
+		cursor.close();
+		return data;
+
+	}
+
 	public void markAsFavouriteDept(String event) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(
@@ -701,5 +867,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 		cursor.close();
 	}
-	
+
 }
