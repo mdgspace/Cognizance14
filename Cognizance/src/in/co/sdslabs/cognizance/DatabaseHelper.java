@@ -199,14 +199,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public String getEventOneLiner(String eventname) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE event_name='"
+				"SELECT one_liner FROM table_event_details WHERE event_name='"
 						+ eventname + "'", null);
 		String data = null;
 		if (cursor != null) {
 			if (cursor.moveToNext()) {
 				cursor.moveToFirst();
+				data = cursor.getString(cursor.getColumnIndex("one_liner"));
 			}
-			data = cursor.getString(cursor.getColumnIndex("one_liner"));
+
 		}
 		cursor.close();
 		return data;
@@ -269,22 +270,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cursor.close();
 		return data;
 	}
-
-	// public String getEventDescriptionx(String eventname, int day) {
-	// SQLiteDatabase db = this.getReadableDatabase();
-	// Cursor cursor = db.rawQuery(
-	// "SELECT * FROM table_event_details WHERE event_name='"
-	// + eventname + "'AND day= '" + day + "'", null);
-	// String data = null;
-	// if (cursor != null) {
-	// if (cursor.moveToNext()) {
-	// cursor.moveToFirst();
-	// }
-	// data = cursor.getString(cursor.getColumnIndex("description"));
-	// }
-	// cursor.close();
-	// return data;
-	// }
 
 	public String searchEntryForVenue(String x, String y) throws SQLException {
 		// TODO Auto-generated method stub
@@ -478,15 +463,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public int getImageX(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE event_name='" + event
-						+ "'", null);
+				"SELECT image_x FROM table_event_details WHERE event_name='"
+						+ event + "'", null);
 
-		int imageX;
+		int imageX = 0;
 		if (cursor != null) {
 			if (cursor.moveToNext())
 				cursor.moveToFirst();
+			imageX = cursor.getInt(cursor.getColumnIndex("image_x"));
 		}
-		imageX = cursor.getInt(cursor.getColumnIndex("image_x"));
 		cursor.close();
 		return (imageX);
 	}
@@ -494,15 +479,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public int getImageY(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE event_name='" + event
-						+ "'", null);
+				"SELECT image_y FROM table_event_details WHERE event_name='"
+						+ event + "'", null);
 
-		int imageY;
+		int imageY = 0;
 		if (cursor != null) {
 			if (cursor.moveToNext())
 				cursor.moveToFirst();
+			imageY = cursor.getInt(cursor.getColumnIndex("image_y"));
 		}
-		imageY = cursor.getInt(cursor.getColumnIndex("image_y"));
+
 		cursor.close();
 		return (imageY);
 	}
@@ -540,12 +526,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 						"SELECT isFavourite FROM table_departments WHERE dept_name = ? AND dept_event = ?",
 						new String[] { dept, event });
 
-		int flag;
+		int flag = 0;
 		if (cursor != null) {
-			if (cursor.moveToNext())
+			if (cursor.moveToNext()) {
 				cursor.moveToFirst();
+				flag = cursor.getInt(cursor.getColumnIndex("isFavourite"));
+			}
 		}
-		flag = cursor.getInt(0);
+
 		cursor.close();
 		if (flag == 1) {
 			return true;
@@ -613,6 +601,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			}
 		}
 		cursor.close();
+		Cursor cursor1 = db
+				.rawQuery(
+						"SELECT dept_event FROM table_departments WHERE isFavourite= 1",
+						null);
+		Cursor cursor2 = db.rawQuery(
+				"SELECT dept_name FROM table_departments WHERE isFavourite= 1",
+				null);
+
+		if (cursor1 != null && cursor2 != null) {
+			while (cursor1.moveToNext() && cursor2.moveToNext()) {
+				String event = cursor1.getString(cursor1
+						.getColumnIndex("dept_event"));
+				String dept = cursor2.getString(cursor2
+						.getColumnIndex("dept_name"));
+				data.add(event + ":" + dept);
+			}
+		}
+		cursor.close();
+		cursor1.close();
+		cursor2.close();
 		return data;
 	}
 
@@ -866,6 +874,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				cursor.moveToFirst();
 		}
 		cursor.close();
+	}
+
+	public boolean isDeptEvent(String event) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT dept_name FROM table_departments WHERE dept_event = ?",
+				new String[] { event });
+		String data = null;
+		if (cursor != null) {
+			cursor.moveToFirst();
+			data = cursor.getString(cursor.getColumnIndex("dept_name"));
+		}
+		if (cursor == null) {
+			return false;
+		}
+		cursor.close();
+		return true;
 	}
 
 }
