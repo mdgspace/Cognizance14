@@ -656,7 +656,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		/** Retrieves unique department names from the database*/
 		
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery("SELECT DISTINCT dept_name FROM table_departments",
+		Cursor cursor = db.rawQuery("SELECT DISTINCT dept_name FROM " +
+				"table_departments ORDER BY dept_name",
 				null);
 		ArrayList<String> data = new ArrayList<String>();
 		if (cursor != null) {

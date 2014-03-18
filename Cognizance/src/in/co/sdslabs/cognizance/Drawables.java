@@ -65,15 +65,15 @@ public class Drawables {
 
 			// Departments
 			{ R.drawable.dept_ahec, R.drawable.dept_archi, R.drawable.dept_bio,
-					R.drawable.dept_chemical, R.drawable.dept_chemistry,
-					R.drawable.dept_civil, R.drawable.dept_cse,
-					R.drawable.dept_ctrans, R.drawable.dept_earth_science,
-					R.drawable.dept_earthquake, R.drawable.dept_ece,
+					R.drawable.dept_cse, R.drawable.dept_chemical,
+					R.drawable.dept_chemistry, R.drawable.dept_civil,
+					R.drawable.dept_coedmm, R.drawable.dept_ctrans,
+					R.drawable.dept_papertech, R.drawable.dept_ece,
+					R.drawable.dept_earth_science, R.drawable.dept_earthquake,
 					R.drawable.dept_electrical, R.drawable.dept_hydrology,
-					R.drawable.dept_mba, R.drawable.dept_maths,
-					R.drawable.dept_meta, R.drawable.dept_mech,
+					R.drawable.dept_mech, R.drawable.dept_mba,
+					R.drawable.dept_maths, R.drawable.dept_meta,
 					R.drawable.dept_nano, R.drawable.dept_physics,
-					R.drawable.dept_papertech, R.drawable.dept_coedmm,
-					R.drawable.dept_wrdm  } };
+					R.drawable.dept_wrdm } };
 
 }
