@@ -28,6 +28,7 @@ public class CustomListFragment extends ListFragment {
 	ArrayList<String> eventoneliner;
 	FragmentManager fragmentManager;
 	String deptName = null;
+	String eventName = null;
 	boolean isDepartment = false;
 
 	public CustomListFragment() {
@@ -71,7 +72,6 @@ public class CustomListFragment extends ListFragment {
 					hm.put(EVENTIMAGE, Integer
 							.toString(Drawables.eventsImages[11][getArguments()
 									.getInt("pos")]));
-					Log.v("eventname", eventname.get(i));
 					eventList.add(hm);
 				}
 			} catch (Exception e) {
@@ -88,15 +88,39 @@ public class CustomListFragment extends ListFragment {
 
 			}
 			int x, y;
+			boolean isDeptevent;
 			for (int i = 0; i < eventname.size(); i++) {
 				HashMap<String, String> hm = new HashMap<String, String>();
 				hm.put("eventname", eventname.get(i));
-				hm.put("eventoneliner",
-						myDbHelper.getEventOneLiner(eventname.get(i)));
-				x = myDbHelper.getImageX(eventname.get(i));
-				y = myDbHelper.getImageY(eventname.get(i));
-				hm.put(EVENTIMAGE,
-						Integer.toString(Drawables.eventsImages[x][y]));
+				String[] values = new String[2];
+				if ((eventname.get(i)).contains(":")) {
+					values = (eventname.get(i)).split(":");
+					eventName = values[0];
+					deptName = values[1];
+				} else
+					values[0] = eventname.get(i);
+				try {
+					isDeptevent = myDbHelper.isDeptEvent(values[0]);
+					if (isDeptevent) {
+						hm.put(EVENTIMAGE,
+								Integer.toString(Drawables.eventsImages[11][0]));
+						//icon to be changed here
+					} else {
+						hm.put("eventoneliner",
+								myDbHelper.getEventOneLiner(values[0]));
+						x = myDbHelper.getImageX(values[0]);
+						y = myDbHelper.getImageY(values[0]);
+						hm.put(EVENTIMAGE,
+								Integer.toString(Drawables.eventsImages[x][y]));
+					}
+				} catch (Exception e) {
+					hm.put("eventoneliner",
+							myDbHelper.getEventOneLiner(values[0]));
+					x = myDbHelper.getImageX(values[0]);
+					y = myDbHelper.getImageY(values[0]);
+					hm.put(EVENTIMAGE,
+							Integer.toString(Drawables.eventsImages[x][y]));
+				}
 				eventList.add(hm);
 			}
 
@@ -130,27 +154,53 @@ public class CustomListFragment extends ListFragment {
 
 		Bundle data = new Bundle();
 		if (isDepartment) {
-			// put dept name + event_name as title
-			// put drawable as Integer
 			data.putBoolean("dept", true);
 			data.putString("event", eventname.get(pos));
 			data.putString("deptt", deptName);
-			// Toast.makeText(getActivity(), deptName + " " +
-			// eventname.get(pos),
-			// Toast.LENGTH_SHORT).show();
-			data.putInt("icon", getArguments()
-					.getInt("pos"));
+			data.putInt("icon", getArguments().getInt("pos"));
 			Intent intent = new Intent(getActivity().getBaseContext(),
 					EventActivity.class);
 			intent.putExtras(data);
 			startActivity(intent);
 		} else {
+			DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
+					.getBaseContext());
+			try {
+				myDbHelper.createDataBase();
+			} catch (IOException ioe) {
+				throw new Error("Unable to create database");
+			}
 
-			data.putString("event", eventname.get(pos));
-			Intent i = new Intent(getActivity().getBaseContext(),
-					EventActivity.class);
-			i.putExtras(data);
-			startActivity(i);
+			try {
+				myDbHelper.openDataBase();
+			} catch (SQLException sqle) {
+				throw sqle;
+			}
+			boolean isDeptevent = false;
+			String[] values = new String[2];
+			try {
+				values = (eventname.get(pos)).split(":");
+				isDeptevent = myDbHelper.isDeptEvent(values[0]);
+			} catch (Exception e) {
+			}
+			if (isDeptevent) {
+				data.putBoolean("dept", true);
+				data.putString("event", values[0]);
+				data.putString("deptt", values[1]);
+				//icon to be changed
+				data.putInt("icon", 0);
+				Intent intent = new Intent(getActivity().getBaseContext(),
+						EventActivity.class);
+				intent.putExtras(data);
+				startActivity(intent);
+			} else {
+				data.putString("event", eventname.get(pos));
+				Intent i = new Intent(getActivity().getBaseContext(),
+						EventActivity.class);
+				i.putExtras(data);
+				startActivity(i);
+
+			}
 
 		}
 	}
