@@ -90,7 +90,6 @@ public class CustomListFragment extends ListFragment {
 			int x, y;
 			for (int i = 0; i < eventname.size(); i++) {
 				HashMap<String, String> hm = new HashMap<String, String>();
-				Log.v("dfsd", eventname.get(i));
 				hm.put("eventname", eventname.get(i));
 				hm.put("eventoneliner",
 						myDbHelper.getEventOneLiner(eventname.get(i)));
@@ -139,8 +138,8 @@ public class CustomListFragment extends ListFragment {
 			// Toast.makeText(getActivity(), deptName + " " +
 			// eventname.get(pos),
 			// Toast.LENGTH_SHORT).show();
-			data.putInt("icon", Drawables.eventsImages[11][getArguments()
-					.getInt("pos")]);
+			data.putInt("icon", getArguments()
+					.getInt("pos"));
 			Intent intent = new Intent(getActivity().getBaseContext(),
 					EventActivity.class);
 			intent.putExtras(data);

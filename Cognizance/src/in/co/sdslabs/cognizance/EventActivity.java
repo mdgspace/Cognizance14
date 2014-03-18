@@ -19,7 +19,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class EventActivity extends ActionBarActivity implements OnClickListener {
 
@@ -103,12 +102,10 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			// .setText(myDbHelper.getEventOneLiner(b.getString("event")));
 			eDescription.setText(myDbHelper.getDepartmentalEventDescription(
 					dept_name, event_name));
-			// int x = myDbHelper.getImageX(b.getString("event"));
-			// int y = myDbHelper.getImageY(b.getString("event"));
-			// Log.v("Image", "x :" + x);
-			// Log.v("Image", "y :" + y);
 
 			try {
+				eventIcon.setImageResource(Drawables.eventsImages[11][b
+						.getInt("icon")]);
 				// eventIcon.setImageResource(Drawables.eventsImages[x][y]);
 			} catch (Exception e) {
 				eventIcon.setImageResource(0);
@@ -124,22 +121,23 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				eVenue.setOnClickListener(null);
 			} else {
 				eVenue.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						if (v.getId() == R.id.event_venue)
 							showZoomedMap(myDbHelper.getVenueMapD(dept_name));
 						else if (v.getId() == R.id.online) {
-							PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
-									.getVenueMapD(dept_name));
+							PointF coord = myDbHelper
+									.searchPlaceForLatLong(myDbHelper
+											.getVenueMapD(dept_name));
 							getPathFromPresentLocation(coord.x, coord.y);
-						}	
+						}
 					}
 				});
 			}
 			eVenue.setText("VENUE : " + venue);
-			
+
 		} else {
 
 			if (myDbHelper.isFavourite(b.getString("event"))) {
@@ -172,10 +170,10 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 					.setText(myDbHelper.getEventOneLiner(b.getString("event")));
 			eDescription.setText(myDbHelper.getEventDescription(b
 					.getString("event")));
-			int x = myDbHelper.getImageX(b.getString("event"));
-			int y = myDbHelper.getImageY(b.getString("event"));
-			Log.v("Image", "x :" + x);
-			Log.v("Image", "y :" + y);
+			 int x = myDbHelper.getImageX(b.getString("event"));
+			 int y = myDbHelper.getImageY(b.getString("event"));
+			 Log.v("Image", "x :" + x);
+			 Log.v("Image", "y :" + y);
 
 			try {
 				eventIcon.setImageResource(Drawables.eventsImages[x][y]);
