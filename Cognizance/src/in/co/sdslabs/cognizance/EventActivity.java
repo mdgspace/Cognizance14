@@ -30,6 +30,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 	boolean fav;
 	GPSTracker gps;
 	TextView on, off;
+	String dept_name;
 
 	boolean isDept = false;
 
@@ -70,7 +71,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		}
 
 		if (isDept) {
-			final String dept_name = b.getString("deptt");
+			dept_name = b.getString("deptt");
 			final String event_name = b.getString("event");
 			if (myDbHelper.isFavouriteD(event_name, dept_name)) {
 				fav = true;
@@ -125,6 +126,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
+						
 						if (v.getId() == R.id.event_venue)
 							showZoomedMap(myDbHelper.getVenueMapD(dept_name));
 						else if (v.getId() == R.id.online) {
@@ -215,6 +217,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
+		Log.i("venue", myDbHelper.getVenueMap("AHEC"));
 		if (v.getId() == R.id.event_venue)
 			showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
 		else if (v.getId() == R.id.online) {
@@ -239,11 +242,21 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			finish();
 			break;
 		case R.id.navigate:
-			Log.i("nav", myDbHelper.getVenueMap(b.getString("event")));
-			showDialog();
+			//Log.i("nav", myDbHelper.getVenueMap(b.getString("event")));
+			if(!isDept)
+				showDialog();
+			else
+				showDialogD();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void showDialogD() {
+		// TODO Auto-generated method stub
+		PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
+				.getVenueMapD(dept_name));
+		getPathFromPresentLocation(coord.x, coord.y);
 	}
 
 	public String setTime(String event) {

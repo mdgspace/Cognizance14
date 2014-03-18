@@ -350,7 +350,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public String getVenueMap(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT * FROM table_event_details WHERE event_name='" + event
+				"SELECT venue_map FROM table_event_details WHERE event_name='" + event
 						+ "'", null);
 		String data = null;
 		if (cursor != null) {
