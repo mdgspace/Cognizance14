@@ -12,6 +12,7 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +89,8 @@ public class UpcomingEvents extends ListFragment {
 		// Creating view corresponding to the fragment
 		View v = inflater.inflate(R.layout.eventcategoryfragment_layout,
 				container, false);
+		
+		((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Upcoming Events");
 
 		eventList = new ArrayList<HashMap<String, String>>();
 		eventToBePassed = new ArrayList<String>();
@@ -227,5 +230,8 @@ public class UpcomingEvents extends ListFragment {
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
+		
+		((ActionBarActivity) activity).getSupportActionBar().setTitle(
+				"Upcoming Events");
 	}
 }

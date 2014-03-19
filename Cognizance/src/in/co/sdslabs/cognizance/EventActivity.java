@@ -1,7 +1,11 @@
 package in.co.sdslabs.cognizance;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
@@ -125,12 +129,10 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 
 						if (v.getId() == R.id.event_venue)
 							showZoomedMap(myDbHelper.getVenueMapD(dept_name));
 						else if (v.getId() == R.id.online) {
-
 							PointF coord = myDbHelper
 									.searchPlaceForLatLong(myDbHelper
 											.getVenueMapD(dept_name));
@@ -160,8 +162,10 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 					if (fav) {
 						myDbHelper.unmarkAsFavourite(b.getString("event"));
+						setAlarm();
 					} else {
 						myDbHelper.markAsFavourite(b.getString("event"));
+						setAlarm();
 					}
 				}
 			});
@@ -196,11 +200,12 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					Log.i("venue1 : ",b.getString("event"));
-					if(b.getString("event").contentEquals("Sciennovate"))
+					Log.i("venue1 : ", b.getString("event"));
+					if (b.getString("event").contentEquals("Sciennovate"))
 						showZoomedMap("Main Building");
 					else
-						showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
+						showZoomedMap(myDbHelper.getVenueMap(b
+								.getString("event")));
 				}
 			});
 		}
@@ -378,15 +383,14 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 	private void showDialog() {
 		// TODO Auto-generated method stub
-		if(b.getString("event").contentEquals("Sciennovate")){
+		if (b.getString("event").contentEquals("Sciennovate")) {
 			PointF coord = myDbHelper.searchPlaceForLatLong("Main Building");
 			getPathFromPresentLocation(coord.x, coord.y);
-		}else{
+		} else {
 			PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
 					.getVenueMap(b.getString("event")));
 			getPathFromPresentLocation(coord.x, coord.y);
 		}
-		
 
 	}
 
@@ -424,4 +428,52 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		startActivity(intent1);
 	}
 
+	protected void setAlarm() {
+
+		ArrayList<String> eventList;
+
+		AlarmManager mgrAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+		ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
+
+		eventList = myDbHelper.getFavouritesName();
+
+		for (int i = 0; i < eventList.size(); i++) {
+
+			Calendar cal = Calendar.getInstance();
+			if (!eventList.get(i).contains(":")) {
+				// For normal events
+				Log.v("Notification" , eventList.get(i));
+				int day = myDbHelper.getEventDay(eventList.get(i));
+				while (day > 0) {
+					// This is to consider if any
+					// events are happening on multiple days
+					Intent intent = new Intent(this, AlarmReciever.class);
+					Bundle b = new Bundle();
+					b.putString("event", eventList.get(i));
+					PendingIntent pendingIntent = PendingIntent.getBroadcast(
+							this, i, intent, 0);
+					cal.set(Calendar.YEAR, 2014);
+					cal.set(Calendar.MONTH, 2);
+					cal.set(Calendar.DATE, day % 10);
+					day = day / 10;
+					int hr = myDbHelper.getStartTime(eventList.get(i)) / 100;
+					int min = myDbHelper.getStartTime(eventList.get(i)) % 100;
+
+					if (min < 30) {
+						cal.set(Calendar.HOUR_OF_DAY, hr - 1);
+						cal.set(Calendar.MINUTE, 30);
+					} else {
+						cal.set(Calendar.HOUR_OF_DAY, hr);
+						cal.set(Calendar.MINUTE, 0);
+					}
+					cal.set(Calendar.SECOND, 0);
+
+					mgrAlarm.set(AlarmManager.RTC_WAKEUP,
+							cal.getTimeInMillis(), pendingIntent);
+					intentArray.add(pendingIntent);
+				}
+			}
+		}
+
+	}
 }
