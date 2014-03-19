@@ -135,9 +135,17 @@ public class UpcomingEvents extends ListFragment {
 				eventList.add(hm);
 			}
 		}
+		
+		if (eventToBePassed.size() == 0) {
+			Toast.makeText(getActivity().getBaseContext(),
+					"There are no Upcoming Events", Toast.LENGTH_SHORT)
+					.show();
+			getActivity().getSupportFragmentManager().popBackStack();
 
-		if(eventList.size() == 0)
-			Toast.makeText(getActivity(), "No Upcoming Events", Toast.LENGTH_SHORT).show();
+		}
+
+//		if(eventList.size() == 0)
+//			Toast.makeText(getActivity(), "No Upcoming Events", Toast.LENGTH_SHORT).show();
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
 		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
