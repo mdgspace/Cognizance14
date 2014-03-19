@@ -4,7 +4,7 @@
 <item
         android:id="@+id/home"
         app:showAsAction="always"
-        android:title="HOME"/>
+        android:icon="@drawable/hm"/>
     <item
         android:id="@+id/filter"
         android:showAsAction="never"
