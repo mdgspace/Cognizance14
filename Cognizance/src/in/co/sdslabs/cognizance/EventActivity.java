@@ -153,19 +153,19 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				star.setChecked(false);
 			}
 
-			star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
-
-					if (fav) {
-						myDbHelper.unmarkAsFavourite(b.getString("event"));
-					} else {
-						myDbHelper.markAsFavourite(b.getString("event"));
-					}
-				}
-			});
+//			star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//
+//				@Override
+//				public void onCheckedChanged(CompoundButton buttonView,
+//						boolean isChecked) {
+//
+//					if (fav) {
+//						myDbHelper.unmarkAsFavourite(b.getString("event"));
+//					} else {
+//						myDbHelper.markAsFavourite(b.getString("event"));
+//					}
+//				}
+//			});
 
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setTitle(b.getString("event"));
@@ -201,8 +201,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				}
 			});
 		}
+	
 	}
-
 	private void showZoomedMap(String place) {
 
 		PointF coord = myDbHelper.searchPlaceForCoordinates(place);
@@ -230,13 +230,16 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		Log.i("venue", myDbHelper.getVenueMap("AHEC"));
 		//if (v.getId() == R.id.event_venue)
 			
-		 if (v.getId() == R.id.online) {
+		
+		
+		if (v.getId() == R.id.online) {
 			PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
 					.getVenueMap(b.getString("event")));
 			getPathFromPresentLocation(coord.x, coord.y);
-		}
+		
 	}
 
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

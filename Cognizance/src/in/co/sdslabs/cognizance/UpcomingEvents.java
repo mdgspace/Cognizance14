@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class UpcomingEvents extends ListFragment {
 	int position;
 	String[] categories;
 	int day;
-	int time;
+	long time;
 
 	ArrayList<String> eventname;
 	ArrayList<Long> startTime;
@@ -65,6 +66,11 @@ public class UpcomingEvents extends ListFragment {
 		
 		Log.v("DAY" , "day :"+day );
 		Log.v("DAY" , "time" + time);
+		// to set to current date and time
+//		Calendar cal = Calendar.getInstance();
+//		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+//		time = cal.getTimeInMillis();
+//		day = dayOfMonth % 10;
 	}
 
 	@Override
@@ -192,4 +198,9 @@ public class UpcomingEvents extends ListFragment {
 		setListAdapter(null);
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+	}
 }
