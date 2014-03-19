@@ -106,8 +106,9 @@ public class UpcomingEvents extends ListFragment {
 
 		for (int i = 0; i < startTime.size(); i++) {
 
-			if (startTime.get(i) - time <= 100) {
+			if (startTime.get(i) - time <= 100 && startTime.get(i) - time >= 0) {
 
+				Log.i("diff : ", i + " : " + (startTime.get(i) - time));
 				HashMap<String, String> hm = new HashMap<String, String>();
 				hm.put(EVENTNAME, eventname.get(i));
 				hm.put(EVENTONELINER,
