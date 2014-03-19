@@ -196,7 +196,11 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
+					Log.i("venue1 : ",b.getString("event"));
+					if(b.getString("event").contentEquals("Sciennovate"))
+						showZoomedMap("Main Building");
+					else
+						showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
 				}
 			});
 		}
