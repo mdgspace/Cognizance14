@@ -32,7 +32,7 @@ public class UpcomingEvents extends ListFragment {
 	int position;
 	String[] categories;
 	int day;
-	int time;
+	long time;
 
 	ArrayList<String> eventname;
 	ArrayList<Long> startTime;
@@ -44,9 +44,12 @@ public class UpcomingEvents extends ListFragment {
 
 	public UpcomingEvents() {
 		// TODO Auto-generated constructor stub
-		// to be set to current date and time
-		day = 1;
-		time = 900;
+		// to set to current date and time
+		Calendar cal = Calendar.getInstance();
+		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+		time = cal.getTimeInMillis();
+		day = dayOfMonth%10;
+		
 	}
 
 	@Override
