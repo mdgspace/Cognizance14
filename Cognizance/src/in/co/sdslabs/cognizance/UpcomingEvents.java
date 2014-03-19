@@ -45,9 +45,9 @@ public class UpcomingEvents extends ListFragment {
 	Bundle data;
 
 	DatabaseHelper myDbHelper;
-	
+
 	ArrayList<String> eventToBePassed;
-	
+
 	public UpcomingEvents() {
 		// TODO Auto-generated constructor stub
 		// to be set to current date and time
@@ -69,16 +69,16 @@ public class UpcomingEvents extends ListFragment {
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int min = c.get(Calendar.MINUTE);
 		time = hour * 100 + min;
-		if(hour <=8)
+		if (hour <= 8)
 			time = 900;
-		else if(hour>=19){
+		else if (hour >= 19) {
 			time = 900;
-			if(day!= 3)
+			if (day != 3)
 				day++;
 		}
-			
-		Log.v("DAY" , "day :"+day );
-		Log.v("DAY" , "time" + time);
+
+		Log.v("DAY", "day :" + day);
+		Log.v("DAY", "time" + time);
 	}
 
 	@Override
@@ -92,13 +92,14 @@ public class UpcomingEvents extends ListFragment {
 		
 		((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Upcoming Events");
 
+
+		((MainNavDrawerActivity) getActivity()).setActionBarTitle("Starting Shortly");
 		eventList = new ArrayList<HashMap<String, String>>();
 		eventToBePassed = new ArrayList<String>();
-		
+
 		// Initialising DBhelper class
 
-		myDbHelper = new DatabaseHelper(getActivity()
-				.getBaseContext());
+		myDbHelper = new DatabaseHelper(getActivity().getBaseContext());
 		try {
 			myDbHelper.createDataBase();
 		} catch (IOException ioe) {
@@ -117,14 +118,15 @@ public class UpcomingEvents extends ListFragment {
 
 		for (int i = 0; i < startTime.size(); i++) {
 
-			if (startTime.get(i) - time <= 200 && startTime.get(i) - time >= -15) {
+			if (startTime.get(i) - time <= 200
+					&& startTime.get(i) - time >= -15) {
 
 				Log.i("diff : ", i + " : " + (startTime.get(i) - time));
-				
+
 				HashMap<String, String> hm = new HashMap<String, String>();
 				hm.put(EVENTNAME, eventname.get(i));
 				eventToBePassed.add(eventname.get(i));
-				Log.v("eventname" , "Displayed eventname"+eventname.get(i));
+				Log.v("eventname", "Displayed eventname" + eventname.get(i));
 				hm.put(EVENTONELINER,
 						myDbHelper.getEventOneLiner(eventname.get(i)));
 				int x = myDbHelper.getImageX(eventname.get(i));
@@ -138,17 +140,94 @@ public class UpcomingEvents extends ListFragment {
 				eventList.add(hm);
 			}
 		}
-		
+		if (day == 1) {
+			if (1 == 1) {
+				HashMap<String, String> hm = new HashMap<String, String>();
+				hm.put(EVENTNAME, "Shadow Act");
+				eventToBePassed.add("Shadow Act");
+				hm.put(EVENTONELINER, "");
+				int x = myDbHelper.getImageX("Shadow Act");
+				int y = myDbHelper.getImageY("Shadow Act");
+				try {
+					hm.put(EVENTIMAGE,
+							Integer.toString(Drawables.eventsImages[x][y]));
+				} catch (Exception e) {
+					hm.put(EVENTIMAGE, "");
+				}
+				eventList.add(hm);
+			}
+
+			HashMap<String, String> hm = new HashMap<String, String>();
+			hm.put(EVENTNAME, "Speed Painting");
+			eventToBePassed.add("Speed Painting");
+			hm.put(EVENTONELINER, "");
+			int x = myDbHelper.getImageX("Speed Painting");
+			int y = myDbHelper.getImageY("Speed Painting");
+			try {
+				hm.put(EVENTIMAGE,
+						Integer.toString(Drawables.eventsImages[x][y]));
+			} catch (Exception e) {
+				hm.put(EVENTIMAGE, "");
+			}
+			eventList.add(hm);
+		} else if (day == 2) {
+			if (1 == 1) {
+				HashMap<String, String> hm = new HashMap<String, String>();
+				hm.put(EVENTNAME, "Sunburn");
+				eventToBePassed.add("Sunburn");
+				hm.put(EVENTONELINER, "");
+				int x = myDbHelper.getImageX("Sunburn");
+				int y = myDbHelper.getImageY("Sunburn");
+				try {
+					hm.put(EVENTIMAGE,
+							Integer.toString(Drawables.eventsImages[x][y]));
+				} catch (Exception e) {
+					hm.put(EVENTIMAGE, "");
+				}
+				eventList.add(hm);
+			}
+		} else if (day == 3) {
+			if (1 == 1) {
+				HashMap<String, String> hm = new HashMap<String, String>();
+				hm.put(EVENTNAME, "3D Projection Mappings");
+				eventToBePassed.add("3D Projection Mappings");
+				hm.put(EVENTONELINER, "");
+				int x = myDbHelper.getImageX("3D Projection Mappings");
+				int y = myDbHelper.getImageY("3D Projection Mappings");
+				try {
+					hm.put(EVENTIMAGE,
+							Integer.toString(Drawables.eventsImages[x][y]));
+				} catch (Exception e) {
+					hm.put(EVENTIMAGE, "");
+				}
+				eventList.add(hm);
+			}
+
+			HashMap<String, String> hm = new HashMap<String, String>();
+			hm.put(EVENTNAME, "Hula B Boys Dance");
+			eventToBePassed.add("Hula B Boys Dance");
+			hm.put(EVENTONELINER, "");
+			int x = myDbHelper.getImageX("Hula B Boys Dance");
+			int y = myDbHelper.getImageY("Hula B Boys Dance");
+			try {
+				hm.put(EVENTIMAGE,
+						Integer.toString(Drawables.eventsImages[x][y]));
+			} catch (Exception e) {
+				hm.put(EVENTIMAGE, "");
+			}
+			eventList.add(hm);
+		}
+
 		if (eventToBePassed.size() == 0) {
 			Toast.makeText(getActivity().getBaseContext(),
-					"There are no Upcoming Events", Toast.LENGTH_SHORT)
-					.show();
+					"There are no Upcoming Events", Toast.LENGTH_SHORT).show();
 			getActivity().getSupportFragmentManager().popBackStack();
 
 		}
 
-//		if(eventList.size() == 0)
-//			Toast.makeText(getActivity(), "No Upcoming Events", Toast.LENGTH_SHORT).show();
+		// if(eventList.size() == 0)
+		// Toast.makeText(getActivity(), "No Upcoming Events",
+		// Toast.LENGTH_SHORT).show();
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
 		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
@@ -159,8 +238,6 @@ public class UpcomingEvents extends ListFragment {
 		mAdapter = new SimpleAdapter(getActivity().getBaseContext(), eventList,
 				R.layout.eventcategory_list_item, from, to);
 
-		((MainNavDrawerActivity) getActivity())
-				.setActionBarTitle("Starting Shortly");
 		return v;
 
 	}
@@ -170,13 +247,12 @@ public class UpcomingEvents extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 
-
 		String eventName = eventToBePassed.get(position);
 		Bundle data = new Bundle();
 		data.putString("event", eventName);
-		
-		Log.i("eventname sent" , eventName);
-		Log.i("position" , ""+position);
+
+		Log.i("eventname sent", eventName);
+		Log.i("position", "" + position);
 		Intent i = new Intent(getActivity().getBaseContext(),
 				EventActivity.class);
 		i.putExtras(data);
