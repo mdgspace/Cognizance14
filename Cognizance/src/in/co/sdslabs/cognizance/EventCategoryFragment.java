@@ -152,7 +152,8 @@ public class EventCategoryFragment extends ListFragment {
 		Typeface mTypeFace = Typeface.createFromAsset(
 				getActivity().getAssets(), "Roboto-Medium.ttf");
 		listHeader.setTypeface(mTypeFace);
-		listHeader.setBackgroundColor(Color.rgb(1, 140, 149));
+		listHeader.setBackgroundColor(Color.TRANSPARENT);
+		listHeader.setTextColor(Color.rgb(211,211, 211));
 		// listHeader.setBackgroundResource(R.drawable.eventcat_competetions);
 		listHeader.setClickable(false);
 		listHeader.setText(myDbHelper
