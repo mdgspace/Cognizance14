@@ -11,17 +11,9 @@
         android:orientation="vertical"
         android:padding="15dp" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ABOUT US"
-            android:typeface="monospace"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:src="@drawable/mdg" />

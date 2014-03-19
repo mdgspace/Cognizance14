@@ -31,16 +31,20 @@ public class ContactAdapter extends ArrayAdapter<ContactClass> {
 		TextView number = (TextView) rowView.findViewById(R.id.number);
 		TextView email = (TextView) rowView.findViewById(R.id.email);
 		TextView post = (TextView) rowView.findViewById(R.id.position);
-		
+
 		name.setText(contactList.get(position).getName());
 		number.setText(contactList.get(position).getNumber());
-		if(contactList.get(position).getNumber().contentEquals("*"))
+
+		if (contactList.get(position).getNumber().contentEquals("*"))
 			number.setVisibility(View.GONE);
 		email.setText(contactList.get(position).getEmail());
-		if(contactList.get(position).getEmail().contentEquals("#"))
+		if (contactList.get(position).getEmail().contentEquals("#"))
 			email.setVisibility(View.GONE);
 		post.setText(contactList.get(position).getPost());
-		
+		if (contactList.get(position).getName()
+				.contentEquals("Lavika Aggarwal"))
+			post.setText("Co-Convener");
+
 		return rowView;
 	}
 

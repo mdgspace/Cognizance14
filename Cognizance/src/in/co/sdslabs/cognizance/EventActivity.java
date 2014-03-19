@@ -220,7 +220,6 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
-		Log.i("venue", myDbHelper.getVenueMap("AHEC"));
 		if (v.getId() == R.id.event_venue)
 			showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
 		else if (v.getId() == R.id.online) {

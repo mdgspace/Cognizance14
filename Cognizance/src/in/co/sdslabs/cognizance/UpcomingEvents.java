@@ -6,16 +6,20 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -48,8 +52,8 @@ public class UpcomingEvents extends ListFragment {
 		Calendar cal = Calendar.getInstance();
 		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 		time = cal.getTimeInMillis();
-		day = dayOfMonth%10;
-		
+		day = dayOfMonth % 10;
+
 	}
 
 	@Override
@@ -85,8 +89,8 @@ public class UpcomingEvents extends ListFragment {
 
 		for (int i = 0; i < startTime.size(); i++) {
 
-				if(startTime.get(i)- time <= 100){
-					
+			if (startTime.get(i) - time <= 100) {
+
 				HashMap<String, String> hm = new HashMap<String, String>();
 				hm.put(EVENTNAME, eventname.get(i));
 				hm.put(EVENTONELINER, eventoneliner.get(i));
@@ -98,8 +102,8 @@ public class UpcomingEvents extends ListFragment {
 				}
 				eventList.add(hm);
 			}
-		} 
-		
+		}
+
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
 		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
@@ -115,7 +119,7 @@ public class UpcomingEvents extends ListFragment {
 		return v;
 
 	}
-	
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -151,11 +155,32 @@ public class UpcomingEvents extends ListFragment {
 		// getListView().addFooterView(Color.rgb(1, 140, 149));
 		setListAdapter(mAdapter);
 	}
-	
+
+	@Override
+	public void onListItemClick(ListView l, View v, int pos, long id) {
+		super.onListItemClick(l, v, pos, id);
+
+		data = new Bundle();
+		// Currently selected event
+		String eventName = eventname.get(pos - 1);
+		Bundle data = new Bundle();
+		data.putString("event", eventName);
+		Intent i = new Intent(getActivity().getBaseContext(),
+				EventActivity.class);
+		i.putExtras(data);
+		startActivity(i);
+
+	}
+
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		setListAdapter(null);
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+	}
 }
