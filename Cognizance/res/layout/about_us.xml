@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:text="ABOUT US"
             android:typeface="monospace"
+            android:textSize="40sp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ImageView
@@ -42,16 +43,16 @@
 
             <ImageView
                 android:id="@+id/fb"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:padding = "10dp"
                 android:src="@drawable/facebook_icon" />
 
             <ImageView
                 android:id="@+id/git"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:padding = "10dp"
                 android:src="@drawable/git" />
