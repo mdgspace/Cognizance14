@@ -153,19 +153,19 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				star.setChecked(false);
 			}
 
-//			star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//
-//				@Override
-//				public void onCheckedChanged(CompoundButton buttonView,
-//						boolean isChecked) {
-//
-//					if (fav) {
-//						myDbHelper.unmarkAsFavourite(b.getString("event"));
-//					} else {
-//						myDbHelper.markAsFavourite(b.getString("event"));
-//					}
-//				}
-//			});
+			star.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+
+					if (fav) {
+						myDbHelper.unmarkAsFavourite(b.getString("event"));
+					} else {
+						myDbHelper.markAsFavourite(b.getString("event"));
+					}
+				}
+			});
 
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setTitle(b.getString("event"));
