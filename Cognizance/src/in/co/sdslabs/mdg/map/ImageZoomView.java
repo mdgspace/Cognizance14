@@ -1,18 +1,15 @@
 package in.co.sdslabs.mdg.map;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
-import in.co.sdslabs.cognizance.R;
-
-
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * View capable of drawing an image at different zoom state levels

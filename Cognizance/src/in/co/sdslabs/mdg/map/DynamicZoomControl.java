@@ -1,12 +1,11 @@
 package in.co.sdslabs.mdg.map;
 
 
-import android.os.Handler;
-import android.os.SystemClock;
-
-
 import java.util.Observable;
 import java.util.Observer;
+
+import android.os.Handler;
+import android.os.SystemClock;
 
 
 /**
