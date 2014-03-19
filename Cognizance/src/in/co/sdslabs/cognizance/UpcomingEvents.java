@@ -43,6 +43,10 @@ public class UpcomingEvents extends ListFragment {
 
 	Bundle data;
 
+	DatabaseHelper myDbHelper;
+	
+	ArrayList<String> eventToBePassed;
+	
 	public UpcomingEvents() {
 		// TODO Auto-generated constructor stub
 		// to be set to current date and time
@@ -74,11 +78,6 @@ public class UpcomingEvents extends ListFragment {
 			
 		Log.v("DAY" , "day :"+day );
 		Log.v("DAY" , "time" + time);
-		// to set to current date and time
-//		Calendar cal = Calendar.getInstance();
-//		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-//		time = cal.getTimeInMillis();
-//		day = dayOfMonth % 10;
 	}
 
 	@Override
@@ -91,10 +90,11 @@ public class UpcomingEvents extends ListFragment {
 				container, false);
 
 		eventList = new ArrayList<HashMap<String, String>>();
-
+		eventToBePassed = new ArrayList<String>();
+		
 		// Initialising DBhelper class
 
-		DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
+		myDbHelper = new DatabaseHelper(getActivity()
 				.getBaseContext());
 		try {
 			myDbHelper.createDataBase();
@@ -114,11 +114,14 @@ public class UpcomingEvents extends ListFragment {
 
 		for (int i = 0; i < startTime.size(); i++) {
 
-			if (startTime.get(i) - time <= 100 && startTime.get(i) - time >= 0) {
+			if (startTime.get(i) - time <= 200 && startTime.get(i) - time >= 0) {
 
 				Log.i("diff : ", i + " : " + (startTime.get(i) - time));
+				
 				HashMap<String, String> hm = new HashMap<String, String>();
 				hm.put(EVENTNAME, eventname.get(i));
+				eventToBePassed.add(eventname.get(i));
+				Log.v("eventname" , "Displayed eventname"+eventname.get(i));
 				hm.put(EVENTONELINER,
 						myDbHelper.getEventOneLiner(eventname.get(i)));
 				int x = myDbHelper.getImageX(eventname.get(i));
@@ -156,10 +159,13 @@ public class UpcomingEvents extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 
-		// Currently selected event
-		String eventName = eventname.get(position);
+
+		String eventName = eventToBePassed.get(position);
 		Bundle data = new Bundle();
 		data.putString("event", eventName);
+		
+		Log.i("eventname sent" , eventName);
+		Log.i("position" , ""+position);
 		Intent i = new Intent(getActivity().getBaseContext(),
 				EventActivity.class);
 		i.putExtras(data);
