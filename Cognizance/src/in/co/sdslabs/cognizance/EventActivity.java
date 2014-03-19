@@ -2,13 +2,10 @@ package in.co.sdslabs.cognizance;
 
 import java.io.IOException;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -22,7 +19,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class EventActivity extends ActionBarActivity implements OnClickListener {
 
@@ -134,14 +130,11 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 						if (v.getId() == R.id.event_venue)
 							showZoomedMap(myDbHelper.getVenueMapD(dept_name));
 						else if (v.getId() == R.id.online) {
-							Log.v("status", chkStatus() + "");
-							if (chkStatus()) {
 
-								PointF coord = myDbHelper
-										.searchPlaceForLatLong(myDbHelper
-												.getVenueMapD(dept_name));
-								getPathFromPresentLocation(coord.x, coord.y);
-							}
+							PointF coord = myDbHelper
+									.searchPlaceForLatLong(myDbHelper
+											.getVenueMapD(dept_name));
+							getPathFromPresentLocation(coord.x, coord.y);
 
 						}
 					}
@@ -235,13 +228,10 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.online) {
-			Log.i("status",  chkStatus()+"");
-			if (chkStatus()) {
 
-				PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
-						.getVenueMap(b.getString("event")));
-				getPathFromPresentLocation(coord.x, coord.y);
-			}
+			PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
+					.getVenueMap(b.getString("event")));
+			getPathFromPresentLocation(coord.x, coord.y);
 
 		}
 	}
@@ -384,21 +374,6 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 	private void showDialog() {
 		// TODO Auto-generated method stub
-		// final Dialog dialog = new Dialog(this);
-		// dialog.setContentView(R.layout.navigate_options);
-		// dialog.setTitle("Choose Mode of Navigation");
-		//
-		// try {
-		// off = (TextView) findViewById(R.id.offline);
-		// on = (TextView) findViewById(R.id.online);
-		// //System.out.println(off.getText().toString());
-		// off.setOnClickListener(this);
-		// on.setOnClickListener(this);
-		// } catch (Exception e) {
-		// Log.i("navError", e.toString());
-		// }
-		//
-		// dialog.show();
 		PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
 				.getVenueMap(b.getString("event")));
 		getPathFromPresentLocation(coord.x, coord.y);
@@ -439,16 +414,4 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		startActivity(intent1);
 	}
 
-	boolean chkStatus() {
-		ConnectivityManager cn=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo i = cn.getActiveNetworkInfo();
-		  if (i == null)
-		    return false;
-		  if (!i.isConnected())
-		    return false;
-		  if (!i.isAvailable())
-		    return false;
-		  return true;
-	    }
-	
 }

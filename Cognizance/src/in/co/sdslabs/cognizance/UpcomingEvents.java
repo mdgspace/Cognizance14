@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 public class UpcomingEvents extends ListFragment {
 
@@ -63,7 +64,14 @@ public class UpcomingEvents extends ListFragment {
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int min = c.get(Calendar.MINUTE);
 		time = hour * 100 + min;
-		
+		if(hour <=8)
+			time = 900;
+		else if(hour>=19){
+			time = 900;
+			if(day!= 3)
+				day++;
+		}
+			
 		Log.v("DAY" , "day :"+day );
 		Log.v("DAY" , "time" + time);
 		// to set to current date and time
@@ -125,6 +133,8 @@ public class UpcomingEvents extends ListFragment {
 			}
 		}
 
+		if(eventList.size() == 0)
+			Toast.makeText(getActivity(), "No Upcoming Events", Toast.LENGTH_SHORT).show();
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
 		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
