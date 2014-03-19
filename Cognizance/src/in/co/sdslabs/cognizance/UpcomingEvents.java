@@ -114,7 +114,7 @@ public class UpcomingEvents extends ListFragment {
 
 		for (int i = 0; i < startTime.size(); i++) {
 
-			if (startTime.get(i) - time <= 200 && startTime.get(i) - time >= 0) {
+			if (startTime.get(i) - time <= 200 && startTime.get(i) - time >= -15) {
 
 				Log.i("diff : ", i + " : " + (startTime.get(i) - time));
 				
