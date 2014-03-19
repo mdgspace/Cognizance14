@@ -39,7 +39,7 @@ public class Drawables {
 					R.drawable.guest_rk_khandal, R.drawable.guest_ravi_sandhu,
 					R.drawable.guest_alberto_levy,
 					R.drawable.guest_shiraz_gidwani,
-					R.drawable.guest_victor_benno, 0, R.drawable.guest_maxbern },
+					R.drawable.guest_victor_benno, R.drawable.guest_jamaal, R.drawable.guest_maxbern },
 			// Exhibitions
 			{ R.drawable.ex_hand_gesture_controlled_devices,
 					R.drawable.ex_omnipresent, R.drawable.ex_gridbots,

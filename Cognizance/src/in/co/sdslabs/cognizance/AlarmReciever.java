@@ -7,20 +7,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 public class AlarmReciever extends BroadcastReceiver {
 
 	NotificationManager nm;
+	
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		
 
-		String eventname = intent.getStringExtra("event");
-		Intent myIntent = new Intent(context, EventActivity.class);
+		String eventname = intent.getExtras().getString("event");
+		
+		Intent myIntent = new Intent(context, in.co.sdslabs.cognizance.EventActivity.class);
 		Bundle data = new Bundle();
 		data.putString("event", eventname);
+		data.putBoolean("dept", false);
 		myIntent.putExtras(data);
 		nm = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -28,12 +32,15 @@ public class AlarmReciever extends BroadcastReceiver {
 		
 		CharSequence message = eventname;
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-				myIntent, 0);
+				myIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+				
+		
 		Notification notif = new Notification(R.drawable.launcher_icon,
-				"enter name of event that needs to be notified about", System.currentTimeMillis());
+				eventname, System.currentTimeMillis());
 		notif.flags = Notification.FLAG_INSISTENT;
 		notif.setLatestEventInfo(context, from, message, contentIntent);
 		notif.flags |= Notification.FLAG_AUTO_CANCEL;
+		
 		nm.notify(1, notif);
 		
 	}

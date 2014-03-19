@@ -70,8 +70,10 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 		try {
 			isDept = b.getBoolean("dept");
+			Log.i("bool",isDept+"");
+			Log.i("event fetch : ",b.getString("event"));
 		} catch (Exception e) {
-
+			Log.i("event fetch : ",e.toString());
 		}
 
 		if (isDept) {
@@ -162,10 +164,10 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 					if (fav) {
 						myDbHelper.unmarkAsFavourite(b.getString("event"));
-						setAlarm();
+						
 					} else {
 						myDbHelper.markAsFavourite(b.getString("event"));
-						setAlarm();
+						
 					}
 				}
 			});
@@ -428,52 +430,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		startActivity(intent1);
 	}
 
-	protected void setAlarm() {
 
-		ArrayList<String> eventList;
-
-		AlarmManager mgrAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-		ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
-
-		eventList = myDbHelper.getFavouritesName();
-
-		for (int i = 0; i < eventList.size(); i++) {
-
-			Calendar cal = Calendar.getInstance();
-			if (!eventList.get(i).contains(":")) {
-				// For normal events
-				Log.v("Notification" , eventList.get(i));
-				int day = myDbHelper.getEventDay(eventList.get(i));
-				while (day > 0) {
-					// This is to consider if any
-					// events are happening on multiple days
-					Intent intent = new Intent(this, AlarmReciever.class);
-					Bundle b = new Bundle();
-					b.putString("event", eventList.get(i));
-					PendingIntent pendingIntent = PendingIntent.getBroadcast(
-							this, i, intent, 0);
-					cal.set(Calendar.YEAR, 2014);
-					cal.set(Calendar.MONTH, 2);
-					cal.set(Calendar.DATE, day % 10);
-					day = day / 10;
-					int hr = myDbHelper.getStartTime(eventList.get(i)) / 100;
-					int min = myDbHelper.getStartTime(eventList.get(i)) % 100;
-
-					if (min < 30) {
-						cal.set(Calendar.HOUR_OF_DAY, hr - 1);
-						cal.set(Calendar.MINUTE, 30);
-					} else {
-						cal.set(Calendar.HOUR_OF_DAY, hr);
-						cal.set(Calendar.MINUTE, 0);
-					}
-					cal.set(Calendar.SECOND, 0);
-
-					mgrAlarm.set(AlarmManager.RTC_WAKEUP,
-							cal.getTimeInMillis(), pendingIntent);
-					intentArray.add(pendingIntent);
-				}
-			}
-		}
 
 	}
-}
+
