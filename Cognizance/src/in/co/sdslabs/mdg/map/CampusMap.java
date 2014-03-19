@@ -121,6 +121,9 @@ public class CampusMap extends ActionBarActivity implements OnTouchListener {
 
 	private void setNormalMap() {
 		// TODO Auto-generated method stub
+		mBitmap = BitmapFactory.decodeResource(getResources(),
+				R.drawable.map);
+
 		ZoomState mZoomState = mMapControl.getZoomState();
 		mMapView.setImage(mBitmap);
 		mMapView.setZoomState(mZoomState);
