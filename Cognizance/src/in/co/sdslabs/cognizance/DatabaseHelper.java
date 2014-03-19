@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.PointF;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -350,8 +351,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public String getVenueMap(String event) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"SELECT venue_map FROM table_event_details WHERE event_name='" + event
-						+ "'", null);
+				"SELECT venue_map FROM table_event_details WHERE event_name='"
+						+ event + "'", null);
 		String data = null;
 		if (cursor != null) {
 			if (cursor.moveToNext())
@@ -893,4 +894,70 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return true;
 	}
 
+	public ArrayList<String> getUpcomingEventNames(int day) {
+
+		/** Retrieves unique department names from the database */
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM "
+				+ "table_event_details WHERE 1=1", null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				int day1 = cursor.getInt(cursor.getColumnIndexOrThrow("day"));
+				if (day1 % 10 == day || (day1 / 10) % 10 == day
+						|| (day1 / 100) % 10 == day) {
+					Log.i("event name : ", cursor.getString(cursor
+							.getColumnIndex("event_name")));
+					data.add(cursor.getString(cursor
+							.getColumnIndex("event_name")));
+				}
+
+			}
+		}
+		cursor.close();
+		return data;
+	}
+
+	public ArrayList<Long> getUpcomingTime(int day) {
+
+		/** Retrieves unique department names from the database */
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM " + "table_event_details",
+				null);
+		ArrayList<Long> data = new ArrayList<Long>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				int day1 = cursor.getInt(cursor.getColumnIndexOrThrow("day"));
+				if (day1 % 10 == day || (day1 / 10) % 10 == day
+						|| (day1 / 100) % 10 == day) {
+					Log.i("times : ",
+							cursor.getLong(cursor.getColumnIndex("start_time"))
+									+ "");
+					data.add(cursor.getLong(cursor.getColumnIndex("start_time")));
+				}
+			}
+		}
+		cursor.close();
+		return data;
+	}
+
+	public ArrayList<String> getUpcomingEventoneLiner(int day) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM table_event_details", null);
+		ArrayList<String> data = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				int day1 = cursor.getInt(cursor.getColumnIndexOrThrow("day"));
+				if (day1 % 10 == day || (day1 / 10) % 10 == day
+						|| (day1 / 100) % 10 == day) {
+					data.add(cursor.getString(cursor
+							.getColumnIndex("one_liner")));
+				}
+			}
+		}
+		cursor.close();
+		return data;
+	}
 }

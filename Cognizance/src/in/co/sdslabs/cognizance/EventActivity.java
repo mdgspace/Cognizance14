@@ -62,6 +62,9 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			throw sqle;
 		}
 
+		
+		
+		
 		b = getIntent().getExtras();
 
 		try {
