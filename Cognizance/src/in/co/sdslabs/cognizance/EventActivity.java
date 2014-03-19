@@ -378,9 +378,15 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 	private void showDialog() {
 		// TODO Auto-generated method stub
-		PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
-				.getVenueMap(b.getString("event")));
-		getPathFromPresentLocation(coord.x, coord.y);
+		if(b.getString("event").contentEquals("Sciennovate")){
+			PointF coord = myDbHelper.searchPlaceForLatLong("Main Building");
+			getPathFromPresentLocation(coord.x, coord.y);
+		}else{
+			PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
+					.getVenueMap(b.getString("event")));
+			getPathFromPresentLocation(coord.x, coord.y);
+		}
+		
 
 	}
 
