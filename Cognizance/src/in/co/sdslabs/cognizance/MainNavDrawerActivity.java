@@ -44,6 +44,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	FragmentManager fragmentManager;
 	FragmentTransaction ft;
 	public static String initialTitle;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,7 +72,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			hm.put(IMAGE, Integer.toString(Drawables.navDrawerImages[i]));
 			mList.add(hm);
 		}
-		
+
 		// Keys used in Hashmap
 		String[] from = { IMAGE, EVENTCATEGORY };
 
@@ -170,13 +171,27 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-//		super.onOptionsItemSelected(item);
-		
-		if(mDrawerToggle.onOptionsItemSelected(item)){
-			
+		// super.onOptionsItemSelected(item);
+
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+
 		}
 		switch (item.getItemId()) {
 
+		case R.id.home:
+			fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			// Getting reference to the FragmentManager
+			fragmentManager = getSupportFragmentManager();
+
+			// Creating a fragment transaction
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+
+			// Adding a fragment to the fragment transaction
+			ft.replace(R.id.content_frame, hFragment);
+			
+			// Committing the transaction
+			ft.commit();
+			break;
 		case R.id.filter:
 			finish();
 			Intent intent = new Intent(this, MainTabActivity.class);
@@ -194,12 +209,12 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 			startActivity(gotocontacts);
 			break;
 		case R.id.about_us:
-			
-			Intent about_us = new Intent(this , AboutUs.class);
+
+			Intent about_us = new Intent(this, AboutUs.class);
 			startActivity(about_us);
 			break;
-//		case R.id.home :
-//			fragmentManager.popBackStack();
+		// case R.id.home :
+		// fragmentManager.popBackStack();
 		}
 		return true;
 	}
@@ -208,7 +223,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 		// Currently selected eventCategory
 		mTitle = mEventCategories[position];
-		
+
 		DatabaseHelper myDbHelper = new DatabaseHelper(this);
 		try {
 			myDbHelper.createDataBase();
@@ -221,18 +236,19 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		if(position == 0){
-			
+		if (position == 0) {
+
 			// Creating a fragment object
 			UpcomingEvents eFragment = new UpcomingEvents();
 			// Creating a Bundle object
-//			Bundle data = new Bundle();
-//
-//			// Setting the index of the currently selected item of mDrawerList
-//			data.putInt("position", position);
-//
-//			// Setting the position to the fragment
-//			eFragment.setArguments(data);
+			// Bundle data = new Bundle();
+			//
+			// // Setting the index of the currently selected item of
+			// mDrawerList
+			// data.putInt("position", position);
+			//
+			// // Setting the position to the fragment
+			// eFragment.setArguments(data);
 
 			// Getting reference to the FragmentManager
 			fragmentManager = getSupportFragmentManager();
@@ -246,17 +262,17 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 			// Committing the transaction
 			ft.commit();
-		}else if(position == 1){
-			
+		} else if (position == 1) {
+
 			ArrayList<String> eventname = myDbHelper.getFavouritesName();
-			if(eventname.size()==0){
-				Toast.makeText(this, "There are no current Favourites", 
+			if (eventname.size() == 0) {
+				Toast.makeText(this, "There are no current Favourites",
 						Toast.LENGTH_SHORT).show();
-			}else{
+			} else {
 				CustomListFragment eFragment = new CustomListFragment();
 				// Getting reference to the FragmentManager
 				fragmentManager = getSupportFragmentManager();
-				//initialTitle = "My Favourites";
+				// initialTitle = "My Favourites";
 				// Creating a fragment transaction
 				FragmentTransaction ft = fragmentManager.beginTransaction();
 
@@ -269,30 +285,30 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 			}
 			myDbHelper.close();
-		}	else{
-		// Creating a fragment object
-		EventCategoryFragment eFragment = new EventCategoryFragment();
-		// Creating a Bundle object
-		Bundle data = new Bundle();
+		} else {
+			// Creating a fragment object
+			EventCategoryFragment eFragment = new EventCategoryFragment();
+			// Creating a Bundle object
+			Bundle data = new Bundle();
 
-		// Setting the index of the currently selected item of mDrawerList
-		data.putInt("position", position);
+			// Setting the index of the currently selected item of mDrawerList
+			data.putInt("position", position);
 
-		// Setting the position to the fragment
-		eFragment.setArguments(data);
+			// Setting the position to the fragment
+			eFragment.setArguments(data);
 
-		// Getting reference to the FragmentManager
-		fragmentManager = getSupportFragmentManager();
+			// Getting reference to the FragmentManager
+			fragmentManager = getSupportFragmentManager();
 
-		// Creating a fragment transaction
-		FragmentTransaction ft = fragmentManager.beginTransaction();
+			// Creating a fragment transaction
+			FragmentTransaction ft = fragmentManager.beginTransaction();
 
-		// Adding a fragment to the fragment transaction
-		ft.replace(R.id.content_frame, eFragment);
-		ft.addToBackStack(null);
+			// Adding a fragment to the fragment transaction
+			ft.replace(R.id.content_frame, eFragment);
+			ft.addToBackStack(null);
 
-		// Committing the transaction
-		ft.commit();
+			// Committing the transaction
+			ft.commit();
 		}
 
 	}
@@ -310,8 +326,8 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		super.onBackPressed();
 		getSupportActionBar().setTitle("Cognizance");
 	}
-	
+
 	public void setActionBarTitle(String title) {
-	    getSupportActionBar().setTitle(title);
+		getSupportActionBar().setTitle(title);
 	}
 }
