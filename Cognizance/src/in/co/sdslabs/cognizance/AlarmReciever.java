@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 public class AlarmReciever extends BroadcastReceiver {
 
@@ -13,15 +14,19 @@ public class AlarmReciever extends BroadcastReceiver {
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onReceive(Context context, Intent arg1) {
+	public void onReceive(Context context, Intent intent) {
 		
 
+		String eventname = intent.getStringExtra("event");
 		Intent myIntent = new Intent(context, EventActivity.class);
+		Bundle data = new Bundle();
+		data.putString("event", eventname);
+		myIntent.putExtras(data);
 		nm = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		CharSequence from = "Cognizance 2014";
 		
-		CharSequence message = "Your Today's Tasks are.....";
+		CharSequence message = eventname;
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
 				myIntent, 0);
 		Notification notif = new Notification(R.drawable.launcher_icon,
