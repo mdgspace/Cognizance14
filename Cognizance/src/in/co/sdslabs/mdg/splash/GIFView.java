@@ -1,6 +1,7 @@
 package in.co.sdslabs.mdg.splash;
 
-import java.io.IOException;
+import in.co.sdslabs.cognizance.R;
+
 import java.io.InputStream;
 
 import android.content.Context;
@@ -15,15 +16,8 @@ public class GIFView extends View {
 
 	public GIFView(Context context) {
 		super(context);
-		try {
-			is = getResources().getAssets().open("splash.gif");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		is = getResources().openRawResource(R.drawable.splash);
 		movie = Movie.decodeStream(is);
-		
-		
 	}
 
 	@Override
