@@ -140,7 +140,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	private void addHomeFragment() {
 
 		// initialize the HomeFragment
-		uFragment = new UpcomingEvents();
+		hFragment = new HomeFragment();
 
 		// Getting reference to the FragmentManager
 		fragmentManager = getSupportFragmentManager();
@@ -149,7 +149,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		ft = fragmentManager.beginTransaction();
 
 		// Adding a fragment to the fragment transaction
-		ft.replace(R.id.content_frame, uFragment);
+		ft.replace(R.id.content_frame, hFragment);
 		// Committing the transaction
 		ft.commit();
 	}
@@ -221,8 +221,32 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-
 		if(position == 0){
+			
+			// Creating a fragment object
+			UpcomingEvents eFragment = new UpcomingEvents();
+			// Creating a Bundle object
+//			Bundle data = new Bundle();
+//
+//			// Setting the index of the currently selected item of mDrawerList
+//			data.putInt("position", position);
+//
+//			// Setting the position to the fragment
+//			eFragment.setArguments(data);
+
+			// Getting reference to the FragmentManager
+			fragmentManager = getSupportFragmentManager();
+
+			// Creating a fragment transaction
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+
+			// Adding a fragment to the fragment transaction
+			ft.replace(R.id.content_frame, eFragment);
+			ft.addToBackStack(null);
+
+			// Committing the transaction
+			ft.commit();
+		}else if(position == 1){
 			
 			ArrayList<String> eventname = myDbHelper.getFavouritesName();
 			if(eventname.size()==0){
@@ -245,13 +269,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 
 			}
 			myDbHelper.close();
-		}
-//		}else if(position ==mEventCategories.length -1 ){
-//			//Toast.makeText(this , "Clicked on Departments", Toast.LENGTH_SHORT).show();
-//			// open a new listView showing all departments here
-//			
-//		}
-			else{
+		}	else{
 		// Creating a fragment object
 		EventCategoryFragment eFragment = new EventCategoryFragment();
 		// Creating a Bundle object

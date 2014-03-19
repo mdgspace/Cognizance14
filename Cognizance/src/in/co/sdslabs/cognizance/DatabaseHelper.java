@@ -957,8 +957,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				int day1 = cursor.getInt(cursor.getColumnIndexOrThrow("day"));
 				if (day1 % 10 == day || (day1 / 10) % 10 == day
 						|| (day1 / 100) % 10 == day) {
-					Log.i("event name : ", cursor.getString(cursor
-							.getColumnIndex("event_name")));
 					data.add(cursor.getString(cursor
 							.getColumnIndex("event_name")));
 				}
@@ -982,9 +980,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				int day1 = cursor.getInt(cursor.getColumnIndexOrThrow("day"));
 				if (day1 % 10 == day || (day1 / 10) % 10 == day
 						|| (day1 / 100) % 10 == day) {
-					Log.i("times : ",
-							cursor.getLong(cursor.getColumnIndex("start_time"))
-									+ "");
 					data.add(cursor.getLong(cursor.getColumnIndex("start_time")));
 				}
 			}

@@ -1,14 +1,14 @@
 package in.co.sdslabs.cognizance;
 
 import java.io.IOException;
-import java.util.Calendar;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -22,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EventActivity extends ActionBarActivity implements OnClickListener {
 
@@ -36,8 +37,6 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 	String dept_name;
 
 	boolean isDept = false;
-	
-	protected static int HELLO_ID =1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +90,11 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
+
 					if (fav) {
 						myDbHelper.unmarkAsFavouriteD(event_name, dept_name);
-						// Add code to delete alarm
 					} else {
 						myDbHelper.markAsFavouriteD(event_name, dept_name);
-
-						setDepartmentalAlarm(event_name, dept_name);
 					}
 				}
 			});
@@ -112,7 +109,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 					dept_name, event_name));
 
 			try {
-				eventIcon.setImageResource(Drawables.eventsImages[11][b
+				eventIcon.setImageResource(Drawables.eventsImages[12][b
 						.getInt("icon")]);
 				// eventIcon.setImageResource(Drawables.eventsImages[x][y]);
 			} catch (Exception e) {
@@ -135,24 +132,15 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 						// TODO Auto-generated method stub
 
 						if (v.getId() == R.id.event_venue)
-							try {
-								showZoomedMap(myDbHelper
-										.getVenueMapD(dept_name));
-							} catch (Exception e) {
-
-							}
+							showZoomedMap(myDbHelper.getVenueMapD(dept_name));
 						else if (v.getId() == R.id.online) {
-							if (myDbHelper.getVenueMap(dept_name) != "") {
+							Log.v("status", chkStatus() + "");
+							if (chkStatus()) {
 
-							} else {
-								try {
-									PointF coord = myDbHelper
-											.searchPlaceForLatLong(myDbHelper
-													.getVenueMapD(dept_name));
-									getPathFromPresentLocation(coord.x, coord.y);
-								} catch (Exception e) {
-
-								}
+								PointF coord = myDbHelper
+										.searchPlaceForLatLong(myDbHelper
+												.getVenueMapD(dept_name));
+								getPathFromPresentLocation(coord.x, coord.y);
 							}
 
 						}
@@ -215,12 +203,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					try {
-						showZoomedMap(myDbHelper.getVenueMap(b
-								.getString("event")));
-					} catch (Exception e) {
-
-					}
+					showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
 				}
 			});
 		}
@@ -251,16 +234,16 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
-		Log.i("venue", myDbHelper.getVenueMap("AHEC"));
-		// if (v.getId() == R.id.event_venue)
-
 		if (v.getId() == R.id.online) {
-			PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
-					.getVenueMap(b.getString("event")));
-			getPathFromPresentLocation(coord.x, coord.y);
+			Log.i("status",  chkStatus()+"");
+			if (chkStatus()) {
+
+				PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
+						.getVenueMap(b.getString("event")));
+				getPathFromPresentLocation(coord.x, coord.y);
+			}
 
 		}
-
 	}
 
 	@Override
@@ -455,73 +438,17 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent1);
 	}
-	
-	public void setDepartmentalAlarm(String event_name , String dept_name){
-		
-		Calendar cal = Calendar.getInstance();
-		// Add code to set alarm
-		
-		int hr = myDbHelper.getStartTimeD( dept_name , event_name)/100;
-		int min = myDbHelper.getStartTimeD( dept_name , event_name)%100;
-		cal.set(Calendar.MONTH , 3);
-		cal.set(Calendar.YEAR , 2014);
-		cal.set(Calendar.DAY_OF_MONTH , myDbHelper.
-				getEventDayDept(event_name,dept_name)+20);
-		if(min>=30){
-		cal.set(Calendar.HOUR_OF_DAY, hr);
-		cal.set(Calendar.MINUTE , 00);
-		}
-		else{
-			cal.set(Calendar.HOUR_OF_DAY, hr-1);
-			cal.set(Calendar.MINUTE , 30);
-		}
-		
-		Intent alarmIntent = new Intent(getApplicationContext() , AlarmReceiver.class);
-		alarmIntent.putExtra("title", "Cognizance 2014");
-		alarmIntent.putExtra("note", event_name+" "+dept_name+" is about to start !");
-		
-		PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), HELLO_ID,
-				alarmIntent,PendingIntent.FLAG_UPDATE_CURRENT|  Intent.FILL_IN_DATA);
-				//VERY IMPORTANT TO SET FLAG_UPDATE_CURRENT... this will send correct extra's informations to 
-				//AlarmReceiver Class
-								// Get the AlarmManager service
-				 
-				AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-				am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);	
-	}
-	
-public void setEventAlarm(String event_name){
-		
-		Calendar cal = Calendar.getInstance();
-		// Add code to set alarm
-		
-		int hr = myDbHelper.getStartTime(event_name)/100;
-		int min = myDbHelper.getStartTime(event_name)%100;
-		cal.set(Calendar.MONTH , 3);
-		cal.set(Calendar.YEAR , 2014);
-		cal.set(Calendar.DAY_OF_MONTH , myDbHelper.
-				getEventDay(event_name)+20);
-		if(min>=30){
-		cal.set(Calendar.HOUR_OF_DAY, hr);
-		cal.set(Calendar.MINUTE , 00);
-		}
-		else{
-			cal.set(Calendar.HOUR_OF_DAY, hr-1);
-			cal.set(Calendar.MINUTE , 30);
-		}
-		
-		Intent alarmIntent = new Intent(getApplicationContext() , AlarmReceiver.class);
-		alarmIntent.putExtra("title", "Cognizance 2014");
-		alarmIntent.putExtra("note", event_name+" is about to start !");
-		
-		PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), HELLO_ID,
-				alarmIntent,PendingIntent.FLAG_UPDATE_CURRENT|  Intent.FILL_IN_DATA);
-				//VERY IMPORTANT TO SET FLAG_UPDATE_CURRENT... this will send correct extra's informations to 
-				//AlarmReceiver Class
-								// Get the AlarmManager service
-				 
-				AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-				am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);	
-	}
+
+	boolean chkStatus() {
+		ConnectivityManager cn=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo i = cn.getActiveNetworkInfo();
+		  if (i == null)
+		    return false;
+		  if (!i.isConnected())
+		    return false;
+		  if (!i.isAvailable())
+		    return false;
+		  return true;
+	    }
 	
 }

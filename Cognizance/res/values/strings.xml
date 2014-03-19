@@ -13,6 +13,7 @@
 
     <!-- Remove this String array in production -->
     <string-array name="eventCategories">
+        <item>UPCOMING</item>
         <item>MY FAVOURITES</item>
         <item>THEME EVENTS</item>
         <item>ROBOTICS</item>
