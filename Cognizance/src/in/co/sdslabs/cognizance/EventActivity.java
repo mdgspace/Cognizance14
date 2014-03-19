@@ -2,10 +2,13 @@ package in.co.sdslabs.cognizance;
 
 import java.io.IOException;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -19,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EventActivity extends ActionBarActivity implements OnClickListener {
 
@@ -62,9 +66,6 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			throw sqle;
 		}
 
-		
-		
-		
 		b = getIntent().getExtras();
 
 		try {
@@ -129,14 +130,19 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						
+
 						if (v.getId() == R.id.event_venue)
 							showZoomedMap(myDbHelper.getVenueMapD(dept_name));
 						else if (v.getId() == R.id.online) {
-							PointF coord = myDbHelper
-									.searchPlaceForLatLong(myDbHelper
-											.getVenueMapD(dept_name));
-							getPathFromPresentLocation(coord.x, coord.y);
+							Log.v("status", chkStatus() + "");
+							if (chkStatus()) {
+
+								PointF coord = myDbHelper
+										.searchPlaceForLatLong(myDbHelper
+												.getVenueMapD(dept_name));
+								getPathFromPresentLocation(coord.x, coord.y);
+							}
+
 						}
 					}
 				});
@@ -175,10 +181,10 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 					.setText(myDbHelper.getEventOneLiner(b.getString("event")));
 			eDescription.setText(myDbHelper.getEventDescription(b
 					.getString("event")));
-			 int x = myDbHelper.getImageX(b.getString("event"));
-			 int y = myDbHelper.getImageY(b.getString("event"));
-			 Log.v("Image", "x :" + x);
-			 Log.v("Image", "y :" + y);
+			int x = myDbHelper.getImageX(b.getString("event"));
+			int y = myDbHelper.getImageY(b.getString("event"));
+			Log.v("Image", "x :" + x);
+			Log.v("Image", "y :" + y);
 
 			try {
 				eventIcon.setImageResource(Drawables.eventsImages[x][y]);
@@ -193,7 +199,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 					+ myDbHelper.getVenueDisplay(b.getString("event")));
 
 			eVenue.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
@@ -201,8 +207,9 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 				}
 			});
 		}
-	
+
 	}
+
 	private void showZoomedMap(String place) {
 
 		PointF coord = myDbHelper.searchPlaceForCoordinates(place);
@@ -227,19 +234,18 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
-		Log.i("venue", myDbHelper.getVenueMap("AHEC"));
-		//if (v.getId() == R.id.event_venue)
-			
-		
-		
 		if (v.getId() == R.id.online) {
-			PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
-					.getVenueMap(b.getString("event")));
-			getPathFromPresentLocation(coord.x, coord.y);
-		
+			Log.i("status",  chkStatus()+"");
+			if (chkStatus()) {
+
+				PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
+						.getVenueMap(b.getString("event")));
+				getPathFromPresentLocation(coord.x, coord.y);
+			}
+
+		}
 	}
 
-	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -255,8 +261,8 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			finish();
 			break;
 		case R.id.navigate:
-			//Log.i("nav", myDbHelper.getVenueMap(b.getString("event")));
-			if(!isDept)
+			// Log.i("nav", myDbHelper.getVenueMap(b.getString("event")));
+			if (!isDept)
 				showDialog();
 			else
 				showDialogD();
@@ -433,4 +439,16 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 		startActivity(intent1);
 	}
 
+	boolean chkStatus() {
+		ConnectivityManager cn=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo i = cn.getActiveNetworkInfo();
+		  if (i == null)
+		    return false;
+		  if (!i.isConnected())
+		    return false;
+		  if (!i.isAvailable())
+		    return false;
+		  return true;
+	    }
+	
 }
