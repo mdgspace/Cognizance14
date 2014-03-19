@@ -656,6 +656,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return null;
 		}
 	}
+	
+	public int getEventDay(String event) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM table_event_details WHERE event_name='" + event
+						+ "'", null);
+
+		int day;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		day = cursor.getInt(cursor.getColumnIndex("day"));
+		cursor.close();
+
+		switch (day) {
+		case 1:
+			return 1;
+		case 2:
+			return 1;
+		case 3:
+			return 3;
+		case 12:
+			return 1;
+		case 123:
+		 	return 1;
+		case 23:
+			return 2;
+		default:
+			return 3;
+		}
+	}
 
 	public String getEventDDate(String event, String dept) {
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -688,6 +720,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		default:
 			return null;
 		}
+	}
+	
+	public int getEventDayDept(String event, String dept) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db
+				.rawQuery(
+						"SELECT day FROM table_departments WHERE dept_name = ? AND dept_event = ?",
+						new String[] { dept, event });
+
+		int day;
+		if (cursor != null) {
+			if (cursor.moveToNext())
+				cursor.moveToFirst();
+		}
+		day = cursor.getInt(cursor.getColumnIndex("day"));
+		cursor.close();
+
+		return day;
 	}
 
 	public String getEventTime(String string) {

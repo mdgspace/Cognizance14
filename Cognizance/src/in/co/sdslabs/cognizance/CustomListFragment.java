@@ -71,7 +71,7 @@ public class CustomListFragment extends ListFragment {
 					HashMap<String, String> hm = new HashMap<String, String>();
 					hm.put("eventname", eventname.get(i));
 					hm.put(EVENTIMAGE, Integer
-							.toString(Drawables.eventsImages[11][getArguments()
+							.toString(Drawables.eventsImages[12][getArguments()
 									.getInt("pos")]));
 					eventList.add(hm);
 				}
@@ -104,7 +104,7 @@ public class CustomListFragment extends ListFragment {
 					isDeptevent = myDbHelper.isDeptEvent(values[0]);
 					if (isDeptevent) {
 						hm.put(EVENTIMAGE,
-								Integer.toString(Drawables.eventsImages[11][0]));
+								Integer.toString(Drawables.eventsImages[12][0]));
 						//icon to be changed here
 					} else {
 						hm.put("eventoneliner",

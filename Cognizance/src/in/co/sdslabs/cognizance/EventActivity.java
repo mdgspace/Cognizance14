@@ -105,7 +105,7 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 					dept_name, event_name));
 
 			try {
-				eventIcon.setImageResource(Drawables.eventsImages[11][b
+				eventIcon.setImageResource(Drawables.eventsImages[12][b
 						.getInt("icon")]);
 				// eventIcon.setImageResource(Drawables.eventsImages[x][y]);
 			} catch (Exception e) {
