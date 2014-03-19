@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -230,7 +231,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 				CustomListFragment eFragment = new CustomListFragment();
 				// Getting reference to the FragmentManager
 				fragmentManager = getSupportFragmentManager();
-				initialTitle = "My Favourites";
+				//initialTitle = "My Favourites";
 				// Creating a fragment transaction
 				FragmentTransaction ft = fragmentManager.beginTransaction();
 

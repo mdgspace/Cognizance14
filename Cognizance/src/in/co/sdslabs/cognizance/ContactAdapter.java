@@ -3,7 +3,6 @@ package in.co.sdslabs.cognizance;
 import java.util.List;
 
 import android.content.Context;
-import android.transition.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

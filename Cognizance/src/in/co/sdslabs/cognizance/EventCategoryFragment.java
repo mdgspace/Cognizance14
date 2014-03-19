@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class EventCategoryFragment extends ListFragment {
 
@@ -120,8 +118,19 @@ public class EventCategoryFragment extends ListFragment {
 	}
 
 	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+
+		((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(
+				categories[position]);
+
+	}
+
+	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+
 		super.onViewCreated(view, savedInstanceState);
 		DatabaseHelper myDbHelper = new DatabaseHelper(getActivity()
 				.getBaseContext());
@@ -225,8 +234,6 @@ public class EventCategoryFragment extends ListFragment {
 		position = getArguments().getInt("position");
 		categories = getResources().getStringArray(R.array.eventCategories);
 
-		((ActionBarActivity) activity).getSupportActionBar().setTitle(
-				categories[position]);
 		MainNavDrawerActivity.initialTitle = categories[position];
 	}
 

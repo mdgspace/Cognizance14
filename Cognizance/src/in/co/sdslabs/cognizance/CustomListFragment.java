@@ -11,6 +11,7 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -213,6 +214,8 @@ public class CustomListFragment extends ListFragment {
 			isDepartment = getArguments().getBoolean("dept");
 			if (isDepartment) {
 				deptName = getArguments().getString("name");
+				((ActionBarActivity) activity).getSupportActionBar().setTitle(
+						deptName);
 			}
 			// Toast.makeText(getActivity(), deptName,
 			// Toast.LENGTH_SHORT).show();

@@ -189,7 +189,14 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 			eVenue.setText("VENUE : "
 					+ myDbHelper.getVenueDisplay(b.getString("event")));
 
-			eVenue.setOnClickListener(this);
+			eVenue.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
+				}
+			});
 		}
 	}
 
@@ -218,9 +225,9 @@ public class EventActivity extends ActionBarActivity implements OnClickListener 
 	@Override
 	public void onClick(View v) {
 		Log.i("venue", myDbHelper.getVenueMap("AHEC"));
-		if (v.getId() == R.id.event_venue)
-			showZoomedMap(myDbHelper.getVenueMap(b.getString("event")));
-		else if (v.getId() == R.id.online) {
+		//if (v.getId() == R.id.event_venue)
+			
+		 if (v.getId() == R.id.online) {
 			PointF coord = myDbHelper.searchPlaceForLatLong(myDbHelper
 					.getVenueMap(b.getString("event")));
 			getPathFromPresentLocation(coord.x, coord.y);
