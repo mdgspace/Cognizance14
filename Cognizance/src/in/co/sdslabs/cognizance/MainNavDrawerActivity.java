@@ -40,6 +40,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	final private String EVENTCATEGORY = "eventcategory";
 	final private String IMAGE = "image";
 	private HomeFragment hFragment;
+	private UpcomingEvents uFragment;
 	FragmentManager fragmentManager;
 	FragmentTransaction ft;
 	public static String initialTitle;
@@ -139,7 +140,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 	private void addHomeFragment() {
 
 		// initialize the HomeFragment
-		hFragment = new HomeFragment();
+		uFragment = new UpcomingEvents();
 
 		// Getting reference to the FragmentManager
 		fragmentManager = getSupportFragmentManager();
@@ -148,7 +149,7 @@ public class MainNavDrawerActivity extends ActionBarActivity {
 		ft = fragmentManager.beginTransaction();
 
 		// Adding a fragment to the fragment transaction
-		ft.replace(R.id.content_frame, hFragment);
+		ft.replace(R.id.content_frame, uFragment);
 		// Committing the transaction
 		ft.commit();
 	}

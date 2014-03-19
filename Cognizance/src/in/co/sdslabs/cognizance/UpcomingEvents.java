@@ -6,18 +6,17 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Intent;
 import android.database.SQLException;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 public class UpcomingEvents extends ListFragment {
 
@@ -45,8 +44,27 @@ public class UpcomingEvents extends ListFragment {
 	public UpcomingEvents() {
 		// TODO Auto-generated constructor stub
 		// to be set to current date and time
-		day = 1;
-		time = 900;
+		Calendar c = Calendar.getInstance();
+		int d = c.get(Calendar.DAY_OF_WEEK);
+		switch (d) {
+		case 6:
+			day = 1;
+			break;
+		case 7:
+			day = 2;
+			break;
+		case 8:
+			day = 3;
+			break;
+		default:
+			day = 1;
+		}
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		int min = c.get(Calendar.MINUTE);
+		time = hour * 100 + min;
+		
+		Log.v("DAY" , "day :"+day );
+		Log.v("DAY" , "time" + time);
 	}
 
 	@Override
@@ -82,21 +100,24 @@ public class UpcomingEvents extends ListFragment {
 
 		for (int i = 0; i < startTime.size(); i++) {
 
-				if(startTime.get(i)- time <= 100){
-					
+			if (startTime.get(i) - time <= 100) {
+
 				HashMap<String, String> hm = new HashMap<String, String>();
 				hm.put(EVENTNAME, eventname.get(i));
-				hm.put(EVENTONELINER, eventoneliner.get(i));
+				hm.put(EVENTONELINER,
+						myDbHelper.getEventOneLiner(eventname.get(i)));
+				int x = myDbHelper.getImageX(eventname.get(i));
+				int y = myDbHelper.getImageY(eventname.get(i));
 				try {
-					hm.put(EVENTIMAGE, Integer
-							.toString(Drawables.eventsImages[position][i]));
+					hm.put(EVENTIMAGE,
+							Integer.toString(Drawables.eventsImages[x][y]));
 				} catch (Exception e) {
 					hm.put(EVENTIMAGE, "");
 				}
 				eventList.add(hm);
 			}
-		} 
-		
+		}
+
 		String[] from = { EVENTNAME, EVENTONELINER, EVENTIMAGE };
 
 		int[] to = { R.id.tv_eName, R.id.tv_eDescr, R.id.eventImage };
@@ -112,7 +133,22 @@ public class UpcomingEvents extends ListFragment {
 		return v;
 
 	}
-	
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+
+		// Currently selected event
+		String eventName = eventname.get(position);
+		Bundle data = new Bundle();
+		data.putString("event", eventName);
+		Intent i = new Intent(getActivity().getBaseContext(),
+				EventActivity.class);
+		i.putExtras(data);
+		startActivity(i);
+	}
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -130,25 +166,26 @@ public class UpcomingEvents extends ListFragment {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		final TextView listHeader = new TextView(getActivity());
-		listHeader.setTextSize(20);
-		listHeader.setPadding(15, 10, 5, 10);
-
-		Typeface mTypeFace = Typeface.createFromAsset(
-				getActivity().getAssets(), "Roboto-Medium.ttf");
-		listHeader.setTypeface(mTypeFace);
-		listHeader.setBackgroundColor(Color.rgb(1, 140, 149));
+		// final TextView listHeader = new TextView(getActivity());
+		// listHeader.setTextSize(20);
+		// listHeader.setPadding(15, 10, 5, 10);
+		//
+		// Typeface mTypeFace = Typeface.createFromAsset(
+		// getActivity().getAssets(), "Roboto-Medium.ttf");
+		// listHeader.setTypeface(mTypeFace);
+		// listHeader.setBackgroundColor(Color.rgb(1, 140, 149));
+		// //
 		// listHeader.setBackgroundResource(R.drawable.eventcat_competetions);
-		listHeader.setClickable(false);
-		listHeader.setText(myDbHelper
-				.getCategoryDescription(categories[position]));
-		listHeader.setGravity(Gravity.FILL_HORIZONTAL);
-
-		getListView().addHeaderView(listHeader, null, false);
+		// listHeader.setClickable(false);
+		// listHeader.setText(myDbHelper
+		// .getCategoryDescription(categories[position]));
+		// listHeader.setGravity(Gravity.FILL_HORIZONTAL);
+		//
+		// getListView().addHeaderView(listHeader, null, false);
 		// getListView().addFooterView(Color.rgb(1, 140, 149));
 		setListAdapter(mAdapter);
 	}
-	
+
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
