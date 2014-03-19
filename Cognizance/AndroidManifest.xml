@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
         <activity
-            android:name="in.co.sdslabs.cognizance.MainNavDrawerActivity"
+            android:name="in.co.sdslabs.cognizance.Splash"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -31,6 +31,11 @@
         </activity>
         <activity
             android:name="in.co.sdslabs.cognizance.MapTest"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="in.co.sdslabs.cognizance.MainNavDrawerActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
