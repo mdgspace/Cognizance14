@@ -27,12 +27,12 @@ public class Drawables {
 			// Competitions
 			{ R.drawable.comp_chemecar, R.drawable.comp_junkyard_wars,
 					R.drawable.comp_corpostrat, R.drawable.comp_rubik_cube,
-					R.drawable.comp_chain_reaction },
+					R.drawable.comp_chain_reaction, R.drawable.tff },
 			// Literario
 			{ R.drawable.lit_iitr_mun, R.drawable.lit_vox_populi,
 					R.drawable.litquizzotica },
 			// Guest Lectures
-			{ R.drawable.guest_nathan_schulhof, R.drawable.guest_william_baker,
+			{ R.drawable.guest_william_baker,
 					R.drawable.guest_bikash_sinha,
 					R.drawable.guest_pawan_agarwal,
 					R.drawable.guest_osamuhasegawa,
